@@ -501,7 +501,7 @@
 	)
 	(text "NOTE: RBG not RGB"
 		(exclude_from_sim no)
-		(at 37.592 37.338 0)
+		(at 46.482 33.528 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -511,7 +511,7 @@
 	)
 	(wire
 		(pts
-			(xy 207.01 52.07) (xy 212.09 52.07)
+			(xy 215.9 48.26) (xy 220.98 48.26)
 		)
 		(stroke
 			(width 0)
@@ -521,7 +521,7 @@
 	)
 	(wire
 		(pts
-			(xy 124.46 57.15) (xy 129.54 57.15)
+			(xy 133.35 53.34) (xy 138.43 53.34)
 		)
 		(stroke
 			(width 0)
@@ -531,7 +531,7 @@
 	)
 	(wire
 		(pts
-			(xy 123.19 151.13) (xy 128.27 151.13)
+			(xy 133.35 151.13) (xy 138.43 151.13)
 		)
 		(stroke
 			(width 0)
@@ -541,7 +541,7 @@
 	)
 	(wire
 		(pts
-			(xy 124.46 123.19) (xy 129.54 123.19)
+			(xy 134.62 123.19) (xy 139.7 123.19)
 		)
 		(stroke
 			(width 0)
@@ -551,7 +551,7 @@
 	)
 	(wire
 		(pts
-			(xy 95.25 46.99) (xy 100.33 46.99)
+			(xy 104.14 43.18) (xy 109.22 43.18)
 		)
 		(stroke
 			(width 0)
@@ -561,7 +561,7 @@
 	)
 	(wire
 		(pts
-			(xy 26.67 76.2) (xy 31.75 76.2)
+			(xy 35.56 76.2) (xy 40.64 76.2)
 		)
 		(stroke
 			(width 0)
@@ -571,7 +571,7 @@
 	)
 	(wire
 		(pts
-			(xy 67.31 118.11) (xy 72.39 118.11)
+			(xy 77.47 118.11) (xy 82.55 118.11)
 		)
 		(stroke
 			(width 0)
@@ -581,7 +581,7 @@
 	)
 	(wire
 		(pts
-			(xy 43.18 46.99) (xy 48.26 46.99)
+			(xy 52.07 43.18) (xy 57.15 43.18)
 		)
 		(stroke
 			(width 0)
@@ -591,7 +591,7 @@
 	)
 	(wire
 		(pts
-			(xy 152.4 81.28) (xy 157.48 81.28)
+			(xy 161.29 81.28) (xy 166.37 81.28)
 		)
 		(stroke
 			(width 0)
@@ -601,7 +601,7 @@
 	)
 	(wire
 		(pts
-			(xy 151.13 118.11) (xy 156.21 118.11)
+			(xy 161.29 118.11) (xy 166.37 118.11)
 		)
 		(stroke
 			(width 0)
@@ -611,7 +611,7 @@
 	)
 	(wire
 		(pts
-			(xy 96.52 128.27) (xy 101.6 128.27)
+			(xy 106.68 128.27) (xy 111.76 128.27)
 		)
 		(stroke
 			(width 0)
@@ -621,7 +621,7 @@
 	)
 	(wire
 		(pts
-			(xy 95.25 146.05) (xy 100.33 146.05)
+			(xy 105.41 146.05) (xy 110.49 146.05)
 		)
 		(stroke
 			(width 0)
@@ -631,7 +631,7 @@
 	)
 	(wire
 		(pts
-			(xy 81.28 123.19) (xy 86.36 123.19)
+			(xy 91.44 123.19) (xy 96.52 123.19)
 		)
 		(stroke
 			(width 0)
@@ -641,7 +641,7 @@
 	)
 	(wire
 		(pts
-			(xy 97.79 76.2) (xy 102.87 76.2)
+			(xy 106.68 76.2) (xy 111.76 76.2)
 		)
 		(stroke
 			(width 0)
@@ -651,7 +651,7 @@
 	)
 	(wire
 		(pts
-			(xy 82.55 76.2) (xy 87.63 76.2)
+			(xy 91.44 76.2) (xy 96.52 76.2)
 		)
 		(stroke
 			(width 0)
@@ -661,7 +661,7 @@
 	)
 	(wire
 		(pts
-			(xy 68.58 52.07) (xy 73.66 52.07)
+			(xy 77.47 48.26) (xy 82.55 48.26)
 		)
 		(stroke
 			(width 0)
@@ -671,7 +671,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 81.28) (xy 210.82 81.28)
+			(xy 214.63 81.28) (xy 219.71 81.28)
 		)
 		(stroke
 			(width 0)
@@ -681,7 +681,7 @@
 	)
 	(wire
 		(pts
-			(xy 95.25 57.15) (xy 100.33 57.15)
+			(xy 104.14 53.34) (xy 109.22 53.34)
 		)
 		(stroke
 			(width 0)
@@ -691,7 +691,7 @@
 	)
 	(wire
 		(pts
-			(xy 97.79 71.12) (xy 102.87 71.12)
+			(xy 106.68 71.12) (xy 111.76 71.12)
 		)
 		(stroke
 			(width 0)
@@ -701,7 +701,7 @@
 	)
 	(wire
 		(pts
-			(xy 43.18 57.15) (xy 48.26 57.15)
+			(xy 52.07 53.34) (xy 57.15 53.34)
 		)
 		(stroke
 			(width 0)
@@ -711,7 +711,7 @@
 	)
 	(wire
 		(pts
-			(xy 95.25 52.07) (xy 100.33 52.07)
+			(xy 104.14 48.26) (xy 109.22 48.26)
 		)
 		(stroke
 			(width 0)
@@ -721,7 +721,7 @@
 	)
 	(wire
 		(pts
-			(xy 96.52 118.11) (xy 101.6 118.11)
+			(xy 106.68 118.11) (xy 111.76 118.11)
 		)
 		(stroke
 			(width 0)
@@ -731,7 +731,7 @@
 	)
 	(wire
 		(pts
-			(xy 66.04 151.13) (xy 71.12 151.13)
+			(xy 76.2 151.13) (xy 81.28 151.13)
 		)
 		(stroke
 			(width 0)
@@ -741,7 +741,7 @@
 	)
 	(wire
 		(pts
-			(xy 165.1 76.2) (xy 170.18 76.2)
+			(xy 173.99 76.2) (xy 179.07 76.2)
 		)
 		(stroke
 			(width 0)
@@ -751,7 +751,7 @@
 	)
 	(wire
 		(pts
-			(xy 41.91 81.28) (xy 46.99 81.28)
+			(xy 50.8 81.28) (xy 55.88 81.28)
 		)
 		(stroke
 			(width 0)
@@ -761,7 +761,7 @@
 	)
 	(wire
 		(pts
-			(xy 135.89 123.19) (xy 140.97 123.19)
+			(xy 146.05 123.19) (xy 151.13 123.19)
 		)
 		(stroke
 			(width 0)
@@ -771,7 +771,7 @@
 	)
 	(wire
 		(pts
-			(xy 124.46 46.99) (xy 129.54 46.99)
+			(xy 133.35 43.18) (xy 138.43 43.18)
 		)
 		(stroke
 			(width 0)
@@ -781,7 +781,7 @@
 	)
 	(wire
 		(pts
-			(xy 53.34 52.07) (xy 58.42 52.07)
+			(xy 62.23 48.26) (xy 67.31 48.26)
 		)
 		(stroke
 			(width 0)
@@ -791,7 +791,7 @@
 	)
 	(wire
 		(pts
-			(xy 152.4 76.2) (xy 157.48 76.2)
+			(xy 161.29 76.2) (xy 166.37 76.2)
 		)
 		(stroke
 			(width 0)
@@ -801,7 +801,7 @@
 	)
 	(wire
 		(pts
-			(xy 40.64 118.11) (xy 45.72 118.11)
+			(xy 50.8 118.11) (xy 55.88 118.11)
 		)
 		(stroke
 			(width 0)
@@ -811,7 +811,7 @@
 	)
 	(wire
 		(pts
-			(xy 179.07 46.99) (xy 184.15 46.99)
+			(xy 187.96 43.18) (xy 193.04 43.18)
 		)
 		(stroke
 			(width 0)
@@ -821,7 +821,7 @@
 	)
 	(wire
 		(pts
-			(xy 207.01 57.15) (xy 212.09 57.15)
+			(xy 215.9 53.34) (xy 220.98 53.34)
 		)
 		(stroke
 			(width 0)
@@ -831,7 +831,7 @@
 	)
 	(wire
 		(pts
-			(xy 68.58 57.15) (xy 73.66 57.15)
+			(xy 77.47 53.34) (xy 82.55 53.34)
 		)
 		(stroke
 			(width 0)
@@ -841,7 +841,7 @@
 	)
 	(wire
 		(pts
-			(xy 179.07 123.19) (xy 184.15 123.19)
+			(xy 189.23 123.19) (xy 194.31 123.19)
 		)
 		(stroke
 			(width 0)
@@ -851,7 +851,7 @@
 	)
 	(wire
 		(pts
-			(xy 163.83 123.19) (xy 168.91 123.19)
+			(xy 173.99 123.19) (xy 179.07 123.19)
 		)
 		(stroke
 			(width 0)
@@ -861,7 +861,7 @@
 	)
 	(wire
 		(pts
-			(xy 25.4 123.19) (xy 30.48 123.19)
+			(xy 35.56 123.19) (xy 40.64 123.19)
 		)
 		(stroke
 			(width 0)
@@ -871,7 +871,7 @@
 	)
 	(wire
 		(pts
-			(xy 179.07 52.07) (xy 184.15 52.07)
+			(xy 187.96 48.26) (xy 193.04 48.26)
 		)
 		(stroke
 			(width 0)
@@ -881,7 +881,7 @@
 	)
 	(wire
 		(pts
-			(xy 123.19 156.21) (xy 128.27 156.21)
+			(xy 133.35 156.21) (xy 138.43 156.21)
 		)
 		(stroke
 			(width 0)
@@ -891,7 +891,7 @@
 	)
 	(wire
 		(pts
-			(xy 152.4 52.07) (xy 157.48 52.07)
+			(xy 161.29 48.26) (xy 166.37 48.26)
 		)
 		(stroke
 			(width 0)
@@ -901,7 +901,7 @@
 	)
 	(wire
 		(pts
-			(xy 124.46 128.27) (xy 129.54 128.27)
+			(xy 134.62 128.27) (xy 139.7 128.27)
 		)
 		(stroke
 			(width 0)
@@ -911,7 +911,7 @@
 	)
 	(wire
 		(pts
-			(xy 204.47 118.11) (xy 209.55 118.11)
+			(xy 214.63 118.11) (xy 219.71 118.11)
 		)
 		(stroke
 			(width 0)
@@ -921,7 +921,7 @@
 	)
 	(wire
 		(pts
-			(xy 80.01 151.13) (xy 85.09 151.13)
+			(xy 90.17 151.13) (xy 95.25 151.13)
 		)
 		(stroke
 			(width 0)
@@ -931,7 +931,7 @@
 	)
 	(wire
 		(pts
-			(xy 67.31 123.19) (xy 72.39 123.19)
+			(xy 77.47 123.19) (xy 82.55 123.19)
 		)
 		(stroke
 			(width 0)
@@ -941,7 +941,7 @@
 	)
 	(wire
 		(pts
-			(xy 109.22 52.07) (xy 114.3 52.07)
+			(xy 118.11 48.26) (xy 123.19 48.26)
 		)
 		(stroke
 			(width 0)
@@ -951,7 +951,7 @@
 	)
 	(wire
 		(pts
-			(xy 68.58 76.2) (xy 73.66 76.2)
+			(xy 77.47 76.2) (xy 82.55 76.2)
 		)
 		(stroke
 			(width 0)
@@ -961,7 +961,7 @@
 	)
 	(wire
 		(pts
-			(xy 107.95 151.13) (xy 113.03 151.13)
+			(xy 118.11 151.13) (xy 123.19 151.13)
 		)
 		(stroke
 			(width 0)
@@ -971,7 +971,7 @@
 	)
 	(wire
 		(pts
-			(xy 39.37 151.13) (xy 44.45 151.13)
+			(xy 49.53 151.13) (xy 54.61 151.13)
 		)
 		(stroke
 			(width 0)
@@ -981,7 +981,7 @@
 	)
 	(wire
 		(pts
-			(xy 204.47 123.19) (xy 209.55 123.19)
+			(xy 214.63 123.19) (xy 219.71 123.19)
 		)
 		(stroke
 			(width 0)
@@ -991,7 +991,7 @@
 	)
 	(wire
 		(pts
-			(xy 180.34 81.28) (xy 185.42 81.28)
+			(xy 189.23 81.28) (xy 194.31 81.28)
 		)
 		(stroke
 			(width 0)
@@ -1001,7 +1001,7 @@
 	)
 	(wire
 		(pts
-			(xy 95.25 151.13) (xy 100.33 151.13)
+			(xy 105.41 151.13) (xy 110.49 151.13)
 		)
 		(stroke
 			(width 0)
@@ -1011,7 +1011,7 @@
 	)
 	(wire
 		(pts
-			(xy 179.07 128.27) (xy 184.15 128.27)
+			(xy 189.23 128.27) (xy 194.31 128.27)
 		)
 		(stroke
 			(width 0)
@@ -1021,7 +1021,7 @@
 	)
 	(wire
 		(pts
-			(xy 41.91 71.12) (xy 46.99 71.12)
+			(xy 50.8 71.12) (xy 55.88 71.12)
 		)
 		(stroke
 			(width 0)
@@ -1031,7 +1031,7 @@
 	)
 	(wire
 		(pts
-			(xy 125.73 76.2) (xy 130.81 76.2)
+			(xy 134.62 76.2) (xy 139.7 76.2)
 		)
 		(stroke
 			(width 0)
@@ -1041,7 +1041,7 @@
 	)
 	(wire
 		(pts
-			(xy 125.73 71.12) (xy 130.81 71.12)
+			(xy 134.62 71.12) (xy 139.7 71.12)
 		)
 		(stroke
 			(width 0)
@@ -1051,7 +1051,7 @@
 	)
 	(wire
 		(pts
-			(xy 66.04 146.05) (xy 71.12 146.05)
+			(xy 76.2 146.05) (xy 81.28 146.05)
 		)
 		(stroke
 			(width 0)
@@ -1061,7 +1061,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 76.2) (xy 210.82 76.2)
+			(xy 214.63 76.2) (xy 219.71 76.2)
 		)
 		(stroke
 			(width 0)
@@ -1071,7 +1071,7 @@
 	)
 	(wire
 		(pts
-			(xy 123.19 146.05) (xy 128.27 146.05)
+			(xy 133.35 146.05) (xy 138.43 146.05)
 		)
 		(stroke
 			(width 0)
@@ -1081,7 +1081,7 @@
 	)
 	(wire
 		(pts
-			(xy 95.25 156.21) (xy 100.33 156.21)
+			(xy 105.41 156.21) (xy 110.49 156.21)
 		)
 		(stroke
 			(width 0)
@@ -1091,7 +1091,7 @@
 	)
 	(wire
 		(pts
-			(xy 52.07 123.19) (xy 57.15 123.19)
+			(xy 62.23 123.19) (xy 67.31 123.19)
 		)
 		(stroke
 			(width 0)
@@ -1101,7 +1101,7 @@
 	)
 	(wire
 		(pts
-			(xy 151.13 123.19) (xy 156.21 123.19)
+			(xy 161.29 123.19) (xy 166.37 123.19)
 		)
 		(stroke
 			(width 0)
@@ -1111,7 +1111,7 @@
 	)
 	(wire
 		(pts
-			(xy 124.46 52.07) (xy 129.54 52.07)
+			(xy 133.35 48.26) (xy 138.43 48.26)
 		)
 		(stroke
 			(width 0)
@@ -1121,7 +1121,7 @@
 	)
 	(wire
 		(pts
-			(xy 97.79 81.28) (xy 102.87 81.28)
+			(xy 106.68 81.28) (xy 111.76 81.28)
 		)
 		(stroke
 			(width 0)
@@ -1131,7 +1131,7 @@
 	)
 	(wire
 		(pts
-			(xy 96.52 123.19) (xy 101.6 123.19)
+			(xy 106.68 123.19) (xy 111.76 123.19)
 		)
 		(stroke
 			(width 0)
@@ -1141,7 +1141,7 @@
 	)
 	(wire
 		(pts
-			(xy 163.83 52.07) (xy 168.91 52.07)
+			(xy 172.72 48.26) (xy 177.8 48.26)
 		)
 		(stroke
 			(width 0)
@@ -1151,7 +1151,7 @@
 	)
 	(wire
 		(pts
-			(xy 39.37 146.05) (xy 44.45 146.05)
+			(xy 49.53 146.05) (xy 54.61 146.05)
 		)
 		(stroke
 			(width 0)
@@ -1161,7 +1161,7 @@
 	)
 	(wire
 		(pts
-			(xy 41.91 76.2) (xy 46.99 76.2)
+			(xy 50.8 76.2) (xy 55.88 76.2)
 		)
 		(stroke
 			(width 0)
@@ -1171,7 +1171,7 @@
 	)
 	(wire
 		(pts
-			(xy 109.22 123.19) (xy 114.3 123.19)
+			(xy 119.38 123.19) (xy 124.46 123.19)
 		)
 		(stroke
 			(width 0)
@@ -1181,7 +1181,7 @@
 	)
 	(wire
 		(pts
-			(xy 40.64 123.19) (xy 45.72 123.19)
+			(xy 50.8 123.19) (xy 55.88 123.19)
 		)
 		(stroke
 			(width 0)
@@ -1191,7 +1191,7 @@
 	)
 	(wire
 		(pts
-			(xy 24.13 151.13) (xy 29.21 151.13)
+			(xy 34.29 151.13) (xy 39.37 151.13)
 		)
 		(stroke
 			(width 0)
@@ -1201,7 +1201,7 @@
 	)
 	(wire
 		(pts
-			(xy 191.77 52.07) (xy 196.85 52.07)
+			(xy 200.66 48.26) (xy 205.74 48.26)
 		)
 		(stroke
 			(width 0)
@@ -1211,7 +1211,7 @@
 	)
 	(wire
 		(pts
-			(xy 207.01 46.99) (xy 212.09 46.99)
+			(xy 215.9 43.18) (xy 220.98 43.18)
 		)
 		(stroke
 			(width 0)
@@ -1221,7 +1221,7 @@
 	)
 	(wire
 		(pts
-			(xy 27.94 52.07) (xy 33.02 52.07)
+			(xy 36.83 48.26) (xy 41.91 48.26)
 		)
 		(stroke
 			(width 0)
@@ -1231,7 +1231,7 @@
 	)
 	(wire
 		(pts
-			(xy 152.4 46.99) (xy 157.48 46.99)
+			(xy 161.29 43.18) (xy 166.37 43.18)
 		)
 		(stroke
 			(width 0)
@@ -1241,7 +1241,7 @@
 	)
 	(wire
 		(pts
-			(xy 67.31 128.27) (xy 72.39 128.27)
+			(xy 77.47 128.27) (xy 82.55 128.27)
 		)
 		(stroke
 			(width 0)
@@ -1251,7 +1251,7 @@
 	)
 	(wire
 		(pts
-			(xy 43.18 52.07) (xy 48.26 52.07)
+			(xy 52.07 48.26) (xy 57.15 48.26)
 		)
 		(stroke
 			(width 0)
@@ -1261,7 +1261,7 @@
 	)
 	(wire
 		(pts
-			(xy 39.37 156.21) (xy 44.45 156.21)
+			(xy 49.53 156.21) (xy 54.61 156.21)
 		)
 		(stroke
 			(width 0)
@@ -1271,7 +1271,7 @@
 	)
 	(wire
 		(pts
-			(xy 125.73 81.28) (xy 130.81 81.28)
+			(xy 134.62 81.28) (xy 139.7 81.28)
 		)
 		(stroke
 			(width 0)
@@ -1281,7 +1281,7 @@
 	)
 	(wire
 		(pts
-			(xy 68.58 46.99) (xy 73.66 46.99)
+			(xy 77.47 43.18) (xy 82.55 43.18)
 		)
 		(stroke
 			(width 0)
@@ -1291,7 +1291,7 @@
 	)
 	(wire
 		(pts
-			(xy 53.34 76.2) (xy 58.42 76.2)
+			(xy 62.23 76.2) (xy 67.31 76.2)
 		)
 		(stroke
 			(width 0)
@@ -1301,7 +1301,7 @@
 	)
 	(wire
 		(pts
-			(xy 204.47 128.27) (xy 209.55 128.27)
+			(xy 214.63 128.27) (xy 219.71 128.27)
 		)
 		(stroke
 			(width 0)
@@ -1311,7 +1311,7 @@
 	)
 	(wire
 		(pts
-			(xy 80.01 52.07) (xy 85.09 52.07)
+			(xy 88.9 48.26) (xy 93.98 48.26)
 		)
 		(stroke
 			(width 0)
@@ -1321,7 +1321,7 @@
 	)
 	(wire
 		(pts
-			(xy 180.34 71.12) (xy 185.42 71.12)
+			(xy 189.23 71.12) (xy 194.31 71.12)
 		)
 		(stroke
 			(width 0)
@@ -1331,7 +1331,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 71.12) (xy 210.82 71.12)
+			(xy 214.63 71.12) (xy 219.71 71.12)
 		)
 		(stroke
 			(width 0)
@@ -1341,7 +1341,7 @@
 	)
 	(wire
 		(pts
-			(xy 137.16 52.07) (xy 142.24 52.07)
+			(xy 146.05 48.26) (xy 151.13 48.26)
 		)
 		(stroke
 			(width 0)
@@ -1351,7 +1351,7 @@
 	)
 	(wire
 		(pts
-			(xy 124.46 118.11) (xy 129.54 118.11)
+			(xy 134.62 118.11) (xy 139.7 118.11)
 		)
 		(stroke
 			(width 0)
@@ -1361,7 +1361,7 @@
 	)
 	(wire
 		(pts
-			(xy 179.07 57.15) (xy 184.15 57.15)
+			(xy 187.96 53.34) (xy 193.04 53.34)
 		)
 		(stroke
 			(width 0)
@@ -1371,7 +1371,7 @@
 	)
 	(wire
 		(pts
-			(xy 152.4 71.12) (xy 157.48 71.12)
+			(xy 161.29 71.12) (xy 166.37 71.12)
 		)
 		(stroke
 			(width 0)
@@ -1381,7 +1381,7 @@
 	)
 	(wire
 		(pts
-			(xy 68.58 71.12) (xy 73.66 71.12)
+			(xy 77.47 71.12) (xy 82.55 71.12)
 		)
 		(stroke
 			(width 0)
@@ -1391,7 +1391,7 @@
 	)
 	(wire
 		(pts
-			(xy 110.49 76.2) (xy 115.57 76.2)
+			(xy 119.38 76.2) (xy 124.46 76.2)
 		)
 		(stroke
 			(width 0)
@@ -1401,7 +1401,7 @@
 	)
 	(wire
 		(pts
-			(xy 68.58 81.28) (xy 73.66 81.28)
+			(xy 77.47 81.28) (xy 82.55 81.28)
 		)
 		(stroke
 			(width 0)
@@ -1411,7 +1411,7 @@
 	)
 	(wire
 		(pts
-			(xy 189.23 123.19) (xy 194.31 123.19)
+			(xy 199.39 123.19) (xy 204.47 123.19)
 		)
 		(stroke
 			(width 0)
@@ -1421,7 +1421,7 @@
 	)
 	(wire
 		(pts
-			(xy 190.5 76.2) (xy 195.58 76.2)
+			(xy 199.39 76.2) (xy 204.47 76.2)
 		)
 		(stroke
 			(width 0)
@@ -1431,7 +1431,7 @@
 	)
 	(wire
 		(pts
-			(xy 66.04 156.21) (xy 71.12 156.21)
+			(xy 76.2 156.21) (xy 81.28 156.21)
 		)
 		(stroke
 			(width 0)
@@ -1441,7 +1441,7 @@
 	)
 	(wire
 		(pts
-			(xy 137.16 76.2) (xy 142.24 76.2)
+			(xy 146.05 76.2) (xy 151.13 76.2)
 		)
 		(stroke
 			(width 0)
@@ -1451,7 +1451,7 @@
 	)
 	(wire
 		(pts
-			(xy 40.64 128.27) (xy 45.72 128.27)
+			(xy 50.8 128.27) (xy 55.88 128.27)
 		)
 		(stroke
 			(width 0)
@@ -1461,7 +1461,7 @@
 	)
 	(wire
 		(pts
-			(xy 152.4 57.15) (xy 157.48 57.15)
+			(xy 161.29 53.34) (xy 166.37 53.34)
 		)
 		(stroke
 			(width 0)
@@ -1471,7 +1471,7 @@
 	)
 	(wire
 		(pts
-			(xy 151.13 128.27) (xy 156.21 128.27)
+			(xy 161.29 128.27) (xy 166.37 128.27)
 		)
 		(stroke
 			(width 0)
@@ -1481,7 +1481,7 @@
 	)
 	(wire
 		(pts
-			(xy 179.07 118.11) (xy 184.15 118.11)
+			(xy 189.23 118.11) (xy 194.31 118.11)
 		)
 		(stroke
 			(width 0)
@@ -1491,7 +1491,7 @@
 	)
 	(wire
 		(pts
-			(xy 180.34 76.2) (xy 185.42 76.2)
+			(xy 189.23 76.2) (xy 194.31 76.2)
 		)
 		(stroke
 			(width 0)
@@ -1501,7 +1501,7 @@
 	)
 	(wire
 		(pts
-			(xy 50.8 151.13) (xy 55.88 151.13)
+			(xy 60.96 151.13) (xy 66.04 151.13)
 		)
 		(stroke
 			(width 0)
@@ -1510,7 +1510,7 @@
 		(uuid "fa79e20f-3d5d-41c9-95cb-70b946f02b64")
 	)
 	(label "CB2"
-		(at 129.54 128.27 180)
+		(at 139.7 128.27 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1520,7 +1520,7 @@
 		(uuid "0531bc00-c699-4026-81ad-32321eb6a631")
 	)
 	(label "CB2"
-		(at 101.6 128.27 180)
+		(at 111.76 128.27 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1530,7 +1530,7 @@
 		(uuid "099f0294-7604-47cc-877e-779df70b3d2e")
 	)
 	(label "CA2"
-		(at 129.54 57.15 180)
+		(at 138.43 53.34 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1540,7 +1540,7 @@
 		(uuid "0c8f8038-4014-4605-9513-9196afea1ad9")
 	)
 	(label "CB9"
-		(at 25.4 123.19 0)
+		(at 35.56 123.19 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1550,7 +1550,7 @@
 		(uuid "12db3717-5daf-483a-838b-b8b064a33c75")
 	)
 	(label "CB4"
-		(at 109.22 123.19 0)
+		(at 119.38 123.19 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1560,7 +1560,7 @@
 		(uuid "1536ad89-8b4d-47fb-91a6-581cbfedbb5f")
 	)
 	(label "CB1"
-		(at 128.27 146.05 180)
+		(at 138.43 146.05 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1570,7 +1570,7 @@
 		(uuid "1538c536-f697-4b42-ad4b-39d2d8b2daed")
 	)
 	(label "CA7"
-		(at 130.81 76.2 180)
+		(at 139.7 76.2 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1580,7 +1580,7 @@
 		(uuid "1a50b466-1e3c-4b04-8be4-c71a488c7d3e")
 	)
 	(label "CA7"
-		(at 73.66 76.2 180)
+		(at 82.55 76.2 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1590,7 +1590,7 @@
 		(uuid "1a70b2d4-55e0-4b5a-ae48-bc364886599b")
 	)
 	(label "CA6"
-		(at 102.87 81.28 180)
+		(at 111.76 81.28 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1600,7 +1600,7 @@
 		(uuid "1b6355d5-4b10-473f-b9f0-c1b4fd2595b2")
 	)
 	(label "CA6"
-		(at 157.48 81.28 180)
+		(at 166.37 81.28 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1610,7 +1610,7 @@
 		(uuid "1c47e014-5581-4ab9-b94a-472e53af5487")
 	)
 	(label "CB2"
-		(at 52.07 123.19 0)
+		(at 62.23 123.19 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1620,7 +1620,7 @@
 		(uuid "22488dcc-2c34-4f3b-8959-dd42adf9f2b8")
 	)
 	(label "CA9"
-		(at 100.33 46.99 180)
+		(at 109.22 43.18 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1630,7 +1630,7 @@
 		(uuid "275cab27-4bea-45d4-ac29-19910129073d")
 	)
 	(label "CA3"
-		(at 80.01 52.07 0)
+		(at 88.9 48.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1640,7 +1640,7 @@
 		(uuid "2b6bc496-3cd8-4496-b17d-4e51c4d03a7b")
 	)
 	(label "CA9"
-		(at 73.66 46.99 180)
+		(at 82.55 43.18 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1650,7 +1650,7 @@
 		(uuid "2e15f93a-3700-44a2-9f66-00ec9ad8b2d5")
 	)
 	(label "CA9"
-		(at 48.26 46.99 180)
+		(at 57.15 43.18 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1660,7 +1660,7 @@
 		(uuid "2e9db746-01d3-4deb-9a76-8a6f5dd374db")
 	)
 	(label "CB7"
-		(at 71.12 151.13 180)
+		(at 81.28 151.13 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1670,7 +1670,7 @@
 		(uuid "31e66766-00b5-4403-bde6-fcc7a44d4894")
 	)
 	(label "CA3"
-		(at 82.55 76.2 0)
+		(at 91.44 76.2 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1680,7 +1680,7 @@
 		(uuid "31efc679-bd2f-4ffc-acbb-c985c553c086")
 	)
 	(label "CB7"
-		(at 128.27 151.13 180)
+		(at 138.43 151.13 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1690,7 +1690,7 @@
 		(uuid "31fcc063-94bc-41b2-bd16-4c0dcb6d061a")
 	)
 	(label "CA3"
-		(at 184.15 52.07 180)
+		(at 193.04 48.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1700,7 +1700,7 @@
 		(uuid "331f7ba0-33e4-4d5d-833c-7a5a5f7c6c02")
 	)
 	(label "CB2"
-		(at 184.15 128.27 180)
+		(at 194.31 128.27 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1710,7 +1710,7 @@
 		(uuid "3680d492-4098-4f42-a13f-a290eb5ea535")
 	)
 	(label "CB3"
-		(at 80.01 151.13 0)
+		(at 90.17 151.13 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1720,7 +1720,7 @@
 		(uuid "3b2305d5-7d36-4aeb-85e1-fbac07a8ec71")
 	)
 	(label "CB3"
-		(at 129.54 123.19 180)
+		(at 139.7 123.19 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1730,7 +1730,7 @@
 		(uuid "42e38c7a-3129-44c0-a449-ed809ba5ddd6")
 	)
 	(label "CA3"
-		(at 48.26 57.15 180)
+		(at 57.15 53.34 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1740,7 +1740,7 @@
 		(uuid "4530dd1b-852d-46c7-86e7-5af64a4a939a")
 	)
 	(label "CB8"
-		(at 101.6 118.11 180)
+		(at 111.76 118.11 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1750,7 +1750,7 @@
 		(uuid "469463b4-24f1-4941-9f8f-1c40f0cb5a7e")
 	)
 	(label "CA4"
-		(at 48.26 52.07 180)
+		(at 57.15 48.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1760,7 +1760,7 @@
 		(uuid "4a2eddd5-1e1f-4be6-ab4c-460c1e4a8fcc")
 	)
 	(label "CA6"
-		(at 73.66 81.28 180)
+		(at 82.55 81.28 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1770,7 +1770,7 @@
 		(uuid "4a5fb5ed-ba58-427f-881b-46d7a627e73c")
 	)
 	(label "CA5"
-		(at 185.42 81.28 180)
+		(at 194.31 81.28 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1780,7 +1780,7 @@
 		(uuid "4aae6c96-b98c-463a-a8f2-b70e1d80145c")
 	)
 	(label "CA3"
-		(at 73.66 57.15 180)
+		(at 82.55 53.34 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1790,7 +1790,7 @@
 		(uuid "4eca8120-610e-4f46-9c9e-217f7a23e8ef")
 	)
 	(label "CA6"
-		(at 46.99 81.28 180)
+		(at 55.88 81.28 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1800,7 +1800,7 @@
 		(uuid "5125df84-a649-4ef0-a26f-444a102e0874")
 	)
 	(label "CA8"
-		(at 46.99 71.12 180)
+		(at 55.88 71.12 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1810,7 +1810,7 @@
 		(uuid "5169b1a7-9fd1-4f0d-84b6-6b69d6e556c2")
 	)
 	(label "CA8"
-		(at 102.87 71.12 180)
+		(at 111.76 71.12 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1820,7 +1820,7 @@
 		(uuid "53a9cda9-1126-4492-94f9-7b875eec017d")
 	)
 	(label "CB1"
-		(at 44.45 146.05 180)
+		(at 54.61 146.05 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1830,7 +1830,7 @@
 		(uuid "573853bd-65db-4b37-a6d9-27f3eceda5e9")
 	)
 	(label "CA8"
-		(at 210.82 71.12 180)
+		(at 219.71 71.12 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1840,7 +1840,7 @@
 		(uuid "58c78b4c-d878-4361-ac5e-129f02406e99")
 	)
 	(label "CA5"
-		(at 137.16 76.2 0)
+		(at 146.05 76.2 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1850,7 +1850,7 @@
 		(uuid "58fb2805-1ec6-4e65-950f-669e21974fe6")
 	)
 	(label "CA2"
-		(at 212.09 57.15 180)
+		(at 220.98 53.34 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1860,7 +1860,7 @@
 		(uuid "591c40ef-4012-4afe-90cd-55da768935f5")
 	)
 	(label "CB7"
-		(at 100.33 151.13 180)
+		(at 110.49 151.13 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1870,7 +1870,7 @@
 		(uuid "59dea0bf-8b7e-489e-b32e-3bc921386800")
 	)
 	(label "CB4"
-		(at 45.72 123.19 180)
+		(at 55.88 123.19 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1880,7 +1880,7 @@
 		(uuid "5ad75436-da0a-4f97-a362-0afe8ef23f04")
 	)
 	(label "CB8"
-		(at 72.39 118.11 180)
+		(at 82.55 118.11 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1890,7 +1890,7 @@
 		(uuid "5b0bcd45-9143-4480-9d35-06542608be4b")
 	)
 	(label "CA7"
-		(at 185.42 76.2 180)
+		(at 194.31 76.2 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1900,7 +1900,7 @@
 		(uuid "5eb4f772-6797-4f09-abbb-6230f2e88057")
 	)
 	(label "CB5"
-		(at 135.89 123.19 0)
+		(at 146.05 123.19 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1910,7 +1910,7 @@
 		(uuid "609c26c1-9840-41ec-9f7c-de08e00853fc")
 	)
 	(label "CA2"
-		(at 100.33 57.15 180)
+		(at 109.22 53.34 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1920,7 +1920,7 @@
 		(uuid "63c0a429-7552-4ea9-933b-b117d3e7aa08")
 	)
 	(label "CA2"
-		(at 53.34 52.07 0)
+		(at 62.23 48.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1930,7 +1930,7 @@
 		(uuid "6865cd57-7667-4b61-9d82-1cd62f76ad3b")
 	)
 	(label "CB1"
-		(at 71.12 146.05 180)
+		(at 81.28 146.05 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1940,7 +1940,7 @@
 		(uuid "690ca2ae-4a98-4853-abb5-5b68428283f0")
 	)
 	(label "CB4"
-		(at 107.95 151.13 0)
+		(at 118.11 151.13 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1950,7 +1950,7 @@
 		(uuid "6b61276b-0947-4455-9804-9ed7629b7ebe")
 	)
 	(label "CA5"
-		(at 137.16 52.07 0)
+		(at 146.05 48.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1960,7 +1960,7 @@
 		(uuid "6da83c78-2b0e-480c-afe9-f5156822f309")
 	)
 	(label "CB8"
-		(at 129.54 118.11 180)
+		(at 139.7 118.11 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1970,7 +1970,7 @@
 		(uuid "6fd2a601-1bd2-4e92-898c-bdc841e4ec8c")
 	)
 	(label "CA9"
-		(at 157.48 46.99 180)
+		(at 166.37 43.18 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1980,7 +1980,7 @@
 		(uuid "7255e035-c5fd-45fa-a448-e00d71a6234b")
 	)
 	(label "CB6"
-		(at 100.33 156.21 180)
+		(at 110.49 156.21 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1990,7 +1990,7 @@
 		(uuid "7663ec8e-128a-418c-93fc-31e5cd4f81a4")
 	)
 	(label "CA6"
-		(at 130.81 81.28 180)
+		(at 139.7 81.28 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2000,7 +2000,7 @@
 		(uuid "766ab353-9eed-493a-8440-58915d4a1c71")
 	)
 	(label "CA7"
-		(at 190.5 76.2 0)
+		(at 199.39 76.2 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2010,7 +2010,7 @@
 		(uuid "78fed87d-da9a-4ab2-9dfc-5710fc4fb003")
 	)
 	(label "CB7"
-		(at 44.45 151.13 180)
+		(at 54.61 151.13 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2020,7 +2020,7 @@
 		(uuid "7afe6481-bcf2-48fa-81cf-f0f4b1fdf3a9")
 	)
 	(label "CB4"
-		(at 101.6 123.19 180)
+		(at 111.76 123.19 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2030,7 +2030,7 @@
 		(uuid "7b982995-2983-4eea-ac27-1eb6868dd904")
 	)
 	(label "CB4"
-		(at 72.39 123.19 180)
+		(at 82.55 123.19 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2040,7 +2040,7 @@
 		(uuid "7c8f1404-ea3f-46ac-bd8d-5e80ba63b927")
 	)
 	(label "CA6"
-		(at 165.1 76.2 0)
+		(at 173.99 76.2 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2050,7 +2050,7 @@
 		(uuid "7e5218ef-90bc-4d2a-b4b2-d1480c5abee8")
 	)
 	(label "CA2"
-		(at 157.48 57.15 180)
+		(at 166.37 53.34 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2060,7 +2060,7 @@
 		(uuid "825336de-a491-458d-810f-1d3e0b8745c3")
 	)
 	(label "CA1"
-		(at 26.67 76.2 0)
+		(at 35.56 76.2 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2070,7 +2070,7 @@
 		(uuid "852237d4-9f29-486d-9b17-215aace68b93")
 	)
 	(label "CA3"
-		(at 157.48 52.07 180)
+		(at 166.37 48.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2080,7 +2080,7 @@
 		(uuid "867bbac7-bdd4-47ed-b5d2-60da479fefcb")
 	)
 	(label "CB7"
-		(at 189.23 123.19 0)
+		(at 199.39 123.19 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2090,7 +2090,7 @@
 		(uuid "8b34a1ea-9a93-4aa9-ad04-4533c75ac491")
 	)
 	(label "CB1"
-		(at 100.33 146.05 180)
+		(at 110.49 146.05 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2100,7 +2100,7 @@
 		(uuid "8bcee56f-29ae-4876-a371-be874eeacb36")
 	)
 	(label "CB6"
-		(at 71.12 156.21 180)
+		(at 81.28 156.21 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2110,7 +2110,7 @@
 		(uuid "8f9b77c2-3fb4-45c9-a145-6c50710597a2")
 	)
 	(label "CA4"
-		(at 110.49 76.2 0)
+		(at 119.38 76.2 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2120,7 +2120,7 @@
 		(uuid "909045b9-466c-4114-b7c0-1c7165350212")
 	)
 	(label "CA8"
-		(at 185.42 71.12 180)
+		(at 194.31 71.12 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2130,7 +2130,7 @@
 		(uuid "926e5a98-2efd-4d37-9eb3-add005f75d27")
 	)
 	(label "CB2"
-		(at 209.55 128.27 180)
+		(at 219.71 128.27 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2140,7 +2140,7 @@
 		(uuid "93edcc71-e18c-4ad7-99a4-9ac553aed771")
 	)
 	(label "CB2"
-		(at 156.21 128.27 180)
+		(at 166.37 128.27 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2150,7 +2150,7 @@
 		(uuid "95c7e490-41d2-4721-84d8-71d1c6425892")
 	)
 	(label "CB8"
-		(at 156.21 118.11 180)
+		(at 166.37 118.11 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2160,7 +2160,7 @@
 		(uuid "96dea268-4ce9-4ae2-a0b7-6323a9efe20d")
 	)
 	(label "CB3"
-		(at 45.72 128.27 180)
+		(at 55.88 128.27 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2170,7 +2170,7 @@
 		(uuid "973c527d-1523-4200-aa72-f2c7f84a4a71")
 	)
 	(label "CA4"
-		(at 73.66 52.07 180)
+		(at 82.55 48.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2180,7 +2180,7 @@
 		(uuid "9a967f64-d29d-48ef-be76-be7a588e795f")
 	)
 	(label "CA7"
-		(at 191.77 52.07 0)
+		(at 200.66 48.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2190,7 +2190,7 @@
 		(uuid "9bb2ad45-e94d-4630-b833-55b92c04db8a")
 	)
 	(label "CA8"
-		(at 73.66 71.12 180)
+		(at 82.55 71.12 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2200,7 +2200,7 @@
 		(uuid "9ccc22d2-db9e-4964-b42e-103c42c9a671")
 	)
 	(label "CB3"
-		(at 81.28 123.19 0)
+		(at 91.44 123.19 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2210,7 +2210,7 @@
 		(uuid "9d487023-16ca-4c9c-b868-760c32c73980")
 	)
 	(label "CA7"
-		(at 46.99 76.2 180)
+		(at 55.88 76.2 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2220,7 +2220,7 @@
 		(uuid "9ee3e084-3302-41a2-afd6-a42929e3ac2a")
 	)
 	(label "CA6"
-		(at 163.83 52.07 0)
+		(at 172.72 48.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2230,7 +2230,7 @@
 		(uuid "9f88bda1-dff9-47a4-b27a-6b9d8f97230e")
 	)
 	(label "CA3"
-		(at 129.54 52.07 180)
+		(at 138.43 48.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2240,7 +2240,7 @@
 		(uuid "a3150b2a-5db2-4535-9eba-a56cd74387fe")
 	)
 	(label "CB9"
-		(at 24.13 151.13 0)
+		(at 34.29 151.13 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2250,7 +2250,7 @@
 		(uuid "aa1a70aa-0073-4b1b-927c-d2795cf9954c")
 	)
 	(label "CA2"
-		(at 184.15 57.15 180)
+		(at 193.04 53.34 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2260,7 +2260,7 @@
 		(uuid "b4814f86-caa1-4e0e-91f3-d6cfccbf13ac")
 	)
 	(label "CA5"
-		(at 210.82 81.28 180)
+		(at 219.71 81.28 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2270,7 +2270,7 @@
 		(uuid "b674b53e-26c2-43b8-8da5-717d69a14184")
 	)
 	(label "CB6"
-		(at 163.83 123.19 0)
+		(at 173.99 123.19 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2280,7 +2280,7 @@
 		(uuid "b7727d38-9fef-40a7-b347-f37c6e6d5d00")
 	)
 	(label "CA9"
-		(at 129.54 46.99 180)
+		(at 138.43 43.18 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2290,7 +2290,7 @@
 		(uuid "b81191ab-e2e4-4aae-a00f-55dcf0edd64f")
 	)
 	(label "CA7"
-		(at 157.48 76.2 180)
+		(at 166.37 76.2 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2300,7 +2300,7 @@
 		(uuid "b9e58344-16b6-4cde-ba8a-0fb22e316ca2")
 	)
 	(label "CB2"
-		(at 50.8 151.13 0)
+		(at 60.96 151.13 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2310,7 +2310,7 @@
 		(uuid "ba3aad2c-fc76-4c71-81e7-b330ff7d048b")
 	)
 	(label "CB3"
-		(at 156.21 123.19 180)
+		(at 166.37 123.19 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2320,7 +2320,7 @@
 		(uuid "c221d76e-14c0-4ad3-868d-ae649ae9bb21")
 	)
 	(label "CA2"
-		(at 53.34 76.2 0)
+		(at 62.23 76.2 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2330,7 +2330,7 @@
 		(uuid "c7b792ee-c95f-4458-b929-c2d69ae13ec3")
 	)
 	(label "CB8"
-		(at 209.55 118.11 180)
+		(at 219.71 118.11 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2340,7 +2340,7 @@
 		(uuid "c82810ca-ec9d-411b-bea9-49ffd98747cb")
 	)
 	(label "CB8"
-		(at 45.72 118.11 180)
+		(at 55.88 118.11 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2350,7 +2350,7 @@
 		(uuid "cb423cf1-7b78-4a40-a887-ade7d25a79c5")
 	)
 	(label "CA4"
-		(at 109.22 52.07 0)
+		(at 118.11 48.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2360,7 +2360,7 @@
 		(uuid "cc7aad43-7729-45f6-a3ac-db9a0071e48e")
 	)
 	(label "CB3"
-		(at 184.15 123.19 180)
+		(at 194.31 123.19 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2370,7 +2370,7 @@
 		(uuid "d3e9d91f-6a72-4ee4-9226-36ec32754611")
 	)
 	(label "CA7"
-		(at 102.87 76.2 180)
+		(at 111.76 76.2 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2380,7 +2380,7 @@
 		(uuid "d5d13f59-0a96-4879-95cd-9ece780a6704")
 	)
 	(label "CA4"
-		(at 100.33 52.07 180)
+		(at 109.22 48.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2390,7 +2390,7 @@
 		(uuid "d6443e92-a0cd-4479-bbea-e07e3471c3e3")
 	)
 	(label "CA1"
-		(at 27.94 52.07 0)
+		(at 36.83 48.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2400,7 +2400,7 @@
 		(uuid "d703d442-fc5e-4c59-b8ed-734aeb55a91c")
 	)
 	(label "CB6"
-		(at 44.45 156.21 180)
+		(at 54.61 156.21 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2410,7 +2410,7 @@
 		(uuid "dbd3c56a-ff2e-4c83-8237-ae47d50e5e9e")
 	)
 	(label "CB8"
-		(at 184.15 118.11 180)
+		(at 194.31 118.11 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2420,7 +2420,7 @@
 		(uuid "dd88291d-c961-4112-84a0-680d281855fb")
 	)
 	(label "CA6"
-		(at 210.82 76.2 180)
+		(at 219.71 76.2 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2430,7 +2430,7 @@
 		(uuid "debe7c49-5873-4ec1-b4b7-7bfca525b6a8")
 	)
 	(label "CA8"
-		(at 157.48 71.12 180)
+		(at 166.37 71.12 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2440,7 +2440,7 @@
 		(uuid "e98c97ce-3dc1-485f-b394-83f77ffdfec5")
 	)
 	(label "CA3"
-		(at 212.09 52.07 180)
+		(at 220.98 48.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2450,7 +2450,7 @@
 		(uuid "ec310a19-1112-4c93-9ecc-3eceb70d7db2")
 	)
 	(label "CB6"
-		(at 128.27 156.21 180)
+		(at 138.43 156.21 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2460,7 +2460,7 @@
 		(uuid "f58f15d1-907e-4e71-a41d-2deeba70e8ff")
 	)
 	(label "CB3"
-		(at 72.39 128.27 180)
+		(at 82.55 128.27 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2470,7 +2470,7 @@
 		(uuid "f6d868b8-27cc-4a2f-ace1-0b7da58eb243")
 	)
 	(label "CA8"
-		(at 130.81 71.12 180)
+		(at 139.7 71.12 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2480,7 +2480,7 @@
 		(uuid "fa47271b-f382-41d3-8aea-74e4055d60cb")
 	)
 	(label "CB3"
-		(at 209.55 123.19 180)
+		(at 219.71 123.19 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2490,7 +2490,7 @@
 		(uuid "fab26e55-560d-49c3-ae4c-ca8795ccc4b8")
 	)
 	(label "CA9"
-		(at 184.15 46.99 180)
+		(at 193.04 43.18 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2500,7 +2500,7 @@
 		(uuid "fd67fc7c-31c8-4d96-9a48-1c543cef3a25")
 	)
 	(label "CA9"
-		(at 212.09 46.99 180)
+		(at 220.98 43.18 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2511,7 +2511,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 173.99 53.34 180)
+		(at 182.88 49.53 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -2521,7 +2521,7 @@
 		(dnp no)
 		(uuid "0478e56a-df13-4aa0-8087-dab0337b2f28")
 		(property "Reference" "LED6"
-			(at 174.752 43.18 0)
+			(at 183.642 39.37 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2531,7 +2531,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 174.75 43.18 0)
+			(at 183.64 39.37 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2542,7 +2542,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 173.99 39.37 0)
+			(at 182.88 35.56 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2553,7 +2553,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 173.99 36.83 0)
+			(at 182.88 33.02 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2564,7 +2564,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 173.99 53.34 0)
+			(at 182.88 49.53 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2575,7 +2575,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 173.99 34.29 0)
+			(at 182.88 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2586,7 +2586,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 173.99 31.75 0)
+			(at 182.88 27.94 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2597,7 +2597,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 173.99 29.21 0)
+			(at 182.88 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2608,7 +2608,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 173.99 53.34 0)
+			(at 182.88 49.53 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2619,7 +2619,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 173.99 53.34 0)
+			(at 182.88 49.53 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2651,7 +2651,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 35.56 124.46 180)
+		(at 45.72 124.46 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -2661,7 +2661,7 @@
 		(dnp no)
 		(uuid "1156886d-7b99-47a4-8ad6-36a0c1400d0f")
 		(property "Reference" "LED15"
-			(at 36.322 114.3 0)
+			(at 46.482 114.3 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2671,7 +2671,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 36.32 114.3 0)
+			(at 46.48 114.3 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2682,7 +2682,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 35.56 110.49 0)
+			(at 45.72 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2693,7 +2693,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 35.56 107.95 0)
+			(at 45.72 107.95 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2704,7 +2704,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 35.56 124.46 0)
+			(at 45.72 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2715,7 +2715,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 35.56 105.41 0)
+			(at 45.72 105.41 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2726,7 +2726,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 35.56 102.87 0)
+			(at 45.72 102.87 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2737,7 +2737,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 35.56 100.33 0)
+			(at 45.72 100.33 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2748,7 +2748,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 35.56 124.46 0)
+			(at 45.72 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2759,7 +2759,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 35.56 124.46 0)
+			(at 45.72 124.46 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2791,7 +2791,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 199.39 124.46 180)
+		(at 209.55 124.46 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -2801,7 +2801,7 @@
 		(dnp no)
 		(uuid "24e21a42-4000-499d-bb06-ec25aff6304b")
 		(property "Reference" "LED21"
-			(at 200.152 114.3 0)
+			(at 210.312 114.3 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2811,7 +2811,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 200.15 114.3 0)
+			(at 210.31 114.3 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2822,7 +2822,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 199.39 110.49 0)
+			(at 209.55 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2833,7 +2833,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 199.39 107.95 0)
+			(at 209.55 107.95 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2844,7 +2844,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 199.39 124.46 0)
+			(at 209.55 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2855,7 +2855,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 199.39 105.41 0)
+			(at 209.55 105.41 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2866,7 +2866,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 199.39 102.87 0)
+			(at 209.55 102.87 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2877,7 +2877,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 199.39 100.33 0)
+			(at 209.55 100.33 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2888,7 +2888,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 199.39 124.46 0)
+			(at 209.55 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2899,7 +2899,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 199.39 124.46 0)
+			(at 209.55 124.46 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2931,7 +2931,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 90.17 53.34 180)
+		(at 99.06 49.53 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -2941,7 +2941,7 @@
 		(dnp no)
 		(uuid "30566647-542e-4434-95c2-27db8c18474c")
 		(property "Reference" "LED3"
-			(at 90.932 43.18 0)
+			(at 99.822 39.37 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2951,7 +2951,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 90.93 43.18 0)
+			(at 99.82 39.37 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2962,7 +2962,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 90.17 39.37 0)
+			(at 99.06 35.56 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2973,7 +2973,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 90.17 36.83 0)
+			(at 99.06 33.02 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2984,7 +2984,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 90.17 53.34 0)
+			(at 99.06 49.53 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2995,7 +2995,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 90.17 34.29 0)
+			(at 99.06 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3006,7 +3006,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 90.17 31.75 0)
+			(at 99.06 27.94 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3017,7 +3017,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 90.17 29.21 0)
+			(at 99.06 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3028,7 +3028,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 90.17 53.34 0)
+			(at 99.06 49.53 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3039,7 +3039,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 90.17 53.34 0)
+			(at 99.06 49.53 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3071,7 +3071,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 91.44 124.46 180)
+		(at 101.6 124.46 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3081,7 +3081,7 @@
 		(dnp no)
 		(uuid "33c61ca4-f77d-48cf-8c90-b849361bb033")
 		(property "Reference" "LED17"
-			(at 92.202 114.3 0)
+			(at 102.362 114.3 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3091,7 +3091,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 92.2 114.3 0)
+			(at 102.36 114.3 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3102,7 +3102,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 91.44 110.49 0)
+			(at 101.6 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3113,7 +3113,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 91.44 107.95 0)
+			(at 101.6 107.95 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3124,7 +3124,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 91.44 124.46 0)
+			(at 101.6 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3135,7 +3135,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 91.44 105.41 0)
+			(at 101.6 105.41 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3146,7 +3146,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 91.44 102.87 0)
+			(at 101.6 102.87 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3157,7 +3157,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 91.44 100.33 0)
+			(at 101.6 100.33 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3168,7 +3168,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 91.44 124.46 0)
+			(at 101.6 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3179,7 +3179,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 91.44 124.46 0)
+			(at 101.6 124.46 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3211,7 +3211,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 119.38 53.34 180)
+		(at 128.27 49.53 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3221,7 +3221,7 @@
 		(dnp no)
 		(uuid "4226e8f8-50cc-4a5f-9778-a951ecd19a17")
 		(property "Reference" "LED4"
-			(at 120.142 43.18 0)
+			(at 129.032 39.37 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3231,7 +3231,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 120.14 43.18 0)
+			(at 129.03 39.37 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3242,7 +3242,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 119.38 39.37 0)
+			(at 128.27 35.56 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3253,7 +3253,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 119.38 36.83 0)
+			(at 128.27 33.02 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3264,7 +3264,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 119.38 53.34 0)
+			(at 128.27 49.53 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3275,7 +3275,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 119.38 34.29 0)
+			(at 128.27 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3286,7 +3286,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 119.38 31.75 0)
+			(at 128.27 27.94 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3297,7 +3297,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 119.38 29.21 0)
+			(at 128.27 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3308,7 +3308,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 119.38 53.34 0)
+			(at 128.27 49.53 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3319,7 +3319,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 119.38 53.34 0)
+			(at 128.27 49.53 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3351,7 +3351,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 118.11 152.4 180)
+		(at 128.27 152.4 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3361,7 +3361,7 @@
 		(dnp no)
 		(uuid "4bb14a8a-7264-4ab9-85fc-1a86b34f4b66")
 		(property "Reference" "LED25"
-			(at 118.872 142.24 0)
+			(at 129.032 142.24 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3371,7 +3371,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 118.87 142.24 0)
+			(at 129.03 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3382,7 +3382,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 118.11 138.43 0)
+			(at 128.27 138.43 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3393,7 +3393,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 118.11 135.89 0)
+			(at 128.27 135.89 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3404,7 +3404,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 118.11 152.4 0)
+			(at 128.27 152.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3415,7 +3415,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 118.11 133.35 0)
+			(at 128.27 133.35 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3426,7 +3426,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 118.11 130.81 0)
+			(at 128.27 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3437,7 +3437,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 118.11 128.27 0)
+			(at 128.27 128.27 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3448,7 +3448,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 118.11 152.4 0)
+			(at 128.27 152.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3459,7 +3459,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 118.11 152.4 0)
+			(at 128.27 152.4 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3491,7 +3491,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 146.05 124.46 180)
+		(at 156.21 124.46 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3501,7 +3501,7 @@
 		(dnp no)
 		(uuid "5929db82-1575-439d-989e-dccb42f5ca32")
 		(property "Reference" "LED19"
-			(at 146.812 114.3 0)
+			(at 156.972 114.3 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3511,7 +3511,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 146.81 114.3 0)
+			(at 156.97 114.3 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3522,7 +3522,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 146.05 110.49 0)
+			(at 156.21 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3533,7 +3533,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 146.05 107.95 0)
+			(at 156.21 107.95 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3544,7 +3544,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 146.05 124.46 0)
+			(at 156.21 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3555,7 +3555,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 146.05 105.41 0)
+			(at 156.21 105.41 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3566,7 +3566,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 146.05 102.87 0)
+			(at 156.21 102.87 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3577,7 +3577,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 146.05 100.33 0)
+			(at 156.21 100.33 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3588,7 +3588,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 146.05 124.46 0)
+			(at 156.21 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3599,7 +3599,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 146.05 124.46 0)
+			(at 156.21 124.46 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3631,7 +3631,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 36.83 77.47 180)
+		(at 45.72 77.47 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3641,7 +3641,7 @@
 		(dnp no)
 		(uuid "61de33ac-981d-4ad8-98bc-d562e1612316")
 		(property "Reference" "LED8"
-			(at 37.592 67.31 0)
+			(at 46.482 67.31 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3651,7 +3651,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 37.59 67.31 0)
+			(at 46.48 67.31 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3662,7 +3662,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 36.83 63.5 0)
+			(at 45.72 63.5 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3673,7 +3673,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 36.83 60.96 0)
+			(at 45.72 60.96 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3684,7 +3684,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 36.83 77.47 0)
+			(at 45.72 77.47 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3695,7 +3695,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 36.83 58.42 0)
+			(at 45.72 58.42 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3706,7 +3706,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 36.83 55.88 0)
+			(at 45.72 55.88 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3717,7 +3717,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 36.83 53.34 0)
+			(at 45.72 53.34 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3728,7 +3728,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 36.83 77.47 0)
+			(at 45.72 77.47 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3739,7 +3739,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 36.83 77.47 0)
+			(at 45.72 77.47 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3771,7 +3771,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 200.66 77.47 180)
+		(at 209.55 77.47 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3781,7 +3781,7 @@
 		(dnp no)
 		(uuid "712e06f0-6425-41c0-9e46-950709482adf")
 		(property "Reference" "LED14"
-			(at 201.422 67.31 0)
+			(at 210.312 67.31 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3791,7 +3791,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 201.42 67.31 0)
+			(at 210.31 67.31 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3802,7 +3802,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 200.66 63.5 0)
+			(at 209.55 63.5 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3813,7 +3813,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 200.66 60.96 0)
+			(at 209.55 60.96 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3824,7 +3824,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 200.66 77.47 0)
+			(at 209.55 77.47 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3835,7 +3835,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 200.66 58.42 0)
+			(at 209.55 58.42 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3846,7 +3846,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 200.66 55.88 0)
+			(at 209.55 55.88 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3857,7 +3857,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 200.66 53.34 0)
+			(at 209.55 53.34 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3868,7 +3868,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 200.66 77.47 0)
+			(at 209.55 77.47 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3879,7 +3879,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 200.66 77.47 0)
+			(at 209.55 77.47 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3911,7 +3911,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 90.17 152.4 180)
+		(at 100.33 152.4 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3921,7 +3921,7 @@
 		(dnp no)
 		(uuid "7319d0d9-212d-408d-9350-c7ee80de45bd")
 		(property "Reference" "LED24"
-			(at 90.932 142.24 0)
+			(at 101.092 142.24 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3931,7 +3931,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 90.93 142.24 0)
+			(at 101.09 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3942,7 +3942,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 90.17 138.43 0)
+			(at 100.33 138.43 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3953,7 +3953,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 90.17 135.89 0)
+			(at 100.33 135.89 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3964,7 +3964,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 90.17 152.4 0)
+			(at 100.33 152.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3975,7 +3975,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 90.17 133.35 0)
+			(at 100.33 133.35 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3986,7 +3986,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 90.17 130.81 0)
+			(at 100.33 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3997,7 +3997,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 90.17 128.27 0)
+			(at 100.33 128.27 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4008,7 +4008,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 90.17 152.4 0)
+			(at 100.33 152.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4019,7 +4019,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 90.17 152.4 0)
+			(at 100.33 152.4 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4051,7 +4051,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 92.71 77.47 180)
+		(at 101.6 77.47 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4061,7 +4061,7 @@
 		(dnp no)
 		(uuid "b0cfc07b-1460-402d-a593-b13a05456459")
 		(property "Reference" "LED10"
-			(at 93.472 67.31 0)
+			(at 102.362 67.31 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4071,7 +4071,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 93.47 67.31 0)
+			(at 102.36 67.31 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4082,7 +4082,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 92.71 63.5 0)
+			(at 101.6 63.5 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4093,7 +4093,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 92.71 60.96 0)
+			(at 101.6 60.96 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4104,7 +4104,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 92.71 77.47 0)
+			(at 101.6 77.47 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4115,7 +4115,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 92.71 58.42 0)
+			(at 101.6 58.42 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4126,7 +4126,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 92.71 55.88 0)
+			(at 101.6 55.88 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4137,7 +4137,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 92.71 53.34 0)
+			(at 101.6 53.34 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4148,7 +4148,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 92.71 77.47 0)
+			(at 101.6 77.47 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4159,7 +4159,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 92.71 77.47 0)
+			(at 101.6 77.47 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4191,7 +4191,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 120.65 77.47 180)
+		(at 129.54 77.47 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4201,7 +4201,7 @@
 		(dnp no)
 		(uuid "b3e7e0e5-6b5a-4c30-b8e6-8b9b29bef251")
 		(property "Reference" "LED11"
-			(at 121.412 67.31 0)
+			(at 130.302 67.31 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4211,7 +4211,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 121.41 67.31 0)
+			(at 130.3 67.31 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4222,7 +4222,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 120.65 63.5 0)
+			(at 129.54 63.5 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4233,7 +4233,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 120.65 60.96 0)
+			(at 129.54 60.96 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4244,7 +4244,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 120.65 77.47 0)
+			(at 129.54 77.47 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4255,7 +4255,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 120.65 58.42 0)
+			(at 129.54 58.42 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4266,7 +4266,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 120.65 55.88 0)
+			(at 129.54 55.88 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4277,7 +4277,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 120.65 53.34 0)
+			(at 129.54 53.34 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4288,7 +4288,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 120.65 77.47 0)
+			(at 129.54 77.47 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4299,7 +4299,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 120.65 77.47 0)
+			(at 129.54 77.47 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4331,7 +4331,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 63.5 77.47 180)
+		(at 72.39 77.47 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4341,7 +4341,7 @@
 		(dnp no)
 		(uuid "b43f9268-edb8-4f09-836a-43d0e2d0cdf5")
 		(property "Reference" "LED9"
-			(at 64.262 67.31 0)
+			(at 73.152 67.31 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4351,7 +4351,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 64.26 67.31 0)
+			(at 73.15 67.31 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4362,7 +4362,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 63.5 63.5 0)
+			(at 72.39 63.5 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4373,7 +4373,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 63.5 60.96 0)
+			(at 72.39 60.96 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4384,7 +4384,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 63.5 77.47 0)
+			(at 72.39 77.47 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4395,7 +4395,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 63.5 58.42 0)
+			(at 72.39 58.42 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4406,7 +4406,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 63.5 55.88 0)
+			(at 72.39 55.88 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4417,7 +4417,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 63.5 53.34 0)
+			(at 72.39 53.34 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4428,7 +4428,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 63.5 77.47 0)
+			(at 72.39 77.47 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4439,7 +4439,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 63.5 77.47 0)
+			(at 72.39 77.47 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4471,7 +4471,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 147.32 53.34 180)
+		(at 156.21 49.53 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4481,7 +4481,7 @@
 		(dnp no)
 		(uuid "b5dedfcc-a5e8-4719-a608-b2b936fbd653")
 		(property "Reference" "LED5"
-			(at 148.082 43.18 0)
+			(at 156.972 39.37 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4491,7 +4491,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 148.08 43.18 0)
+			(at 156.97 39.37 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4502,7 +4502,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 147.32 39.37 0)
+			(at 156.21 35.56 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4513,7 +4513,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 147.32 36.83 0)
+			(at 156.21 33.02 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4524,7 +4524,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 147.32 53.34 0)
+			(at 156.21 49.53 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4535,7 +4535,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 147.32 34.29 0)
+			(at 156.21 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4546,7 +4546,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 147.32 31.75 0)
+			(at 156.21 27.94 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4557,7 +4557,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 147.32 29.21 0)
+			(at 156.21 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4568,7 +4568,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 147.32 53.34 0)
+			(at 156.21 49.53 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4579,7 +4579,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 147.32 53.34 0)
+			(at 156.21 49.53 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4611,7 +4611,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 147.32 77.47 180)
+		(at 156.21 77.47 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4621,7 +4621,7 @@
 		(dnp no)
 		(uuid "b9ed6171-c2b7-47f5-893f-a8ff3d6f711a")
 		(property "Reference" "LED12"
-			(at 148.082 67.31 0)
+			(at 156.972 67.31 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4631,7 +4631,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 148.08 67.31 0)
+			(at 156.97 67.31 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4642,7 +4642,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 147.32 63.5 0)
+			(at 156.21 63.5 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4653,7 +4653,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 147.32 60.96 0)
+			(at 156.21 60.96 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4664,7 +4664,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 147.32 77.47 0)
+			(at 156.21 77.47 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4675,7 +4675,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 147.32 58.42 0)
+			(at 156.21 58.42 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4686,7 +4686,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 147.32 55.88 0)
+			(at 156.21 55.88 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4697,7 +4697,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 147.32 53.34 0)
+			(at 156.21 53.34 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4708,7 +4708,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 147.32 77.47 0)
+			(at 156.21 77.47 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4719,7 +4719,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 147.32 77.47 0)
+			(at 156.21 77.47 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4751,7 +4751,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 62.23 124.46 180)
+		(at 72.39 124.46 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4761,7 +4761,7 @@
 		(dnp no)
 		(uuid "bb0ab59d-9145-4fa2-b712-51d3205025d9")
 		(property "Reference" "LED16"
-			(at 62.992 114.3 0)
+			(at 73.152 114.3 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4771,7 +4771,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 62.99 114.3 0)
+			(at 73.15 114.3 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4782,7 +4782,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 62.23 110.49 0)
+			(at 72.39 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4793,7 +4793,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 62.23 107.95 0)
+			(at 72.39 107.95 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4804,7 +4804,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 62.23 124.46 0)
+			(at 72.39 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4815,7 +4815,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 62.23 105.41 0)
+			(at 72.39 105.41 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4826,7 +4826,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 62.23 102.87 0)
+			(at 72.39 102.87 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4837,7 +4837,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 62.23 100.33 0)
+			(at 72.39 100.33 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4848,7 +4848,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 62.23 124.46 0)
+			(at 72.39 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4859,7 +4859,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 62.23 124.46 0)
+			(at 72.39 124.46 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4891,7 +4891,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 175.26 77.47 180)
+		(at 184.15 77.47 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4901,7 +4901,7 @@
 		(dnp no)
 		(uuid "bfd0d089-5982-4c48-bdff-24e45bda9624")
 		(property "Reference" "LED13"
-			(at 176.022 67.31 0)
+			(at 184.912 67.31 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4911,7 +4911,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 176.02 67.31 0)
+			(at 184.91 67.31 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4922,7 +4922,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 175.26 63.5 0)
+			(at 184.15 63.5 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4933,7 +4933,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 175.26 60.96 0)
+			(at 184.15 60.96 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4944,7 +4944,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 175.26 77.47 0)
+			(at 184.15 77.47 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4955,7 +4955,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 175.26 58.42 0)
+			(at 184.15 58.42 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4966,7 +4966,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 175.26 55.88 0)
+			(at 184.15 55.88 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4977,7 +4977,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 175.26 53.34 0)
+			(at 184.15 53.34 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4988,7 +4988,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 175.26 77.47 0)
+			(at 184.15 77.47 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4999,7 +4999,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 175.26 77.47 0)
+			(at 184.15 77.47 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5031,7 +5031,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 34.29 152.4 180)
+		(at 44.45 152.4 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5041,7 +5041,7 @@
 		(dnp no)
 		(uuid "c0c379ce-a827-4fb5-b951-6388eb84ca1c")
 		(property "Reference" "LED22"
-			(at 35.052 142.24 0)
+			(at 45.212 142.24 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5051,7 +5051,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 35.05 142.24 0)
+			(at 45.21 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5062,7 +5062,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 34.29 138.43 0)
+			(at 44.45 138.43 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5073,7 +5073,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 34.29 135.89 0)
+			(at 44.45 135.89 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5084,7 +5084,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 34.29 152.4 0)
+			(at 44.45 152.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5095,7 +5095,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 34.29 133.35 0)
+			(at 44.45 133.35 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5106,7 +5106,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 34.29 130.81 0)
+			(at 44.45 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5117,7 +5117,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 34.29 128.27 0)
+			(at 44.45 128.27 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5128,7 +5128,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 34.29 152.4 0)
+			(at 44.45 152.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5139,7 +5139,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 34.29 152.4 0)
+			(at 44.45 152.4 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5171,7 +5171,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 173.99 124.46 180)
+		(at 184.15 124.46 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5181,7 +5181,7 @@
 		(dnp no)
 		(uuid "d63bbcab-78e4-43c4-9bbc-9ff029e2c647")
 		(property "Reference" "LED20"
-			(at 174.752 114.3 0)
+			(at 184.912 114.3 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5191,7 +5191,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 174.75 114.3 0)
+			(at 184.91 114.3 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5202,7 +5202,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 173.99 110.49 0)
+			(at 184.15 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5213,7 +5213,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 173.99 107.95 0)
+			(at 184.15 107.95 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5224,7 +5224,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 173.99 124.46 0)
+			(at 184.15 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5235,7 +5235,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 173.99 105.41 0)
+			(at 184.15 105.41 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5246,7 +5246,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 173.99 102.87 0)
+			(at 184.15 102.87 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5257,7 +5257,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 173.99 100.33 0)
+			(at 184.15 100.33 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5268,7 +5268,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 173.99 124.46 0)
+			(at 184.15 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5279,7 +5279,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 173.99 124.46 0)
+			(at 184.15 124.46 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5311,7 +5311,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 38.1 53.34 180)
+		(at 46.99 49.53 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5321,7 +5321,7 @@
 		(dnp no)
 		(uuid "d83ead32-69fc-4106-9d07-9115c5a046a0")
 		(property "Reference" "LED1"
-			(at 38.354 43.18 0)
+			(at 47.244 39.37 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5331,7 +5331,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 38.862 40.894 0)
+			(at 47.752 37.084 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5341,7 +5341,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 38.1 39.37 0)
+			(at 46.99 35.56 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5352,7 +5352,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 38.1 36.83 0)
+			(at 46.99 33.02 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5363,7 +5363,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 38.1 53.34 0)
+			(at 46.99 49.53 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5374,7 +5374,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 38.1 34.29 0)
+			(at 46.99 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5385,7 +5385,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 38.1 31.75 0)
+			(at 46.99 27.94 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5396,7 +5396,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 38.1 29.21 0)
+			(at 46.99 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5407,7 +5407,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 38.1 53.34 0)
+			(at 46.99 49.53 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5418,7 +5418,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 38.1 53.34 0)
+			(at 46.99 49.53 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5450,7 +5450,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 201.93 53.34 180)
+		(at 210.82 49.53 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5460,7 +5460,7 @@
 		(dnp no)
 		(uuid "df94c081-c29b-4eb3-a9de-3dfe22697e0e")
 		(property "Reference" "LED7"
-			(at 202.692 43.18 0)
+			(at 211.582 39.37 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5470,7 +5470,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 202.69 43.18 0)
+			(at 211.58 39.37 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5481,7 +5481,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 201.93 39.37 0)
+			(at 210.82 35.56 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5492,7 +5492,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 201.93 36.83 0)
+			(at 210.82 33.02 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5503,7 +5503,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 201.93 53.34 0)
+			(at 210.82 49.53 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5514,7 +5514,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 201.93 34.29 0)
+			(at 210.82 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5525,7 +5525,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 201.93 31.75 0)
+			(at 210.82 27.94 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5536,7 +5536,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 201.93 29.21 0)
+			(at 210.82 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5547,7 +5547,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 201.93 53.34 0)
+			(at 210.82 49.53 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5558,7 +5558,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 201.93 53.34 0)
+			(at 210.82 49.53 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5590,7 +5590,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 60.96 152.4 180)
+		(at 71.12 152.4 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5600,7 +5600,7 @@
 		(dnp no)
 		(uuid "e191761d-3160-4c55-8183-17a09b043d49")
 		(property "Reference" "LED23"
-			(at 61.722 142.24 0)
+			(at 71.882 142.24 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5610,7 +5610,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 61.72 142.24 0)
+			(at 71.88 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5621,7 +5621,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 60.96 138.43 0)
+			(at 71.12 138.43 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5632,7 +5632,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 60.96 135.89 0)
+			(at 71.12 135.89 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5643,7 +5643,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 60.96 152.4 0)
+			(at 71.12 152.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5654,7 +5654,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 60.96 133.35 0)
+			(at 71.12 133.35 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5665,7 +5665,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 60.96 130.81 0)
+			(at 71.12 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5676,7 +5676,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 60.96 128.27 0)
+			(at 71.12 128.27 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5687,7 +5687,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 60.96 152.4 0)
+			(at 71.12 152.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5698,7 +5698,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 60.96 152.4 0)
+			(at 71.12 152.4 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5730,7 +5730,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 63.5 53.34 180)
+		(at 72.39 49.53 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5740,7 +5740,7 @@
 		(dnp no)
 		(uuid "f143ec9a-e099-41b4-86c8-afec44e48576")
 		(property "Reference" "LED2"
-			(at 64.262 43.18 0)
+			(at 73.152 39.37 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5750,7 +5750,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 64.26 43.18 0)
+			(at 73.15 39.37 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5761,7 +5761,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 63.5 39.37 0)
+			(at 72.39 35.56 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5772,7 +5772,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 63.5 36.83 0)
+			(at 72.39 33.02 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5783,7 +5783,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 63.5 53.34 0)
+			(at 72.39 49.53 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5794,7 +5794,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 63.5 34.29 0)
+			(at 72.39 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5805,7 +5805,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 63.5 31.75 0)
+			(at 72.39 27.94 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5816,7 +5816,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 63.5 29.21 0)
+			(at 72.39 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5827,7 +5827,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 63.5 53.34 0)
+			(at 72.39 49.53 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5838,7 +5838,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 63.5 53.34 0)
+			(at 72.39 49.53 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5870,7 +5870,7 @@
 	)
 	(symbol
 		(lib_id "todbot_stuff:XL-3210RGBC-YG-todclean")
-		(at 119.38 124.46 180)
+		(at 129.54 124.46 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5880,7 +5880,7 @@
 		(dnp no)
 		(uuid "f5ce0dbd-0909-4516-b237-7a8a0526e5c0")
 		(property "Reference" "LED18"
-			(at 120.142 114.3 0)
+			(at 130.302 114.3 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5890,7 +5890,7 @@
 			)
 		)
 		(property "Value" "XL-3210RGBC-YG-todclean"
-			(at 120.14 114.3 0)
+			(at 130.3 114.3 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5901,7 +5901,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:LED-ARRAY-SMD_HS-1204-RGB"
-			(at 119.38 110.49 0)
+			(at 129.54 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5912,7 +5912,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C965884.pdf"
-			(at 119.38 107.95 0)
+			(at 129.54 107.95 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5923,7 +5923,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 119.38 124.46 0)
+			(at 129.54 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5934,7 +5934,7 @@
 			)
 		)
 		(property "Manufacturer" "XINGLIGHT(成兴光)"
-			(at 119.38 105.41 0)
+			(at 129.54 105.41 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5945,7 +5945,7 @@
 			)
 		)
 		(property "MPN" "XL-3210RGBC-YG"
-			(at 119.38 102.87 0)
+			(at 129.54 102.87 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5956,7 +5956,7 @@
 			)
 		)
 		(property "LCSC Part" "C965884"
-			(at 119.38 100.33 0)
+			(at 129.54 100.33 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5967,7 +5967,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 119.38 124.46 0)
+			(at 129.54 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5978,7 +5978,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 119.38 124.46 0)
+			(at 129.54 124.46 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects

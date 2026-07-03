@@ -156,7 +156,7 @@
         "min_track_width": 0.2,
         "min_via_annular_width": 0.1,
         "min_via_diameter": 0.5,
-        "solder_mask_to_copper_clearance": 0.0,
+        "solder_mask_to_copper_clearance": 0.005,
         "use_height_for_length_calcs": true
       },
       "teardrop_options": [
@@ -649,11 +649,11 @@
       },
       {
         "filename": "leds.kicad_sch",
-        "name": "LEDs (page 2)",
+        "name": "LEDs",
         "uuid": "7b3d0f11-1bad-4ff2-af8a-f26d2422e9c5"
       }
     ],
-    "used_designators": "",
+    "used_designators": "#PWR35",
     "variants": []
   },
   "sheets": [
@@ -663,7 +663,7 @@
     ],
     [
       "7b3d0f11-1bad-4ff2-af8a-f26d2422e9c5",
-      "LEDs (page 2)"
+      "LEDs"
     ]
   ],
   "text_variables": {},
