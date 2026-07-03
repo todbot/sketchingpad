@@ -3426,7 +3426,7 @@
 		)
 		(uuid "13e6e213-7f3f-41b7-b233-1f184367831d")
 	)
-	(label "TOUCH5"
+	(label "TOUCH20"
 		(at 208.28 67.31 0)
 		(effects
 			(font
@@ -3606,7 +3606,7 @@
 		)
 		(uuid "63f72fbf-146a-4d01-9e2f-3b32c76375f9")
 	)
-	(label "TOUCH20"
+	(label "TOUCH5"
 		(at 208.28 64.77 0)
 		(effects
 			(font
