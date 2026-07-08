@@ -4639,7 +4639,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "todbot_stuff:Pad-Captouch-0.5in-backlitD"
+		(property "Footprint" "todbot_stuff:Pad-Captouch-0.5in-backlitB"
 			(at 246.38 121.92 0)
 			(hide yes)
 			(show_name no)
@@ -5285,7 +5285,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "todbot_stuff:Pad-Captouch-0.5in-backlitD"
+		(property "Footprint" "todbot_stuff:Pad-Captouch-0.5in-backlitB"
 			(at 205.74 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -6484,7 +6484,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "todbot_stuff:Pad-Captouch-0.5in-backlitD"
+		(property "Footprint" "todbot_stuff:Pad-Captouch-0.5in-backlitB"
 			(at 246.38 135.89 0)
 			(hide yes)
 			(show_name no)
@@ -7265,7 +7265,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "todbot_stuff:Pad-Captouch-0.5in-backlitD"
+		(property "Footprint" "todbot_stuff:Pad-Captouch-0.5in-backlitB"
 			(at 205.74 134.62 0)
 			(hide yes)
 			(show_name no)
