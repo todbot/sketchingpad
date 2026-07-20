@@ -76,7 +76,16 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        [
+          "silk_edge_clearance|179100000|70000000|a2031c91-e359-477c-8b66-d6ce8601625e|5d77aa43-58bc-4d5f-a473-f12d944a0803",
+          ""
+        ],
+        [
+          "silk_edge_clearance|180850000|70000000|a2031c91-e359-477c-8b66-d6ce8601625e|7bee71bf-f991-4f41-b81c-8a575ba0228d",
+          ""
+        ]
+      ],
       "meta": {
         "version": 2
       },
@@ -675,7 +684,7 @@
         "uuid": "7b3d0f11-1bad-4ff2-af8a-f26d2422e9c5"
       }
     ],
-    "used_designators": "C4-43,U3,J3,#PWR26,#PWR30,#PWR35-45,#PWR47-195,LED1-40",
+    "used_designators": "SW21,#PWR26,#PWR30,#PWR32,#PWR35-45,#PWR47-195,C1-2,C4-43,U2-3,J3,L1,LED1-40",
     "variants": []
   },
   "sheets": [

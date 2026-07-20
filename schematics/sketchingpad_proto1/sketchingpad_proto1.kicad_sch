@@ -1116,6 +1116,783 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "easyeda2kicad:DFE252012P-4R7M=P2"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "L"
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "DFE252012P-4R7M=P2"
+				(at 0 -5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "easyeda2kicad:L1008"
+				(at 0 -7.62 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "https://lcsc.com/product-detail/New-Arrivals_Murata-Electronics-DFE252012P-4R7M-P2_C391306.html"
+				(at 0 -10.16 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Manufacturer" "muRata(村田)"
+				(at 0 -12.7 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "MPN" "DFE252012P-4R7M=P2"
+				(at 0 -15.24 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "LCSC Part" "C391306"
+				(at 0 -17.78 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "Power Inductors"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "DFE252012P-4R7M=P2_0_1"
+				(arc
+					(start -4.29 0.02)
+					(mid -3.28 1.1)
+					(end -2.27 0.02)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start -2.13 0.02)
+					(mid -1.12 1.1)
+					(end -0.11 0.02)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 0.02 0.02)
+					(mid 1.03 1.1)
+					(end 2.04 0.02)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 2.21 0.02)
+					(mid 3.22 1.1)
+					(end 4.23 0.02)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin unspecified line
+					(at -5.08 0 0)
+					(length 1.27)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 5.08 0 180)
+					(length 1.27)
+					(name "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "easyeda2kicad:MINIMSK12CO2"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "SW"
+				(at 0 12.7 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "MINI MSK12CO2"
+				(at 0 -7.62 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "easyeda2kicad:SW-SMD_MSK12CO2"
+				(at 0 -10.16 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "LCSC Part" "C2681570"
+				(at 0 -12.7 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "MINIMSK12CO2_0_1"
+				(rectangle
+					(start -5.08 2.54)
+					(end 5.08 -5.08)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -5.08) (xy 0 -7.62) (xy 2.54 -7.62) (xy 2.54 -5.08)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin unspecified line
+					(at -2.54 7.62 270)
+					(length 5.08)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 0 7.62 270)
+					(length 5.08)
+					(name "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 2.54 7.62 270)
+					(length 5.08)
+					(name "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at -7.62 -2.54 0)
+					(length 2.54)
+					(name "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 7.62 -2.54 180)
+					(length 2.54)
+					(name "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "easyeda2kicad:TCC0603X5R106K160CT"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "C"
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "TCC0603X5R106K160CT"
+				(at 0 -5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "easyeda2kicad:C0603"
+				(at 0 -7.62 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "https://www.lcsc.com/datasheet/C18164635.pdf"
+				(at 0 -10.16 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Manufacturer" "CCTC(三环)"
+				(at 0 -12.7 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "MPN" "TCC0603X5R106K160CT"
+				(at 0 -15.24 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "LCSC Part" "C18164635"
+				(at 0 -17.78 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "TCC0603X5R106K160CT_0_1"
+				(polyline
+					(pts
+						(xy -0.51 0) (xy -2.54 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.51 -2.03) (xy -0.51 2.03)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.51 2.03) (xy 0.51 -2.03)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 0) (xy 0.51 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin unspecified line
+					(at -5.08 0 0)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 5.08 0 180)
+					(length 2.54)
+					(name "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "easyeda2kicad:TPS613221ADBVR"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "U"
+				(at 0 7.62 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "TPS613221ADBVR"
+				(at 0 -7.62 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "easyeda2kicad:SOT-23-5_L2.9-W1.6-P0.95-LS2.8-BR"
+				(at 0 -10.16 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "https://www.lcsc.com/datasheet/C2071121.pdf"
+				(at 0 -12.7 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Manufacturer" "TI(德州仪器)"
+				(at 0 -15.24 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "MPN" "TPS613221ADBVR"
+				(at 0 -17.78 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "LCSC Part" "C2071121"
+				(at 0 -20.32 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "DC-DC Converters"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "TPS613221ADBVR_0_1"
+				(rectangle
+					(start -7.62 5.08)
+					(end 7.62 -5.08)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(circle
+					(center -6.35 3.81)
+					(radius 0.38)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin unspecified line
+					(at -10.16 2.54 0)
+					(length 2.54)
+					(name "SW"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at -10.16 0 0)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at -10.16 -2.54 0)
+					(length 2.54)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 10.16 -2.54 180)
+					(length 2.54)
+					(name "VOUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 10.16 2.54 180)
+					(length 2.54)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "power:+3.3V"
 			(power global)
 			(pin_numbers
@@ -2127,6 +2904,17 @@
 		)
 		(uuid "4d46aee8-bd6a-4794-98d7-b16603311eeb")
 	)
+	(text "3.3V boost converter\n"
+		(exclude_from_sim no)
+		(at 66.548 66.802 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "63686198-2c2a-4440-8211-3439b76b330f")
+	)
 	(text "HX PM2.54-1X7P TP-YQ"
 		(exclude_from_sim no)
 		(at 83.058 109.22 0)
@@ -2138,10 +2926,28 @@
 		(uuid "d7ee8ae1-5975-41fc-82cd-eda053d29a61")
 	)
 	(junction
+		(at 53.34 39.37)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "04f837fe-28a6-4d7a-8cc2-bfc26d41a4ec")
+	)
+	(junction
 		(at 190.5 105.41)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c4f441b9-8f5f-4955-9a97-d6518a14f8d8")
+	)
+	(junction
+		(at 91.44 62.23)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "dd3b293d-4e03-408b-be17-b19472223249")
+	)
+	(junction
+		(at 91.44 72.39)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e5d00d46-ef97-489e-b7a2-f6bd497c8d35")
 	)
 	(junction
 		(at 194.31 105.41)
@@ -2150,10 +2956,30 @@
 		(uuid "f45124f0-3faa-4267-9004-3067174b44c1")
 	)
 	(junction
+		(at 95.25 62.23)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f6188d21-11f0-4c23-9250-356e2a7c0371")
+	)
+	(junction
 		(at 157.48 40.64)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "fea74866-a636-4595-9c7f-ef1dd9e6f941")
+	)
+	(no_connect
+		(at 64.77 62.23)
+		(uuid "1984f417-2341-4858-aad5-ce8942564218")
+	)
+	(wire
+		(pts
+			(xy 39.37 48.26) (xy 53.34 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "03a8bd8a-7298-40fc-84f8-e8acc38193b2")
 	)
 	(wire
 		(pts
@@ -2217,6 +3043,16 @@
 	)
 	(wire
 		(pts
+			(xy 95.25 62.23) (xy 104.14 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "15c4c6df-0a0b-476f-9308-b7b5c5147a87")
+	)
+	(wire
+		(pts
 			(xy 39.37 96.52) (xy 50.8 96.52)
 		)
 		(stroke
@@ -2267,6 +3103,16 @@
 	)
 	(wire
 		(pts
+			(xy 53.34 39.37) (xy 72.39 39.37)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1ecf1188-ef1c-4ad4-8bd1-ecc08d5e8f33")
+	)
+	(wire
+		(pts
 			(xy 243.84 58.42) (xy 254 58.42)
 		)
 		(stroke
@@ -2297,13 +3143,13 @@
 	)
 	(wire
 		(pts
-			(xy 30.48 36.83) (xy 58.42 36.83)
+			(xy 59.69 57.15) (xy 64.77 57.15)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "30630cba-35dc-4049-a53f-907517e32d1d")
+		(uuid "31119168-ac67-4d00-92c4-050caa0b92cf")
 	)
 	(wire
 		(pts
@@ -2327,6 +3173,36 @@
 	)
 	(wire
 		(pts
+			(xy 30.48 39.37) (xy 44.45 39.37)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "32548b8e-fe01-4778-b221-8da59773ca93")
+	)
+	(wire
+		(pts
+			(xy 91.44 62.23) (xy 95.25 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3343557f-ac80-4186-b8c5-e2f5af0f39a1")
+	)
+	(wire
+		(pts
+			(xy 46.99 39.37) (xy 53.34 39.37)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "33e1a179-3262-4326-b0dc-c0424e0546fa")
+	)
+	(wire
+		(pts
 			(xy 39.37 99.06) (xy 50.8 99.06)
 		)
 		(stroke
@@ -2347,7 +3223,7 @@
 	)
 	(wire
 		(pts
-			(xy 63.5 35.56) (xy 63.5 36.83)
+			(xy 77.47 35.56) (xy 77.47 36.83)
 		)
 		(stroke
 			(width 0)
@@ -2377,6 +3253,26 @@
 	)
 	(wire
 		(pts
+			(xy 44.45 39.37) (xy 44.45 36.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4a85bb47-5cd3-48ca-92af-ab07dfa41499")
+	)
+	(wire
+		(pts
+			(xy 46.99 39.37) (xy 46.99 36.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5034d2ee-1059-4ade-93a4-317fbb81f40c")
+	)
+	(wire
+		(pts
 			(xy 203.2 114.3) (xy 213.36 114.3)
 		)
 		(stroke
@@ -2387,13 +3283,23 @@
 	)
 	(wire
 		(pts
-			(xy 63.5 36.83) (xy 82.55 36.83)
+			(xy 77.47 36.83) (xy 96.52 36.83)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "5390f8d2-e2cd-4082-8ce0-4d9775bd2861")
+	)
+	(wire
+		(pts
+			(xy 39.37 57.15) (xy 39.37 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5ee1a75f-f054-4c9e-a2bb-f1fd7f7caaf2")
 	)
 	(wire
 		(pts
@@ -2447,7 +3353,7 @@
 	)
 	(wire
 		(pts
-			(xy 60.96 35.56) (xy 60.96 40.64)
+			(xy 74.93 35.56) (xy 74.93 40.64)
 		)
 		(stroke
 			(width 0)
@@ -2494,6 +3400,16 @@
 			(type default)
 		)
 		(uuid "74a377cb-214e-4cfe-bfdd-3cc73a5447d1")
+	)
+	(wire
+		(pts
+			(xy 91.44 72.39) (xy 95.25 72.39)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "77966e5b-6114-4c06-97db-1091b4e5d1b2")
 	)
 	(wire
 		(pts
@@ -2564,6 +3480,16 @@
 			(type default)
 		)
 		(uuid "92e55d5b-4c0d-4aea-85ee-61ff8f388954")
+	)
+	(wire
+		(pts
+			(xy 85.09 62.23) (xy 91.44 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9a403138-69e6-40e2-a2c8-bfe9f2669cbf")
 	)
 	(wire
 		(pts
@@ -2647,6 +3573,16 @@
 	)
 	(wire
 		(pts
+			(xy 64.77 59.69) (xy 58.42 59.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bac19280-0b40-4f9d-8288-a29ec98af4c5")
+	)
+	(wire
+		(pts
 			(xy 207.01 80.01) (xy 215.9 80.01)
 		)
 		(stroke
@@ -2674,6 +3610,16 @@
 			(type default)
 		)
 		(uuid "c8daff9e-0319-4f0c-8a4f-a272128e0a4c")
+	)
+	(wire
+		(pts
+			(xy 49.53 57.15) (xy 39.37 57.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cceaaa88-442e-4149-8c2f-2a8ceaffde40")
 	)
 	(wire
 		(pts
@@ -2707,6 +3653,16 @@
 	)
 	(wire
 		(pts
+			(xy 30.48 43.18) (xy 30.48 39.37)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d5d01afe-9610-4abb-9252-01fbe3c33235")
+	)
+	(wire
+		(pts
 			(xy 163.83 49.53) (xy 163.83 52.07)
 		)
 		(stroke
@@ -2727,23 +3683,13 @@
 	)
 	(wire
 		(pts
-			(xy 58.42 35.56) (xy 58.42 36.83)
+			(xy 72.39 39.37) (xy 72.39 35.56)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "da579b9f-3442-4854-b552-1b024e06053c")
-	)
-	(wire
-		(pts
-			(xy 30.48 40.64) (xy 30.48 36.83)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "db921b6d-7767-42d4-aab5-981b69f27b19")
 	)
 	(wire
 		(pts
@@ -2777,6 +3723,16 @@
 	)
 	(wire
 		(pts
+			(xy 53.34 48.26) (xy 53.34 39.37)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f00fc5a1-5537-43e7-b9bd-ad27f619815b")
+	)
+	(wire
+		(pts
 			(xy 203.2 128.27) (xy 213.36 128.27)
 		)
 		(stroke
@@ -2794,6 +3750,16 @@
 			(type default)
 		)
 		(uuid "f5bd92bb-89c4-4715-9d90-5f3cb568d75e")
+	)
+	(wire
+		(pts
+			(xy 58.42 59.69) (xy 58.42 66.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f88057e7-f39a-4bcc-9ad7-98a7ac8d2111")
 	)
 	(wire
 		(pts
@@ -3046,7 +4012,7 @@
 		(uuid "7f862ac2-3cae-4f58-a980-2a601e5d768d")
 	)
 	(label "VBAT"
-		(at 34.29 36.83 0)
+		(at 55.88 39.37 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -3452,7 +4418,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "076cf545-80a9-41bc-b149-b80fe6931704")
-		(property "Reference" "SW6"
+		(property "Reference" "TP6"
 			(at 260.35 57.1499 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3556,7 +4522,7 @@
 		(instances
 			(project "sketchingpad_proto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "SW6")
+					(reference "TP6")
 					(unit 1)
 				)
 			)
@@ -3574,7 +4540,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1055e77e-c991-4f8c-b546-b007a073257a")
-		(property "Reference" "SW5"
+		(property "Reference" "TP5"
 			(at 260.35 50.7999 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3678,7 +4644,7 @@
 		(instances
 			(project "sketchingpad_proto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "SW5")
+					(reference "TP5")
 					(unit 1)
 				)
 			)
@@ -3696,7 +4662,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1b897ae2-5b50-4584-970b-26c45a2bdbf3")
-		(property "Reference" "SW3"
+		(property "Reference" "TP3"
 			(at 260.35 33.0199 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3800,7 +4766,7 @@
 		(instances
 			(project "sketchingpad_proto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "SW3")
+					(reference "TP3")
 					(unit 1)
 				)
 			)
@@ -3818,7 +4784,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "26a5477f-37da-43b6-9c2f-4bd13d528bfc")
-		(property "Reference" "SW14"
+		(property "Reference" "TP14"
 			(at 260.35 120.6499 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3922,7 +4888,7 @@
 		(instances
 			(project "sketchingpad_proto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "SW14")
+					(reference "TP14")
 					(unit 1)
 				)
 			)
@@ -4133,7 +5099,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 60.96 40.64 0)
+		(at 74.93 40.64 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4143,7 +5109,7 @@
 		(dnp no)
 		(uuid "2a2910d8-9b16-409d-86d1-a11b986e4efc")
 		(property "Reference" "#PWR026"
-			(at 60.96 46.99 0)
+			(at 74.93 46.99 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4154,7 +5120,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 61.722 44.704 90)
+			(at 75.692 44.704 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4164,7 +5130,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 60.96 40.64 0)
+			(at 74.93 40.64 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4175,7 +5141,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 60.96 40.64 0)
+			(at 74.93 40.64 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4186,7 +5152,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 60.96 40.64 0)
+			(at 74.93 40.64 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4297,7 +5263,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "34b5efe2-8c8a-4d8e-9f5b-1821c872357b")
-		(property "Reference" "SW7"
+		(property "Reference" "TP7"
 			(at 260.35 64.7699 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4401,7 +5367,7 @@
 		(instances
 			(project "sketchingpad_proto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "SW7")
+					(reference "TP7")
 					(unit 1)
 				)
 			)
@@ -4419,7 +5385,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "37f7054b-5b7a-4f52-9fa1-c8add6c90649")
-		(property "Reference" "SW9"
+		(property "Reference" "TP9"
 			(at 260.35 82.5499 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4523,7 +5489,7 @@
 		(instances
 			(project "sketchingpad_proto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "SW9")
+					(reference "TP9")
 					(unit 1)
 				)
 			)
@@ -4541,7 +5507,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "3f3fd648-1143-4625-b768-5bd638a665b2")
-		(property "Reference" "SW18"
+		(property "Reference" "TP18"
 			(at 219.71 119.3799 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4645,7 +5611,7 @@
 		(instances
 			(project "sketchingpad_proto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "SW18")
+					(reference "TP18")
 					(unit 1)
 				)
 			)
@@ -4730,7 +5696,7 @@
 	)
 	(symbol
 		(lib_id "easyeda2kicad:BH-AA-A1AJ020")
-		(at 30.48 45.72 90)
+		(at 30.48 48.26 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4738,10 +5704,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "5200cb8f-aec5-4386-8701-19991b99c047")
 		(property "Reference" "BAT1"
-			(at 33.02 44.4499 90)
+			(at 23.622 47.244 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4752,7 +5717,7 @@
 			)
 		)
 		(property "Value" "BH-AA-A1AJ020"
-			(at 33.02 46.9899 90)
+			(at 13.208 49.784 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4763,7 +5728,7 @@
 			)
 		)
 		(property "Footprint" "easyeda2kicad:BAT-TH_L56.3-W16.8-P51.55_BH-AA-A1AJ020"
-			(at 38.1 45.72 0)
+			(at 38.1 48.26 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4774,7 +5739,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/C5290181.pdf"
-			(at 40.64 45.72 0)
+			(at 40.64 48.26 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4785,7 +5750,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 30.48 45.72 0)
+			(at 30.48 48.26 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4796,7 +5761,7 @@
 			)
 		)
 		(property "Manufacturer" "MYOUNG(美阳)"
-			(at 43.18 45.72 0)
+			(at 43.18 48.26 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4807,7 +5772,7 @@
 			)
 		)
 		(property "MPN" "BH-AA-A1AJ020"
-			(at 45.72 45.72 0)
+			(at 45.72 48.26 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4818,7 +5783,7 @@
 			)
 		)
 		(property "LCSC Part" "C5290181"
-			(at 48.26 45.72 0)
+			(at 48.26 48.26 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4855,7 +5820,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "551dcb55-3c48-4c97-9798-df0b2d2b08d1")
-		(property "Reference" "SW13"
+		(property "Reference" "TP13"
 			(at 260.35 114.2999 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4959,7 +5924,84 @@
 		(instances
 			(project "sketchingpad_proto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "SW13")
+					(reference "TP13")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 52.07 26.67 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "56cb165a-7102-41bf-bb76-c14aa0094801")
+		(property "Reference" "#PWR0118"
+			(at 58.42 26.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 56.134 25.908 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 52.07 26.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 52.07 26.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 52.07 26.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "f71b1b8b-8dc2-41ed-96a6-61bf0277c08a")
+		)
+		(instances
+			(project "sketchingpad_proto1"
+				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
+					(reference "#PWR0118")
 					(unit 1)
 				)
 			)
@@ -4977,7 +6019,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5ac86248-2a2e-4c19-8134-7ed30f499da6")
-		(property "Reference" "SW11"
+		(property "Reference" "TP11"
 			(at 260.35 96.5199 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5081,7 +6123,7 @@
 		(instances
 			(project "sketchingpad_proto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "SW11")
+					(reference "TP11")
 					(unit 1)
 				)
 			)
@@ -5099,7 +6141,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5e980a09-6f7c-4d9f-b2a1-94389a117713")
-		(property "Reference" "SW17"
+		(property "Reference" "TP17"
 			(at 219.71 113.0299 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5203,7 +6245,84 @@
 		(instances
 			(project "sketchingpad_proto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "SW17")
+					(reference "TP17")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 91.44 72.39 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "663ce7f2-f86d-4112-bf77-e95f3239ab9d")
+		(property "Reference" "#PWR0119"
+			(at 91.44 78.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 92.202 76.454 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 91.44 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 91.44 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 91.44 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "ca433e7e-fdaa-49a0-a8c2-afe3e97c203d")
+		)
+		(instances
+			(project "sketchingpad_proto1"
+				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
+					(reference "#PWR0119")
 					(unit 1)
 				)
 			)
@@ -5298,7 +6417,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "75bbfccd-06fe-4ff6-98a3-d0e163c9eede")
-		(property "Reference" "SW8"
+		(property "Reference" "TP8"
 			(at 260.35 71.1199 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5402,7 +6521,7 @@
 		(instances
 			(project "sketchingpad_proto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "SW8")
+					(reference "TP8")
 					(unit 1)
 				)
 			)
@@ -5740,7 +6859,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9094d780-6e24-4c74-9279-03387365790d")
-		(property "Reference" "SW16"
+		(property "Reference" "TP16"
 			(at 260.35 134.6199 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5844,7 +6963,7 @@
 		(instances
 			(project "sketchingpad_proto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "SW16")
+					(reference "TP16")
 					(unit 1)
 				)
 			)
@@ -6001,7 +7120,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9408ef3a-4a0b-4f41-bcfc-3797da861f4b")
-		(property "Reference" "SW15"
+		(property "Reference" "TP15"
 			(at 260.35 128.2699 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6105,7 +7224,7 @@
 		(instances
 			(project "sketchingpad_proto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "SW15")
+					(reference "TP15")
 					(unit 1)
 				)
 			)
@@ -6113,7 +7232,7 @@
 	)
 	(symbol
 		(lib_id "PCM_4ms_Connector:Conn_01x03")
-		(at 60.96 30.48 90)
+		(at 74.93 30.48 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6124,7 +7243,7 @@
 		(fields_autoplaced yes)
 		(uuid "9772386f-720e-4888-8b3b-423df29fb228")
 		(property "Reference" "J3"
-			(at 66.04 29.2099 90)
+			(at 80.01 29.2099 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6135,7 +7254,7 @@
 			)
 		)
 		(property "Value" "Conn_01x03"
-			(at 66.04 31.7499 90)
+			(at 80.01 31.7499 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6146,7 +7265,8 @@
 			)
 		)
 		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x03_P2.54mm_Vertical"
-			(at 53.975 30.48 0)
+			(at 67.945 30.48 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6156,7 +7276,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 60.96 30.48 0)
+			(at 74.93 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6167,7 +7287,7 @@
 			)
 		)
 		(property "Description" "HEADER 1x3 FEMALE  0.100”"
-			(at 60.96 30.48 0)
+			(at 74.93 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6178,7 +7298,7 @@
 			)
 		)
 		(property "Specifications" "HEADER 1x3 FEMALE  0.100” "
-			(at 68.834 33.02 0)
+			(at 82.804 33.02 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6190,7 +7310,7 @@
 			)
 		)
 		(property "Manufacturer" ""
-			(at 70.358 33.02 0)
+			(at 84.328 33.02 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6202,7 +7322,7 @@
 			)
 		)
 		(property "Part Number" ""
-			(at 71.882 33.02 0)
+			(at 85.852 33.02 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6214,7 +7334,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 60.96 30.48 0)
+			(at 74.93 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6225,7 +7345,7 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 60.96 30.48 0)
+			(at 74.93 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6236,7 +7356,7 @@
 			)
 		)
 		(property "MPN" ""
-			(at 60.96 30.48 0)
+			(at 74.93 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6247,7 +7367,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 60.96 30.48 0)
+			(at 74.93 30.48 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6394,6 +7514,120 @@
 		)
 	)
 	(symbol
+		(lib_id "easyeda2kicad:TCC0603X5R106K160CT")
+		(at 95.25 67.31 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "a2e294de-654b-43b6-b211-11613eb59457")
+		(property "Reference" "C1"
+			(at 97.028 65.278 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TCC0603X5R106K160CT"
+			(at 97.79 69.342 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "easyeda2kicad:C0603"
+			(at 87.63 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.lcsc.com/datasheet/C18164635.pdf"
+			(at 85.09 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 95.25 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "CCTC(三环)"
+			(at 82.55 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "TCC0603X5R106K160CT"
+			(at 80.01 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part" "C18164635"
+			(at 77.47 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "76ca88d8-e25e-4cda-9d07-eb9835c8db6c")
+		)
+		(pin "1"
+			(uuid "57d737b3-3043-4ce8-ba64-1adebc8fd5ad")
+		)
+		(instances
+			(project "sketchingpad_proto1"
+				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
+					(reference "C1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "todbot_stuff:Capacitive_Button")
 		(at 254 26.67 270)
 		(unit 1)
@@ -6405,7 +7639,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a5dcf22a-5be8-4176-85b5-368ab4873f76")
-		(property "Reference" "SW2"
+		(property "Reference" "TP2"
 			(at 260.35 25.3999 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6509,7 +7743,7 @@
 		(instances
 			(project "sketchingpad_proto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "SW2")
+					(reference "TP2")
 					(unit 1)
 				)
 			)
@@ -6673,6 +7907,83 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 58.42 66.04 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "adb18113-bc19-4923-b8f3-982f411e52e1")
+		(property "Reference" "#PWR032"
+			(at 58.42 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 59.182 70.104 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 58.42 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 58.42 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 58.42 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "93e0bcb8-5dd6-48d4-a7ea-a202cb02dbb5")
+		)
+		(instances
+			(project "sketchingpad_proto1"
+				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
+					(reference "#PWR032")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "todbot_stuff:Capacitive_Button")
 		(at 213.36 134.62 270)
 		(unit 1)
@@ -6684,7 +7995,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ae4c2518-c3c8-4f46-816b-b105a7990fbe")
-		(property "Reference" "SW20"
+		(property "Reference" "TP20"
 			(at 219.71 133.3499 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6788,7 +8099,7 @@
 		(instances
 			(project "sketchingpad_proto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "SW20")
+					(reference "TP20")
 					(unit 1)
 				)
 			)
@@ -6806,7 +8117,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b7496ef2-9cc7-4076-9ac2-4131b26ec45b")
-		(property "Reference" "SW4"
+		(property "Reference" "TP4"
 			(at 260.35 39.3699 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6910,7 +8221,7 @@
 		(instances
 			(project "sketchingpad_proto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "SW4")
+					(reference "TP4")
 					(unit 1)
 				)
 			)
@@ -6995,7 +8306,7 @@
 	)
 	(symbol
 		(lib_id "power:+3.3V")
-		(at 82.55 36.83 0)
+		(at 96.52 36.83 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7006,7 +8317,7 @@
 		(fields_autoplaced yes)
 		(uuid "bf811d54-28fc-4e09-b5e1-601cb3f52e31")
 		(property "Reference" "#PWR030"
-			(at 82.55 40.64 0)
+			(at 96.52 40.64 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7017,7 +8328,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 82.55 31.75 0)
+			(at 96.52 31.75 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7027,7 +8338,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 82.55 36.83 0)
+			(at 96.52 36.83 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7038,7 +8349,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 82.55 36.83 0)
+			(at 96.52 36.83 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7049,7 +8360,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 82.55 36.83 0)
+			(at 96.52 36.83 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7083,7 +8394,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "c9c206fa-e2d3-4d72-9efb-2a3dd2a68ee0")
-		(property "Reference" "SW10"
+		(property "Reference" "TP10"
 			(at 260.35 88.8999 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7187,7 +8498,7 @@
 		(instances
 			(project "sketchingpad_proto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "SW10")
+					(reference "TP10")
 					(unit 1)
 				)
 			)
@@ -7205,7 +8516,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ced63b25-e67e-4050-8602-62754f745d07")
-		(property "Reference" "SW1"
+		(property "Reference" "TP1"
 			(at 260.35 19.0499 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7309,7 +8620,122 @@
 		(instances
 			(project "sketchingpad_proto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "SW1")
+					(reference "TP1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "easyeda2kicad:TCC0603X5R106K160CT")
+		(at 91.44 67.31 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "d1d8a037-cb6f-47d3-a8c9-17c8c10efe2c")
+		(property "Reference" "C2"
+			(at 87.122 65.532 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TCC0603X5R106K160CT"
+			(at 95.758 72.39 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "easyeda2kicad:C0603"
+			(at 83.82 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.lcsc.com/datasheet/C18164635.pdf"
+			(at 81.28 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 91.44 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "CCTC(三环)"
+			(at 78.74 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "TCC0603X5R106K160CT"
+			(at 76.2 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part" "C18164635"
+			(at 73.66 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "98e2cd06-e03e-4c6f-82ad-193723d5c621")
+		)
+		(pin "1"
+			(uuid "67412261-6259-4dd5-ad78-ea2f30df2565")
+		)
+		(instances
+			(project "sketchingpad_proto1"
+				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
+					(reference "C2")
 					(unit 1)
 				)
 			)
@@ -7575,6 +9001,338 @@
 		)
 	)
 	(symbol
+		(lib_id "easyeda2kicad:TPS613221ADBVR")
+		(at 74.93 59.69 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d97f9628-1a55-4137-aebc-e00951fef752")
+		(property "Reference" "U2"
+			(at 74.93 49.53 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "TPS613221ADBVR"
+			(at 74.93 52.07 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "easyeda2kicad:SOT-23-5_L2.9-W1.6-P0.95-LS2.8-BR"
+			(at 74.93 69.85 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.lcsc.com/datasheet/C2071121.pdf"
+			(at 74.93 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 74.93 59.69 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "TI(德州仪器)"
+			(at 74.93 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "TPS613221ADBVR"
+			(at 74.93 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part" "C2071121"
+			(at 74.93 80.01 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "92311726-ab03-4ee4-a254-e61af35acd24")
+		)
+		(pin "2"
+			(uuid "508ceb16-b327-442f-8663-622a48a9c580")
+		)
+		(pin "5"
+			(uuid "d109777e-3edc-476d-b5cb-53879f940dae")
+		)
+		(pin "3"
+			(uuid "a0468930-da0c-44b4-9fc3-16b2295081f5")
+		)
+		(pin "4"
+			(uuid "58da9415-acad-4c21-a505-dfefa5b5ce73")
+		)
+		(instances
+			(project "sketchingpad_proto1"
+				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
+					(reference "U2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "easyeda2kicad:MINIMSK12CO2")
+		(at 44.45 29.21 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e1cb8de2-95a5-40fe-bab7-d0041c4d0747")
+		(property "Reference" "SW1"
+			(at 44.45 16.51 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "MINI MSK12CO2"
+			(at 44.45 19.05 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "easyeda2kicad:SW-SMD_MSK12CO2"
+			(at 44.45 19.05 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 44.45 29.21 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 44.45 29.21 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part" "C2681570"
+			(at 44.45 16.51 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "DigikeyPN" ""
+			(at 44.45 29.21 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 44.45 29.21 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Note" ""
+			(at 44.45 29.21 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "3"
+			(uuid "ab98a43d-e505-4d7f-a6e3-a46b45ce871c")
+		)
+		(pin "4"
+			(uuid "34a93d86-423c-48c3-87d9-e6972b30a059")
+		)
+		(pin "2"
+			(uuid "562860d1-f534-45ef-bb40-221e6af5c4a8")
+		)
+		(pin "1"
+			(uuid "2b70e7f6-0c5c-4be9-a362-dfd6c7123160")
+		)
+		(pin "5"
+			(uuid "a6e71e24-c65a-4d7b-8cc2-a7de3f7c794d")
+		)
+		(instances
+			(project "sketchingpad_proto1"
+				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
+					(reference "SW1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+3.3V")
+		(at 104.14 62.23 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e990baee-1c98-446a-9c16-69aeaa8137e8")
+		(property "Reference" "#PWR0116"
+			(at 104.14 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "+3.3V"
+			(at 104.14 57.15 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 104.14 62.23 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 104.14 62.23 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
+			(at 104.14 62.23 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "e8fac1aa-c07d-401f-97b8-f4e9cd406e35")
+		)
+		(instances
+			(project "sketchingpad_proto1"
+				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
+					(reference "#PWR0116")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+3.3V")
 		(at 157.48 40.64 0)
 		(unit 1)
@@ -7653,6 +9411,83 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 36.83 26.67 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "f3568a13-b5fd-43b7-9aef-6a36f020e3a4")
+		(property "Reference" "#PWR0117"
+			(at 30.48 26.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 32.766 27.432 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 36.83 26.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 36.83 26.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 36.83 26.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "e67b6e6c-3cd4-4196-9f80-2ace748bd28f")
+		)
+		(instances
+			(project "sketchingpad_proto1"
+				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
+					(reference "#PWR0117")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "todbot_stuff:Capacitive_Button")
 		(at 213.36 128.27 270)
 		(unit 1)
@@ -7664,7 +9499,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f640a7b0-4b87-42c5-bafa-b0947bc37c17")
-		(property "Reference" "SW19"
+		(property "Reference" "TP19"
 			(at 219.71 126.9999 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7768,7 +9603,7 @@
 		(instances
 			(project "sketchingpad_proto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "SW19")
+					(reference "TP19")
 					(unit 1)
 				)
 			)
@@ -7786,7 +9621,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f6860826-edf7-4b3d-80ff-3c327659c279")
-		(property "Reference" "SW12"
+		(property "Reference" "TP12"
 			(at 260.35 102.8699 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7890,7 +9725,141 @@
 		(instances
 			(project "sketchingpad_proto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "SW12")
+					(reference "TP12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "easyeda2kicad:DFE252012P-4R7M=P2")
+		(at 54.61 57.15 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f84cca78-000f-4080-98ff-78d37d9341d7")
+		(property "Reference" "L1"
+			(at 54.58 50.8 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "DFE252012P-4R7M=P2"
+			(at 54.58 53.34 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "easyeda2kicad:L1008"
+			(at 54.61 64.77 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://lcsc.com/product-detail/New-Arrivals_Murata-Electronics-DFE252012P-4R7M-P2_C391306.html"
+			(at 54.61 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "4.7uH"
+			(at 54.61 57.15 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "muRata(村田)"
+			(at 54.61 69.85 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "DFE252012P-4R7M=P2"
+			(at 54.61 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part" "C391306"
+			(at 54.61 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "DigikeyPN" ""
+			(at 54.61 57.15 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Note" ""
+			(at 54.61 57.15 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "601bcb5f-87f5-4f3c-bb60-a9cb18f8881e")
+		)
+		(pin "2"
+			(uuid "ef547c86-a98d-44c6-bcde-a32fdb2fc0c8")
+		)
+		(instances
+			(project "sketchingpad_proto1"
+				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
+					(reference "L1")
 					(unit 1)
 				)
 			)
@@ -7898,7 +9867,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 30.48 50.8 0)
+		(at 30.48 53.34 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7908,7 +9877,7 @@
 		(dnp no)
 		(uuid "fc677d19-2e5d-4ac8-9414-e57727ae6663")
 		(property "Reference" "#PWR025"
-			(at 30.48 57.15 0)
+			(at 30.48 59.69 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7919,7 +9888,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 31.242 54.864 90)
+			(at 31.242 57.404 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7929,7 +9898,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 30.48 50.8 0)
+			(at 30.48 53.34 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7940,7 +9909,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 30.48 50.8 0)
+			(at 30.48 53.34 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7951,7 +9920,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 30.48 50.8 0)
+			(at 30.48 53.34 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
