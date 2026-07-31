@@ -716,7 +716,7 @@
 	)
 	(wire
 		(pts
-			(xy 20.32 43.18) (xy 34.29 43.18)
+			(xy 24.13 43.18) (xy 34.29 43.18)
 		)
 		(stroke
 			(width 0)
@@ -985,7 +985,7 @@
 		(uuid "e47c94e6-e3f0-4ce8-adf3-b6b7408c4e02")
 	)
 	(label "LED_DAT"
-		(at 20.32 43.18 0)
+		(at 24.13 43.18 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -993,6 +993,30 @@
 			(justify left bottom)
 		)
 		(uuid "05379c34-3dd4-46c3-b713-34ebac6bfcc6")
+	)
+	(global_label "LED_DAT"
+		(shape input)
+		(at 24.13 43.18 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a10ada37-2b7c-434b-baef-2d9b4a2014e2")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 13.4039 43.18 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
 	)
 	(symbol
 		(lib_id "Device:C")
