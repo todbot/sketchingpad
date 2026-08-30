@@ -3423,10 +3423,6 @@
 		(uuid "0a4ed606-7b2a-4f3b-a1f2-a1367a606feb")
 	)
 	(no_connect
-		(at 149.86 58.42)
-		(uuid "2547f167-7a49-40f5-b583-8451984811de")
-	)
-	(no_connect
 		(at 184.15 60.96)
 		(uuid "32a9c6f5-74cf-4f96-88c8-c1d8193cf8a4")
 	)
@@ -4202,6 +4198,16 @@
 	)
 	(wire
 		(pts
+			(xy 138.43 58.42) (xy 149.86 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b223b4db-dfba-4a17-bda9-bf4669e55dd9")
+	)
+	(wire
+		(pts
 			(xy 243.84 83.82) (xy 252.73 83.82)
 		)
 		(stroke
@@ -4610,6 +4616,16 @@
 		)
 		(uuid "2cc716b9-f60b-488b-9968-e86607173483")
 	)
+	(label "TS20_INT"
+		(at 246.38 58.42 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "31802737-dae9-43bd-829d-611eefff580c")
+	)
 	(label "TOUCH12"
 		(at 313.69 48.26 180)
 		(effects
@@ -4709,6 +4725,16 @@
 			(justify left bottom)
 		)
 		(uuid "593c99ab-e095-4992-b389-8d80abd79723")
+	)
+	(label "BUTTON"
+		(at 138.43 58.42 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "5c77b458-72ae-40ef-a0ad-e0c79afc8060")
 	)
 	(label "SCL"
 		(at 252.73 83.82 180)
@@ -4970,7 +4996,7 @@
 		)
 		(uuid "d32068db-e82c-4b48-b10e-11bc1cdd2e5e")
 	)
-	(label "BUTTON"
+	(label "TS20_INT"
 		(at 138.43 60.96 0)
 		(effects
 			(font
@@ -5246,7 +5272,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "01030e21-7940-4ae7-9bee-1adf8f070675")
-		(property "Reference" "C38"
+		(property "Reference" "C15"
 			(at 170.942 211.328 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5310,7 +5336,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "C38")
+					(reference "C15")
 					(unit 1)
 				)
 			)
@@ -5339,7 +5365,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 284.226 222.25 0)
+			(at 285.496 222.25 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5558,7 +5584,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "0443580a-5f4a-4460-bd7b-ad984ad6a6a7")
-		(property "Reference" "LED28"
+		(property "Reference" "LED3"
 			(at 92.964 175.26 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5660,7 +5686,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "LED28")
+					(reference "LED3")
 					(unit 1)
 				)
 			)
@@ -5799,7 +5825,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "085e26b0-4882-446d-9220-6e05b84c851e")
-		(property "Reference" "C30"
+		(property "Reference" "C20"
 			(at 297.942 211.328 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5863,7 +5889,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "C30")
+					(reference "C20")
 					(unit 1)
 				)
 			)
@@ -5892,7 +5918,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 241.046 222.25 0)
+			(at 242.316 222.25 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6091,7 +6117,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 48.006 171.45 0)
+			(at 49.53 171.704 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6322,7 +6348,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 105.41 206.248 0)
+			(at 107.95 207.01 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6399,7 +6425,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 191.77 155.448 0)
+			(at 194.31 156.464 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6476,7 +6502,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 200.406 222.25 0)
+			(at 201.676 222.25 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6663,7 +6689,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "1e0421a2-6a8b-4bc9-b940-37e12580e4b6")
-		(property "Reference" "LED37"
+		(property "Reference" "LED7"
 			(at 179.324 175.26 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6765,7 +6791,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "LED37")
+					(reference "LED7")
 					(unit 1)
 				)
 			)
@@ -6936,7 +6962,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "2336c57f-ca28-4b5a-84fe-f76768609979")
-		(property "Reference" "C29"
+		(property "Reference" "C11"
 			(at 84.582 211.328 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7000,7 +7026,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "C29")
+					(reference "C11")
 					(unit 1)
 				)
 			)
@@ -7496,7 +7522,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "2b228f24-5776-4b0e-aba3-b42accb0fe67")
-		(property "Reference" "LED33"
+		(property "Reference" "LED5"
 			(at 136.144 175.26 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7598,7 +7624,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "LED33")
+					(reference "LED5")
 					(unit 1)
 				)
 			)
@@ -7704,7 +7730,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 170.18 155.448 0)
+			(at 172.72 156.464 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7769,7 +7795,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "2f4ff7d5-7183-499f-94a1-cffe7f204067")
-		(property "Reference" "C22"
+		(property "Reference" "C9"
 			(at 40.132 211.328 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7833,7 +7859,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "C22")
+					(reference "C9")
 					(unit 1)
 				)
 			)
@@ -8016,7 +8042,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 83.82 155.448 0)
+			(at 86.36 156.464 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8402,7 +8428,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "3b72d544-5f89-45c6-b5d5-7308d0d35cf5")
-		(property "Reference" "LED35"
+		(property "Reference" "LED6"
 			(at 157.734 175.26 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8504,7 +8530,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "LED35")
+					(reference "LED6")
 					(unit 1)
 				)
 			)
@@ -8733,7 +8759,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 39.37 206.248 0)
+			(at 41.91 207.01 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8932,7 +8958,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 92.456 171.45 0)
+			(at 93.472 171.704 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9009,7 +9035,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 105.41 155.448 0)
+			(at 107.95 156.464 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9086,7 +9112,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 305.816 222.25 0)
+			(at 307.086 222.25 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9151,7 +9177,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "456098ec-6a0c-4c91-a928-438b06285da7")
-		(property "Reference" "C25"
+		(property "Reference" "C2"
 			(at 62.992 160.528 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9215,7 +9241,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "C25")
+					(reference "C2")
 					(unit 1)
 				)
 			)
@@ -9540,7 +9566,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "4d281814-2bfe-4c49-b583-055894550096")
-		(property "Reference" "C33"
+		(property "Reference" "C5"
 			(at 127.762 160.528 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9604,7 +9630,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "C33")
+					(reference "C5")
 					(unit 1)
 				)
 			)
@@ -9833,7 +9859,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "4f048027-18c8-4e7a-abc3-e7e6f7bf0827")
-		(property "Reference" "C39"
+		(property "Reference" "C8"
 			(at 192.532 160.528 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9897,7 +9923,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "C39")
+					(reference "C8")
 					(unit 1)
 				)
 			)
@@ -9926,7 +9952,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 114.046 222.25 0)
+			(at 115.57 222.25 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10003,7 +10029,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 135.636 171.45 0)
+			(at 137.414 171.704 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10279,7 +10305,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 135.636 222.25 0)
+			(at 136.906 222.25 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10721,7 +10747,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 275.59 206.248 0)
+			(at 278.13 207.01 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10924,7 +10950,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "62fcc7c9-304b-46de-9ca8-975ac84cb0a7")
-		(property "Reference" "LED31"
+		(property "Reference" "LED4"
 			(at 114.554 175.26 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11026,7 +11052,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "LED31")
+					(reference "LED4")
 					(unit 1)
 				)
 			)
@@ -11055,7 +11081,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 69.596 222.25 0)
+			(at 71.12 222.25 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11351,7 +11377,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "65d8dcd5-5fc3-4029-8cad-e2ac39178824")
-		(property "Reference" "LED22"
+		(property "Reference" "LED9"
 			(at 48.514 226.06 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11453,7 +11479,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "LED22")
+					(reference "LED9")
 					(unit 1)
 				)
 			)
@@ -11636,7 +11662,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 191.77 206.248 0)
+			(at 194.31 207.01 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11713,7 +11739,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 254 206.248 0)
+			(at 256.54 207.01 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11855,7 +11881,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "6bbd8053-3fe3-4b0b-87e3-f23bb2b8584d")
-		(property "Reference" "C37"
+		(property "Reference" "C7"
 			(at 170.942 160.528 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11919,7 +11945,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "C37")
+					(reference "C7")
 					(unit 1)
 				)
 			)
@@ -12025,7 +12051,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 232.41 206.248 0)
+			(at 234.95 207.01 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12288,7 +12314,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "6fbd490d-fa2d-42b0-9112-1a74b92acce2")
-		(property "Reference" "LED38"
+		(property "Reference" "LED15"
 			(at 179.324 226.06 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12390,7 +12416,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "LED38")
+					(reference "LED15")
 					(unit 1)
 				)
 			)
@@ -12991,7 +13017,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "7d97d2b7-efb1-415f-aad4-c69e3f2f73d5")
-		(property "Reference" "C24"
+		(property "Reference" "C18"
 			(at 254.762 211.328 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13055,7 +13081,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "C24")
+					(reference "C18")
 					(unit 1)
 				)
 			)
@@ -13149,7 +13175,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "7e186490-416b-461f-87ba-24f5450f158f")
-		(property "Reference" "C32"
+		(property "Reference" "C12"
 			(at 106.172 211.328 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13213,7 +13239,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "C32")
+					(reference "C12")
 					(unit 1)
 				)
 			)
@@ -13230,7 +13256,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "7f2858a8-f9bd-49ee-b06a-028cbe56312e")
-		(property "Reference" "LED36"
+		(property "Reference" "LED14"
 			(at 157.734 226.06 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13332,7 +13358,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "LED36")
+					(reference "LED14")
 					(unit 1)
 				)
 			)
@@ -13349,7 +13375,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "807c34dd-7beb-4b69-9948-0a43b7a237f6")
-		(property "Reference" "C28"
+		(property "Reference" "C3"
 			(at 84.582 160.528 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13413,7 +13439,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "C28")
+					(reference "C3")
 					(unit 1)
 				)
 			)
@@ -13510,7 +13536,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "85c4ea52-456a-4d96-b049-5420165b3f3c")
-		(property "Reference" "C23"
+		(property "Reference" "C17"
 			(at 233.172 211.328 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13574,7 +13600,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "C23")
+					(reference "C17")
 					(unit 1)
 				)
 			)
@@ -13603,7 +13629,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 127 206.248 0)
+			(at 129.54 207.01 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -13883,7 +13909,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 127 155.448 0)
+			(at 129.54 156.464 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -14025,7 +14051,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "8962c48e-ab9a-40ce-a878-176eebf1b4e7")
-		(property "Reference" "LED32"
+		(property "Reference" "LED12"
 			(at 114.554 226.06 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14127,7 +14153,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "LED32")
+					(reference "LED12")
 					(unit 1)
 				)
 			)
@@ -14221,7 +14247,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "8ac5cb1c-1ee0-4e77-8536-8f93dbf49655")
-		(property "Reference" "C40"
+		(property "Reference" "C16"
 			(at 192.532 211.328 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14285,7 +14311,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "C40")
+					(reference "C16")
 					(unit 1)
 				)
 			)
@@ -14314,7 +14340,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 62.23 155.448 0)
+			(at 64.77 156.464 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -14379,7 +14405,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "8ceef952-d113-4829-8a19-32f85d113804")
-		(property "Reference" "C21"
+		(property "Reference" "C1"
 			(at 40.132 160.528 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14443,7 +14469,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "C21")
+					(reference "C1")
 					(unit 1)
 				)
 			)
@@ -14617,7 +14643,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "90185096-b5ec-48ec-8b52-9d125cc49fd6")
-		(property "Reference" "LED40"
+		(property "Reference" "LED16"
 			(at 200.914 226.06 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14719,7 +14745,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "LED40")
+					(reference "LED16")
 					(unit 1)
 				)
 			)
@@ -15557,7 +15583,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "982ce836-0fab-499c-a4d4-24520054013c")
-		(property "Reference" "LED24"
+		(property "Reference" "LED10"
 			(at 70.104 226.06 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -15659,7 +15685,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "LED24")
+					(reference "LED10")
 					(unit 1)
 				)
 			)
@@ -15688,7 +15714,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 48.006 222.25 0)
+			(at 49.53 222.25 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -15765,7 +15791,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 148.59 206.248 0)
+			(at 151.13 207.01 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -15949,7 +15975,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "9dea28ea-1e9d-46f3-b52b-98a724522c9e")
-		(property "Reference" "LED21"
+		(property "Reference" "LED1"
 			(at 48.514 175.26 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -15960,7 +15986,7 @@
 			)
 		)
 		(property "Value" "SK6812SIDE-A-S"
-			(at 54.864 173.228 0)
+			(at 30.48 173.736 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -16050,7 +16076,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "LED21")
+					(reference "LED1")
 					(unit 1)
 				)
 			)
@@ -16067,7 +16093,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "9e02797d-0b53-45b2-9baf-60b820d4a7ca")
-		(property "Reference" "C26"
+		(property "Reference" "C10"
 			(at 62.992 211.328 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -16131,7 +16157,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "C26")
+					(reference "C10")
 					(unit 1)
 				)
 			)
@@ -16238,7 +16264,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 178.816 222.25 0)
+			(at 180.086 222.25 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -16437,7 +16463,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 39.37 155.448 0)
+			(at 41.91 156.464 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -16514,7 +16540,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 157.226 222.25 0)
+			(at 158.496 222.25 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -16668,7 +16694,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 114.046 171.45 0)
+			(at 115.824 171.704 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -16733,7 +16759,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "ab8f2d72-a406-44c7-99bd-eee0b1837234")
-		(property "Reference" "C36"
+		(property "Reference" "C14"
 			(at 149.352 211.328 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -16797,7 +16823,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "C36")
+					(reference "C14")
 					(unit 1)
 				)
 			)
@@ -16906,7 +16932,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 262.636 222.25 0)
+			(at 263.906 222.25 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -17259,7 +17285,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 92.456 222.25 0)
+			(at 93.98 222.25 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -17336,7 +17362,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 62.23 206.248 0)
+			(at 64.77 207.01 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -17490,7 +17516,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 170.18 206.248 0)
+			(at 172.72 207.01 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -17644,7 +17670,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 297.18 206.248 0)
+			(at 299.72 207.01 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -17831,7 +17857,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "bbc91d38-e1d5-42cd-a956-1f68d3b3bfe9")
-		(property "Reference" "C34"
+		(property "Reference" "C13"
 			(at 127.762 211.328 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -17895,7 +17921,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "C34")
+					(reference "C13")
 					(unit 1)
 				)
 			)
@@ -17912,7 +17938,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "bc555768-b908-4797-8184-cacac1d18d43")
-		(property "Reference" "C27"
+		(property "Reference" "C19"
 			(at 276.352 211.328 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -17976,7 +18002,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "C27")
+					(reference "C19")
 					(unit 1)
 				)
 			)
@@ -17993,7 +18019,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "bcf1e34a-9ecf-40c6-b609-cfb8a6b6c331")
-		(property "Reference" "LED25"
+		(property "Reference" "LED18"
 			(at 263.144 226.06 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -18095,7 +18121,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "LED25")
+					(reference "LED18")
 					(unit 1)
 				)
 			)
@@ -18677,7 +18703,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 83.82 206.248 0)
+			(at 86.36 207.01 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -18869,7 +18895,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "d43681b9-5f15-447e-ba4d-8be6db2d479f")
-		(property "Reference" "LED26"
+		(property "Reference" "LED2"
 			(at 71.374 175.26 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -18971,7 +18997,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "LED26")
+					(reference "LED2")
 					(unit 1)
 				)
 			)
@@ -18988,7 +19014,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "d4c1b5ec-4b6c-4b51-a383-e9f32bcc5031")
-		(property "Reference" "LED23"
+		(property "Reference" "LED17"
 			(at 241.554 226.06 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19090,7 +19116,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "LED23")
+					(reference "LED17")
 					(unit 1)
 				)
 			)
@@ -19119,7 +19145,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 178.816 171.45 0)
+			(at 180.594 171.704 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -19184,7 +19210,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "d5895b54-842a-48fc-a8ee-e91a34e94f93")
-		(property "Reference" "LED27"
+		(property "Reference" "LED19"
 			(at 284.734 226.06 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19286,7 +19312,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "LED27")
+					(reference "LED19")
 					(unit 1)
 				)
 			)
@@ -19511,7 +19537,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 148.59 155.448 0)
+			(at 151.13 156.464 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -19795,7 +19821,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "dbcfc822-5b5a-47ce-b78a-b8d0c80fff76")
-		(property "Reference" "LED29"
+		(property "Reference" "LED11"
 			(at 92.964 226.06 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19897,7 +19923,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "LED29")
+					(reference "LED11")
 					(unit 1)
 				)
 			)
@@ -19926,7 +19952,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 157.226 171.45 0)
+			(at 159.004 171.704 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -19991,7 +20017,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "de4b10f2-a8ec-4c05-87d6-75e829ddfaf7")
-		(property "Reference" "LED34"
+		(property "Reference" "LED13"
 			(at 136.144 226.06 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -20093,7 +20119,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "LED34")
+					(reference "LED13")
 					(unit 1)
 				)
 			)
@@ -20187,7 +20213,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "e2b69318-525b-448b-b589-44f3e0ec20d5")
-		(property "Reference" "LED30"
+		(property "Reference" "LED20"
 			(at 306.324 226.06 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -20289,7 +20315,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "LED30")
+					(reference "LED20")
 					(unit 1)
 				)
 			)
@@ -20503,7 +20529,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "e7927b9d-af19-47bf-83d2-4d27c3a4f73a")
-		(property "Reference" "LED39"
+		(property "Reference" "LED8"
 			(at 200.914 175.26 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -20605,7 +20631,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "LED39")
+					(reference "LED8")
 					(unit 1)
 				)
 			)
@@ -20865,7 +20891,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 70.866 171.45 0)
+			(at 71.882 171.704 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -20930,7 +20956,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "ee11945e-526f-4142-8187-d057e1d74f5f")
-		(property "Reference" "C31"
+		(property "Reference" "C4"
 			(at 106.172 160.528 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -20994,7 +21020,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "C31")
+					(reference "C4")
 					(unit 1)
 				)
 			)
@@ -21089,7 +21115,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "f08d55dd-c496-4358-b697-f15cda8db005")
-		(property "Reference" "C35"
+		(property "Reference" "C6"
 			(at 149.352 160.528 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -21153,7 +21179,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "C35")
+					(reference "C6")
 					(unit 1)
 				)
 			)
@@ -21259,7 +21285,7 @@
 			)
 		)
 		(property "Value" "3V3_LED"
-			(at 200.406 171.45 0)
+			(at 202.184 171.704 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
