@@ -7,8 +7,7 @@
 
 #include <Adafruit_NeoPixel.h>
 
-// sketchingpad_stripproto1: LED_DAT is J1 pin 7 -> XIAO D6.
-// (Flip these if the module is seated in the other orientation.)
+// sketchingpad_stripproto1: LED_DAT goes to XIAO D6 (also TX).
 #define PIN_LED_DATA (6)
 
 const int NUM_LEDS = 20;

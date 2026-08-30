@@ -12,13 +12,11 @@
 //       test does.  Works on the board as built.
 //
 //   1 = INT.   Reads the TS20 only when its INT pin says something changed.
-//       This mode is a *test of the INT line*, which is not routed on
-//       sketchingpad_stripproto1 -- U1 pin 19 (INT, open collector) only
-//       goes to its 10k pull-up R16 and dead-ends.  To try it, bodge a
-//       wire from the U1 pin 19 / R16 junction to PIN_TS20_INT below.
-//       The point is to answer whether INT asserts on touch with no
-//       configuration; the TS20 library has no INT support at all, so
-//       this has to be settled empirically.  Watch for "INT MISSED".
+//       U1 pin 19 (INT, open collector) shares a net with its 10k pull-up
+//       R16 and XIAO A3.  This mode cross-checks every interrupt against
+//       a 500 ms watchdog read and prints "INT MISSED" if the touch state
+//       ever changes without an edge -- the TS20 library has no INT
+//       support, so its behaviour had to be settled empirically.
 //
 // Note INT mode does not save power here -- the loop still runs at 100 Hz
 // to animate the LED fade.  What it removes is the I2C traffic.  The power
@@ -31,15 +29,15 @@
 #include <Wire.h>
 
 // sketchingpad_stripproto1 -> XIAO nRF52840:
-//   J1 pin 5 = SDA     = D4  (Wire default)
-//   J1 pin 6 = SCL     = D5  (Wire default)
-//   J1 pin 7 = LED_DAT = D6
+//   SDA     = D4  (Wire default)
+//   SCL     = D5  (Wire default)
+//   LED_DAT = D6  (also TX)
 #define PIN_LED_DATA (6)
 
 #define USE_INT_PIN (1)
 
-// D10 = MOSI = J2 pin 4
-#define PIN_TS20_INT (PIN_SPI_MOSI)
+// TS20_INT is routed to XIAO A3 (= D3).
+#define PIN_TS20_INT (A3)
 
 // How often to read anyway in INT mode.  This is the diagnostic: if a poll
 // finds a change that INT never announced, the INT line is not doing its job.

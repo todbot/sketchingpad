@@ -16,10 +16,10 @@
 #include <bluefruit.h>
 
 // sketchingpad_stripproto1 -> XIAO nRF52840:
-//   J1 pin 5 = SDA       = D4  (Wire default)
-//   J1 pin 6 = SCL       = D5  (Wire default)
-//   J1 pin 7 = LED_DAT   = D6
-//   J2 pin 7 = LED_POWER = D7
+//   SDA       = D4       (Wire default)
+//   SCL       = D5       (Wire default)
+//   LED_DAT   = D6 / TX
+//   LED_POWER = D7 / RX
 #define PIN_LED_DATA  (6)
 #define PIN_LED_POWER (7)
 

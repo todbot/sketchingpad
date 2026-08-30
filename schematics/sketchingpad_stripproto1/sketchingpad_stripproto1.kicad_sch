@@ -3439,8 +3439,8 @@
 		(uuid "88fbf582-e259-42c6-b3d4-a698db316900")
 	)
 	(no_connect
-		(at 149.86 53.34)
-		(uuid "a15b9863-f6fc-4ffb-9843-862bee1ba2fb")
+		(at 138.43 53.34)
+		(uuid "c5533733-30d7-4a85-94e3-85597fadb94a")
 	)
 	(no_connect
 		(at 184.15 53.34)
@@ -3695,6 +3695,16 @@
 			(type default)
 		)
 		(uuid "450952b8-e324-44c1-bd47-fabcec004e5e")
+	)
+	(wire
+		(pts
+			(xy 138.43 53.34) (xy 149.86 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4ab029d1-8c53-40d0-acee-9b866694182e")
 	)
 	(wire
 		(pts
@@ -4855,6 +4865,16 @@
 			(justify left bottom)
 		)
 		(uuid "8c0c28e5-46fb-4cc4-9ac8-d500ad6ed58a")
+	)
+	(label "PWM_AUDIO"
+		(at 138.43 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "903ad586-9596-45cb-8a6b-2a77d2814ef1")
 	)
 	(label "TOUCH15"
 		(at 313.69 88.9 180)
