@@ -1,0 +1,125 @@
+// ble_keyboard_simple.ino -- sketchingpad as a BLE HID keyboard, plainly
+//
+// Touching a pad types a character over BLE and lights its LED.  That is
+// all it does: poll the TS20, send a report when the pad state changes,
+// update the LEDs.  No interrupts, no power tiers, no sleep.
+//
+// Start here when bringing up a board or changing the key map.  See
+// ble_keyboard_lowpower for the same thing with interrupt-driven scanning,
+// connection-parameter management and SYSTEM_OFF sleep.
+//
+// Board: Seeeduino:nrf52:xiaonRF52840
+
+#include <Adafruit_NeoPixel.h>
+#include <TS20.h>
+#include <Wire.h>
+#include <bluefruit.h>
+
+// sketchingpad_stripproto1 -> XIAO nRF52840:
+//   J1 pin 5 = SDA       = D4  (Wire default)
+//   J1 pin 6 = SCL       = D5  (Wire default)
+//   J1 pin 7 = LED_DAT   = D6
+//   J2 pin 7 = LED_POWER = D7
+#define PIN_LED_DATA  (6)
+#define PIN_LED_POWER (7)
+
+const int NUM_LEDS = 20;
+const int LED_BRIGHTNESS = 40;
+const int TS20_SENSITIVITY = 15; // 0 = most sensitive, 15 = least
+const uint32_t TOUCH_COLOR = 0xff00ff;
+
+Adafruit_NeoPixel leds(NUM_LEDS, PIN_LED_DATA, NEO_GRB + NEO_KHZ800);
+TS20 ts20;
+BLEDis bledis;
+BLEHidAdafruit blehid;
+
+// Index is LED number, value is the pad wired to it.
+const uint8_t led_to_pad[NUM_LEDS] = {
+    18, 1, 3, 4, 6, 9, 19, 2, 5, 8,
+    17, 0, 10, 11, 16, 15, 14, 13, 12, 7,
+};
+
+// Index is pad number. Pads numbered 1-20:
+//        17 18 19 20
+//     1  2  3  4    5  6  7  8
+//     9 10 11 12   13 14 15 16
+const uint8_t pad_to_key[TS20_NUM_PADS] = {
+    HID_KEY_A, HID_KEY_S, HID_KEY_D, HID_KEY_F,     // pads 1-4
+    HID_KEY_G, HID_KEY_H, HID_KEY_J, HID_KEY_K,     // pads 5-8
+    HID_KEY_Z, HID_KEY_X, HID_KEY_C, HID_KEY_V,     // pads 9-12
+    HID_KEY_B, HID_KEY_N, HID_KEY_M, HID_KEY_COMMA, // pads 13-16
+    HID_KEY_1, HID_KEY_2, HID_KEY_3, HID_KEY_4,     // pads 17-20
+};
+
+uint32_t last_touches = 0;
+
+void setup() {
+  Serial.begin(115200);
+  while (!Serial && millis() < 3000) { delay(10); } // bounded: may be on battery
+
+  // The LED power rail hangs off a P-FET whose gate is pulled up to its source, 
+  // so the rail is OFF until D7 is driven low.  Without this the LEDs don't light.
+  pinMode(PIN_LED_POWER, OUTPUT);
+  digitalWrite(PIN_LED_POWER, LOW);
+  delay(2); // let ~2 uF of rail decoupling settle before clocking data in
+
+  leds.begin();
+  leds.setBrightness(LED_BRIGHTNESS);
+  leds.clear();
+  leds.show();
+
+  delay(100); // wait 100 msec after power up, as per datasheet
+  if (!ts20.begin()) {
+    Serial.println("No TS20 found, check wiring!");
+    while (1) { delay(100); }
+  }
+  // after begin(), which does Wire.begin() and forces the bus back to 100 kHz
+  Wire.setClock(400000);
+  ts20.setSensitivity(TS20_SENSITIVITY);
+
+  Bluefruit.begin(1, 0); // one peripheral, no central
+  Bluefruit.setName("sketchingpad");
+
+  bledis.setManufacturer("todbot");
+  bledis.setModel("sketchingpad");
+  bledis.begin();
+
+  blehid.begin();
+
+  Bluefruit.Advertising.addFlags(BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE);
+  Bluefruit.Advertising.addAppearance(BLE_APPEARANCE_HID_KEYBOARD);
+  Bluefruit.Advertising.addService(blehid);
+  Bluefruit.Advertising.addName();
+  Bluefruit.Advertising.restartOnDisconnect(true);
+  Bluefruit.Advertising.setInterval(32, 244);
+  Bluefruit.Advertising.setFastTimeout(30);
+  Bluefruit.Advertising.start(0); // 0 = advertise forever
+
+  Serial.println("ble_keyboard_simple: pair with \"sketchingpad\"");
+}
+
+void loop() {
+  uint32_t touches = ts20.touched();
+
+  if (touches != last_touches) {
+    // Rebuild the whole report from the current pad state, so chords and
+    // roll-offs are not dropped.  The boot keyboard report holds a modifier
+    // plus six keycodes; a seventh simultaneous pad has nowhere to go.
+    uint8_t keycodes[6] = {0, 0, 0, 0, 0, 0};
+    uint8_t n = 0;
+    for (uint8_t pad = 0; pad < TS20_NUM_PADS && n < 6; pad++) {
+      if ((touches >> pad) & 1) { keycodes[n++] = pad_to_key[pad]; }
+    }
+    if (Bluefruit.connected()) { blehid.keyboardReport(0, keycodes); }
+
+    for (int i = 0; i < NUM_LEDS; i++) {
+      leds.setPixelColor(i, ((touches >> led_to_pad[i]) & 1) ? TOUCH_COLOR : 0);
+    }
+    leds.show();
+
+    Serial.printf("touches %05lx -> %d key(s)\n", (unsigned long)touches, n);
+    last_touches = touches;
+  }
+
+  delay(10);
+}
