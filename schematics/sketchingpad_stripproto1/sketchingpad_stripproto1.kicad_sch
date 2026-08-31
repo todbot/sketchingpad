@@ -3856,8 +3856,8 @@
 		)
 	)
 	(rectangle
-		(start 47.879 22.479)
-		(end 68.834 42.799)
+		(start 48.26 22.479)
+		(end 68.58 42.799)
 		(stroke
 			(width 0)
 			(type default)
@@ -3869,7 +3869,7 @@
 	)
 	(text "A0/D0\nA1/D1\nA2/D2\nA3/D3\nSDA/D4\nSCL/D5\nTX/D6"
 		(exclude_from_sim no)
-		(at 48.26 33.02 0)
+		(at 48.768 33.02 0)
 		(effects
 			(font
 				(size 1.651 1.651)
@@ -3890,7 +3890,7 @@
 	)
 	(text "5V\nGnd\n3V3\nMOSI\nMISO\nSCK\nRX"
 		(exclude_from_sim no)
-		(at 68.58 33.02 0)
+		(at 68.072 33.02 0)
 		(effects
 			(font
 				(size 1.651 1.651)
@@ -6103,7 +6103,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0066b05f-518f-41d4-bb68-cd3cad6b5738")
-		(property "Reference" "J3"
+		(property "Reference" "J1"
 			(at 208.28 89.5349 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6169,6 +6169,38 @@
 				)
 			)
 		)
+		(property "DigikeyPN" ""
+			(at 199.39 92.71 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 199.39 92.71 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Note" ""
+			(at 199.39 92.71 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "S"
 			(uuid "db645936-292f-4913-8b03-7ca76fcf5df5")
 		)
@@ -6184,7 +6216,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "J3")
+					(reference "J1")
 					(unit 1)
 				)
 			)
@@ -10439,7 +10471,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "TestPoint"
+		(property "Value" "3V3_LED"
 			(at 81.28 135.8899 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12050,10 +12082,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "61d17b8f-96b4-4a3e-b57a-af6f0fba1535")
 		(property "Reference" "Q1"
-			(at 60.96 128.27 90)
+			(at 60.96 127.254 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12063,7 +12094,7 @@
 			)
 		)
 		(property "Value" "AO3415A"
-			(at 60.96 130.81 90)
+			(at 60.96 129.794 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -13513,6 +13544,27 @@
 		(property "LCSC Part" "C295747"
 			(at 133.35 13.97 0)
 			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "DigikeyPN" ""
+			(at 133.35 38.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Note" ""
+			(at 133.35 38.1 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects

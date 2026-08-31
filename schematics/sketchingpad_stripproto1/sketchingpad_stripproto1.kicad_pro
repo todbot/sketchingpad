@@ -76,7 +76,32 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        [
+          "silk_edge_clearance|104900051|60000000|f513f58e-acff-422d-a0bc-de697c38ca4a|48723140-a91e-4fda-b2e5-2044a8a0d9d7",
+          ""
+        ],
+        [
+          "silk_edge_clearance|107900051|60000000|f513f58e-acff-422d-a0bc-de697c38ca4a|937cbd0b-ba45-46a1-bccf-d89a47cecdeb",
+          ""
+        ],
+        [
+          "silk_edge_clearance|187295000|60000000|f513f58e-acff-422d-a0bc-de697c38ca4a|4656f688-7681-47bc-a026-04e5906ae514",
+          ""
+        ],
+        [
+          "silk_edge_clearance|189045000|60000000|f513f58e-acff-422d-a0bc-de697c38ca4a|0428660c-9308-4e6b-a1dd-a4b4033d9f48",
+          ""
+        ],
+        [
+          "silk_edge_clearance|77750000|60000000|f513f58e-acff-422d-a0bc-de697c38ca4a|5380f90e-f940-4916-a0b0-3396bda10ce1",
+          ""
+        ],
+        [
+          "silk_edge_clearance|82750000|60000000|f513f58e-acff-422d-a0bc-de697c38ca4a|9c1955d9-4b0a-4895-b8b1-46a8afc9178f",
+          ""
+        ]
+      ],
       "meta": {
         "version": 2
       },
@@ -148,7 +173,7 @@
         "max_error": 0.005,
         "min_clearance": 0.0,
         "min_connection": 0.0,
-        "min_copper_edge_clearance": 0.5,
+        "min_copper_edge_clearance": 0.3,
         "min_groove_width": 0.0,
         "min_hole_clearance": 0.25,
         "min_hole_to_hole": 0.25,
@@ -712,7 +737,7 @@
         "uuid": "69aff514-3aa6-493d-bc6d-4103dc0ce10d"
       }
     ],
-    "used_designators": "SW2-5,J3,#PWR15,#PWR18,#PWR32,#PWR35-36,#PWR209-211,C21-22,R20-23,TP21-23,U2-3,#FLG1-7",
+    "used_designators": "3V3_LED1,SW2-5,J3,#PWR15,#PWR18,#PWR32,#PWR35-36,#PWR209-211,C21-22,R20-23,TP21-23,U2-3,#FLG1-7",
     "variants": []
   },
   "sheets": [
