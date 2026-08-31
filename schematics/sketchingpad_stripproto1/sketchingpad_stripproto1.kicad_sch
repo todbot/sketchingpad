@@ -751,478 +751,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "PCM_marbastlib-promicroish:Seeeduino_Xiao_nRF52840"
-			(exclude_from_sim no)
-			(in_bom no)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "U"
-				(at -10.16 -12.7 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "Seeeduino Xiao nRF52840"
-				(at -10.16 -15.24 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" "PCM_marbastlib-xp-promicroish:Xiao_nRF52840_ACH"
-				(at 0 -30.48 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" ""
-				(at -12.7 13.97 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" "Symbol for a Seeeduino Xiao nRF52840"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "Seeeduino_Xiao_nRF52840_1_0"
-				(pin bidirectional line
-					(at -12.7 13.97 0)
-					(length 2.54)
-					(name "P0.02"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -12.7 11.43 0)
-					(length 2.54)
-					(name "P0.03"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -12.7 8.89 0)
-					(length 2.54)
-					(name "P0.28"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -12.7 6.35 0)
-					(length 2.54)
-					(name "P0.29"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -12.7 3.81 0)
-					(length 2.54)
-					(name "P0.04"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -12.7 1.27 0)
-					(length 2.54)
-					(name "P0.05"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -12.7 -1.27 0)
-					(length 2.54)
-					(name "P1.11"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_out line
-					(at 12.7 13.97 180)
-					(length 2.54)
-					(name "5V"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_out line
-					(at 12.7 11.43 180)
-					(length 2.54)
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_out line
-					(at 12.7 8.89 180)
-					(length 2.54)
-					(name "3V3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "10"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 12.7 6.35 180)
-					(length 2.54)
-					(name "P1.15"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "11"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 12.7 3.81 180)
-					(length 2.54)
-					(name "P1.14"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "12"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 12.7 1.27 180)
-					(length 2.54)
-					(name "P1.13"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "13"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 12.7 -1.27 180)
-					(length 2.54)
-					(name "P1.12"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "14"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at -12.7 -6.35 0)
-					(length 2.54)
-					(name "BAT-"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "15"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at -12.7 -8.89 0)
-					(length 2.54)
-					(name "BAT+"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "16"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 5.08 -13.97 90)
-					(length 2.54)
-					(name "P0.09"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "17"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 7.62 -13.97 90)
-					(length 2.54)
-					(name "P0.10"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "18"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at -2.54 19.05 270)
-					(length 2.54)
-					(name "DIO"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "19"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 0 19.05 270)
-					(length 2.54)
-					(name "CLK"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "20"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 2.54 19.05 270)
-					(length 2.54)
-					(name "RST"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "21"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_out line
-					(at 5.08 19.05 270)
-					(length 2.54)
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "22"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(symbol "Seeeduino_Xiao_nRF52840_1_1"
-				(rectangle
-					(start -10.16 16.51)
-					(end 10.16 -11.43)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "easyeda2kicad:AO3415A"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -2249,14 +1777,14 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "easyeda2kicad:TS-1088-AR02016"
+		(symbol "easyeda2kicad:TC-S3601-3.5-260G-F0.6"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
 			(in_pos_files yes)
 			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "SW"
-				(at 0 3.81 0)
+				(at 0 5.08 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -2265,8 +1793,8 @@
 					)
 				)
 			)
-			(property "Value" "TS-1088-AR02016"
-				(at 0 -6.35 0)
+			(property "Value" "TC-S3601-3.5-260G-F0.6"
+				(at 0 -7.62 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -2275,8 +1803,8 @@
 					)
 				)
 			)
-			(property "Footprint" "easyeda2kicad:SW-SMD_L3.9-W3.0-P4.45"
-				(at 0 -8.89 0)
+			(property "Footprint" "easyeda2kicad:SW-SMD_TC-S3601-3.5-260G-F0.6"
+				(at 0 -10.16 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -2286,8 +1814,8 @@
 					)
 				)
 			)
-			(property "Datasheet" "https://lcsc.com/product-detail/Tactile-Switches_XUNPU-TS-1088-AR02016_C720477.html"
-				(at 0 -11.43 0)
+			(property "Datasheet" "https://www.lcsc.com/datasheet/C49101620.pdf"
+				(at 0 -12.7 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -2308,8 +1836,8 @@
 					)
 				)
 			)
-			(property "Manufacturer" "XUNPU(讯普)"
-				(at 0 -13.97 0)
+			(property "Manufacturer" "HCTL(华灿天禄)"
+				(at 0 -15.24 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -2319,8 +1847,8 @@
 					)
 				)
 			)
-			(property "MPN" "TS-1088-AR02016"
-				(at 0 -16.51 0)
+			(property "MPN" "TC-S3601-3.5-260G-F0.6"
+				(at 0 -17.78 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -2330,8 +1858,8 @@
 					)
 				)
 			)
-			(property "LCSC Part" "C720477"
-				(at 0 -19.05 0)
+			(property "LCSC Part" "C49101620"
+				(at 0 -20.32 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -2341,21 +1869,10 @@
 					)
 				)
 			)
-			(property "ki_keywords" "Tactile Switches"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "TS-1088-AR02016_0_1"
+			(symbol "TC-S3601-3.5-260G-F0.6_0_1"
 				(polyline
 					(pts
-						(xy -5.08 -1.27) (xy -2.54 -1.27)
+						(xy -2.54 0) (xy -0.76 0)
 					)
 					(stroke
 						(width 0)
@@ -2367,7 +1884,7 @@
 				)
 				(polyline
 					(pts
-						(xy -2.29 -0.76) (xy 2.03 0.51)
+						(xy -0.76 1.52) (xy 1.02 0.25)
 					)
 					(stroke
 						(width 0)
@@ -2378,8 +1895,8 @@
 					)
 				)
 				(circle
-					(center -2.03 -1.27)
-					(radius 0.51)
+					(center -0.76 0)
+					(radius 0.25)
 					(stroke
 						(width 0)
 						(type default)
@@ -2389,8 +1906,8 @@
 					)
 				)
 				(circle
-					(center 2.03 -1.27)
-					(radius 0.51)
+					(center 0.76 0)
+					(radius 0.25)
 					(stroke
 						(width 0)
 						(type default)
@@ -2401,7 +1918,31 @@
 				)
 				(polyline
 					(pts
-						(xy 5.08 -1.27) (xy 2.54 -1.27)
+						(xy 1.52 0) (xy 0.76 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 0) (xy 1.52 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 -2.54) (xy -2.54 -2.54)
 					)
 					(stroke
 						(width 0)
@@ -2412,7 +1953,7 @@
 					)
 				)
 				(pin unspecified line
-					(at -7.62 -1.27 0)
+					(at -5.08 0 0)
 					(length 2.54)
 					(name "1"
 						(effects
@@ -2430,7 +1971,7 @@
 					)
 				)
 				(pin unspecified line
-					(at 7.62 -1.27 180)
+					(at 5.08 0 180)
 					(length 2.54)
 					(name "2"
 						(effects
@@ -2440,6 +1981,42 @@
 						)
 					)
 					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at -5.08 -2.54 0)
+					(length 2.54)
+					(name "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 5.08 -2.54 180)
+					(length 2.54)
+					(name "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3203,6 +2780,478 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "todbot_stuff:Seeeduino_Xiao_nRF52840"
+			(exclude_from_sim no)
+			(in_bom no)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "U"
+				(at -10.16 -12.7 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "Seeeduino Xiao nRF52840"
+				(at -10.16 -15.24 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "todbot_stuff:Xiao_nRF52840_ACH-todedit"
+				(at 0 -30.48 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at -12.7 13.97 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Symbol for a Seeeduino Xiao nRF52840"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "Seeeduino_Xiao_nRF52840_1_0"
+				(pin bidirectional line
+					(at -12.7 13.97 0)
+					(length 2.54)
+					(name "P0.02"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -12.7 11.43 0)
+					(length 2.54)
+					(name "P0.03"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -12.7 8.89 0)
+					(length 2.54)
+					(name "P0.28"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -12.7 6.35 0)
+					(length 2.54)
+					(name "P0.29"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -12.7 3.81 0)
+					(length 2.54)
+					(name "P0.04"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -12.7 1.27 0)
+					(length 2.54)
+					(name "P0.05"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -12.7 -1.27 0)
+					(length 2.54)
+					(name "P1.11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 12.7 13.97 180)
+					(length 2.54)
+					(name "5V"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 12.7 11.43 180)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 12.7 8.89 180)
+					(length 2.54)
+					(name "3V3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 12.7 6.35 180)
+					(length 2.54)
+					(name "P1.15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 12.7 3.81 180)
+					(length 2.54)
+					(name "P1.14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 12.7 1.27 180)
+					(length 2.54)
+					(name "P1.13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 12.7 -1.27 180)
+					(length 2.54)
+					(name "P1.12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -12.7 -6.35 0)
+					(length 2.54)
+					(name "BAT-"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -12.7 -8.89 0)
+					(length 2.54)
+					(name "BAT+"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 5.08 -13.97 90)
+					(length 2.54)
+					(name "P0.09"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "17"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 7.62 -13.97 90)
+					(length 2.54)
+					(name "P0.10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "18"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -2.54 19.05 270)
+					(length 2.54)
+					(name "DIO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "19"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 0 19.05 270)
+					(length 2.54)
+					(name "CLK"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "20"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 2.54 19.05 270)
+					(length 2.54)
+					(name "RST"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "21"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 5.08 19.05 270)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "22"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "Seeeduino_Xiao_nRF52840_1_1"
+				(rectangle
+					(start -10.16 16.51)
+					(end 10.16 -11.43)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "todbot_stuff:TS20_touch_sensor"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -3875,6 +3924,12 @@
 		(uuid "3b53289d-88f0-4a86-8d20-7af6ef39f94f")
 	)
 	(junction
+		(at 151.13 71.12)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "49e76e38-a6b1-4509-b342-39420817efac")
+	)
+	(junction
 		(at 139.7 36.83)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3941,6 +3996,10 @@
 		(uuid "fea74866-a636-4595-9c7f-ef1dd9e6f941")
 	)
 	(no_connect
+		(at 34.29 59.69)
+		(uuid "03216a09-cc7b-4c37-b685-cce1c437e4b8")
+	)
+	(no_connect
 		(at 165.1 34.29)
 		(uuid "0d4c42ba-a5d5-44b4-9786-5e38ea4cdebb")
 	)
@@ -3983,10 +4042,6 @@
 	(no_connect
 		(at 66.04 82.55)
 		(uuid "e2f561d3-68c2-49ec-9b94-42bd5a315666")
-	)
-	(no_connect
-		(at 71.12 62.23)
-		(uuid "ea4c7b5c-967b-4253-af1c-2defc11469e5")
 	)
 	(no_connect
 		(at 63.5 82.55)
@@ -4041,6 +4096,16 @@
 			(type default)
 		)
 		(uuid "066760fa-be43-4e54-ad4d-b599047dd3a2")
+	)
+	(wire
+		(pts
+			(xy 151.13 73.66) (xy 151.13 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0afc4f91-727d-4863-8922-87eb3f6be659")
 	)
 	(wire
 		(pts
@@ -4304,6 +4369,16 @@
 	)
 	(wire
 		(pts
+			(xy 151.13 71.12) (xy 154.94 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "58061ad1-fcdd-4425-bc1e-56040b21a192")
+	)
+	(wire
+		(pts
 			(xy 208.28 181.61) (xy 208.28 196.85)
 		)
 		(stroke
@@ -4331,6 +4406,16 @@
 			(type default)
 		)
 		(uuid "5fbd5540-f91f-425a-8a4e-fdb75d9afd2b")
+	)
+	(wire
+		(pts
+			(xy 71.12 62.23) (xy 85.09 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "603eac90-e340-4d35-bd6c-4123ef093258")
 	)
 	(wire
 		(pts
@@ -4451,6 +4536,16 @@
 			(type default)
 		)
 		(uuid "77924e81-fc66-46b1-ad53-aaa6a4b1d828")
+	)
+	(wire
+		(pts
+			(xy 149.86 71.12) (xy 151.13 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "78a40312-7f82-4ee5-ae39-d04d30899d39")
 	)
 	(wire
 		(pts
@@ -4744,7 +4839,7 @@
 	)
 	(wire
 		(pts
-			(xy 129.54 71.12) (xy 139.7 71.12)
+			(xy 123.19 71.12) (xy 139.7 71.12)
 		)
 		(stroke
 			(width 0)
@@ -5024,6 +5119,16 @@
 	)
 	(wire
 		(pts
+			(xy 149.86 73.66) (xy 151.13 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d0c4b0c3-d9be-4464-a984-93729034d8fd")
+	)
+	(wire
+		(pts
 			(xy 223.52 57.15) (xy 229.87 57.15)
 		)
 		(stroke
@@ -5194,6 +5299,16 @@
 	)
 	(wire
 		(pts
+			(xy 139.7 73.66) (xy 139.7 74.93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ed318081-b69e-42e9-a729-ebe2b3e48f66")
+	)
+	(wire
+		(pts
 			(xy 71.12 57.15) (xy 77.47 57.15)
 		)
 		(stroke
@@ -5322,7 +5437,7 @@
 		)
 		(uuid "04191877-c00c-47ef-b869-7afa55720eb0")
 	)
-	(label "TOUCH14"
+	(label "TOUCH8"
 		(at 313.69 76.2 180)
 		(effects
 			(font
@@ -5402,7 +5517,7 @@
 		)
 		(uuid "2b91a916-3b21-48f8-a647-1e749fd5dcc0")
 	)
-	(label "TOUCH4"
+	(label "TOUCH17"
 		(at 313.69 58.42 180)
 		(effects
 			(font
@@ -5422,7 +5537,7 @@
 		)
 		(uuid "31802737-dae9-43bd-829d-611eefff580c")
 	)
-	(label "TOUCH12"
+	(label "TOUCH1"
 		(at 313.69 48.26 180)
 		(effects
 			(font
@@ -5502,7 +5617,7 @@
 		)
 		(uuid "54995e92-f55f-408a-a75a-a26fc090ba06")
 	)
-	(label "TOUCH10"
+	(label "TOUCH5"
 		(at 313.69 68.58 180)
 		(effects
 			(font
@@ -5542,7 +5657,7 @@
 		)
 		(uuid "68dbda80-2f4b-4cc9-a2e0-ad206d104790")
 	)
-	(label "TOUCH5"
+	(label "TOUCH19"
 		(at 313.69 63.5 180)
 		(effects
 			(font
@@ -5552,7 +5667,7 @@
 		)
 		(uuid "697599ac-bf04-4a75-b634-0af06b0e87ed")
 	)
-	(label "TOUCH9"
+	(label "TOUCH18"
 		(at 313.69 60.96 180)
 		(effects
 			(font
@@ -5561,16 +5676,6 @@
 			(justify right bottom)
 		)
 		(uuid "6aa2c6e8-2fab-4175-87be-b4a277cc439e")
-	)
-	(label "BUTTON"
-		(at 34.29 59.69 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "6eee95f1-de19-46d8-a869-963e328b8ffd")
 	)
 	(label "TOUCH8"
 		(at 330.2 77.47 0)
@@ -5612,7 +5717,7 @@
 		)
 		(uuid "7f399d17-9bb9-40f1-bb76-5304e21aaeb6")
 	)
-	(label "TOUCH18"
+	(label "TOUCH14"
 		(at 313.69 81.28 180)
 		(effects
 			(font
@@ -5623,7 +5728,7 @@
 		(uuid "7f862ac2-3cae-4f58-a980-2a601e5d768d")
 	)
 	(label "BUTTON"
-		(at 129.54 71.12 0)
+		(at 123.19 71.12 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5632,7 +5737,7 @@
 		)
 		(uuid "85afdce9-550f-4e9c-930b-204ff7e21c5b")
 	)
-	(label "TOUCH7"
+	(label "TOUCH12"
 		(at 313.69 96.52 180)
 		(effects
 			(font
@@ -5642,7 +5747,7 @@
 		)
 		(uuid "86134021-ab51-48b4-b441-0b6658176fdd")
 	)
-	(label "TOUCH17"
+	(label "TOUCH15"
 		(at 313.69 83.82 180)
 		(effects
 			(font
@@ -5662,7 +5767,7 @@
 		)
 		(uuid "8c0c28e5-46fb-4cc4-9ac8-d500ad6ed58a")
 	)
-	(label "TOUCH15"
+	(label "TOUCH9"
 		(at 313.69 88.9 180)
 		(effects
 			(font
@@ -5702,7 +5807,7 @@
 		)
 		(uuid "9825544e-7db0-4f64-8c89-eb3d3c8f3f73")
 	)
-	(label "TOUCH3"
+	(label "TOUCH4"
 		(at 313.69 55.88 180)
 		(effects
 			(font
@@ -5721,6 +5826,16 @@
 			(justify left bottom)
 		)
 		(uuid "a1093f23-1437-47b5-8923-d4e5f52f418d")
+	)
+	(label "BUTTON"
+		(at 85.09 62.23 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "a60a7acd-699a-4b2b-8338-65287659e466")
 	)
 	(label "TOUCH5"
 		(at 330.2 57.15 0)
@@ -5742,7 +5857,7 @@
 		)
 		(uuid "aa9230c9-d7a2-4101-96aa-29d47cf80c50")
 	)
-	(label "TOUCH13"
+	(label "TOUCH7"
 		(at 313.69 73.66 180)
 		(effects
 			(font
@@ -5762,7 +5877,7 @@
 		)
 		(uuid "c14e17a9-87f6-4398-a602-92a8158d330a")
 	)
-	(label "TOUCH1"
+	(label "TOUCH11"
 		(at 313.69 93.98 180)
 		(effects
 			(font
@@ -5802,7 +5917,7 @@
 		)
 		(uuid "d5d4a498-9f8e-44df-8e2a-8908558fa866")
 	)
-	(label "TOUCH8"
+	(label "TOUCH3"
 		(at 313.69 53.34 180)
 		(effects
 			(font
@@ -5852,7 +5967,7 @@
 		)
 		(uuid "e794ea9a-826b-4092-addc-5f4f93b036ef")
 	)
-	(label "TOUCH19"
+	(label "TOUCH13"
 		(at 313.69 78.74 180)
 		(effects
 			(font
@@ -5882,7 +5997,7 @@
 		)
 		(uuid "fb27bcd9-79ca-492d-9c82-0d4fc08b88ba")
 	)
-	(label "TOUCH11"
+	(label "TOUCH10"
 		(at 313.69 91.44 180)
 		(effects
 			(font
@@ -6568,7 +6683,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:LED-SMD_4P-L4.0-W1.6-L"
+		(property "Footprint" "todbot_stuff:LED-SMD_4P-L4.0-W1.6-L-todedits"
 			(at 88.9 193.04 0)
 			(hide yes)
 			(show_name no)
@@ -7673,7 +7788,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:LED-SMD_4P-L4.0-W1.6-L"
+		(property "Footprint" "todbot_stuff:LED-SMD_4P-L4.0-W1.6-L-todedits"
 			(at 175.26 193.04 0)
 			(hide yes)
 			(show_name no)
@@ -8429,7 +8544,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:LED-SMD_4P-L4.0-W1.6-L"
+		(property "Footprint" "todbot_stuff:LED-SMD_4P-L4.0-W1.6-L-todedits"
 			(at 132.08 193.04 0)
 			(hide yes)
 			(show_name no)
@@ -9028,6 +9143,125 @@
 		)
 	)
 	(symbol
+		(lib_id "easyeda2kicad:TC-S3601-3.5-260G-F0.6")
+		(at 144.78 71.12 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "363f7b7b-b41d-497b-9967-480e22a49e31")
+		(property "Reference" "SW1"
+			(at 144.78 64.77 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "TC-S3601-3.5-260G-F0.6"
+			(at 144.78 67.31 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "easyeda2kicad:SW-SMD_TC-S3601-3.5-260G-F0.6"
+			(at 144.78 81.28 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.lcsc.com/datasheet/C49101620.pdf"
+			(at 144.78 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 144.78 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "HCTL(华灿天禄)"
+			(at 144.78 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "TC-S3601-3.5-260G-F0.6"
+			(at 144.78 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part" "C49101620"
+			(at 144.78 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "3"
+			(uuid "af06be4d-2a43-4352-a4ca-e132f338eae4")
+		)
+		(pin "4"
+			(uuid "7a618bb3-4a14-4f8f-a10b-2c238e7da25e")
+		)
+		(pin "2"
+			(uuid "ebeb9d74-d49d-40e7-af81-fcf471466ed4")
+		)
+		(pin "1"
+			(uuid "33b21f73-c9f1-49e7-b276-f1ba890103d7")
+		)
+		(instances
+			(project "sketchingpad_stripproto1"
+				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
+					(reference "SW1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "todbot_stuff:Capacitive_Button")
 		(at 340.36 88.9 270)
 		(unit 1)
@@ -9258,7 +9492,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:LED-SMD_4P-L4.0-W1.6-L"
+		(property "Footprint" "todbot_stuff:LED-SMD_4P-L4.0-W1.6-L-todedits"
 			(at 153.67 193.04 0)
 			(hide yes)
 			(show_name no)
@@ -9477,7 +9711,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "3c8729d7-9d58-4539-b66a-d3acbfc989c4")
-		(property "Reference" "R19"
+		(property "Reference" "R4"
 			(at 36.83 135.89 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9530,6 +9764,49 @@
 				)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 39.37 135.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "DigikeyPN" ""
+			(at 39.37 135.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 39.37 135.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Note" ""
+			(at 39.37 135.89 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "c01825e3-9d63-45c5-996f-1bc482860dba")
 		)
@@ -9539,7 +9816,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "R19")
+					(reference "R4")
 					(unit 1)
 				)
 			)
@@ -10457,7 +10734,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "4d2974d1-dc1b-4219-b206-ecb0c6e7e8cc")
-		(property "Reference" "R22"
+		(property "Reference" "R6"
 			(at 172.212 91.694 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10510,109 +10787,8 @@
 				)
 			)
 		)
-		(pin "1"
-			(uuid "f48829ee-1b09-4f19-9551-34622b6d730f")
-		)
-		(pin "2"
-			(uuid "9d996f95-449b-4484-87b7-e5f59b9ab2db")
-		)
-		(instances
-			(project "sketchingpad_stripproto1"
-				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "R22")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "easyeda2kicad:TS-1088-AR02016")
-		(at 147.32 69.85 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "4e65fb4a-83bb-4a18-b576-6fd7f248e17c")
-		(property "Reference" "SW1"
-			(at 147.32 64.77 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "TS-1088-AR02016"
-			(at 153.67 67.31 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "easyeda2kicad:SW-SMD_L3.9-W3.0-P4.45"
-			(at 147.32 78.74 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "https://lcsc.com/product-detail/Tactile-Switches_XUNPU-TS-1088-AR02016_C720477.html"
-			(at 147.32 81.28 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 147.32 69.85 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Manufacturer" "XUNPU(讯普)"
-			(at 147.32 83.82 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "MPN" "TS-1088-AR02016"
-			(at 147.32 86.36 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC Part" "C720477"
-			(at 147.32 88.9 0)
+		(property "LCSC Part" ""
+			(at 170.18 91.44 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10623,7 +10799,18 @@
 			)
 		)
 		(property "DigikeyPN" ""
-			(at 147.32 69.85 0)
+			(at 170.18 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 170.18 91.44 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10634,7 +10821,7 @@
 			)
 		)
 		(property "Note" ""
-			(at 147.32 69.85 0)
+			(at 170.18 91.44 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10644,15 +10831,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "892f0b03-5b45-48f2-8c67-1f9c97b39fad")
+			(uuid "f48829ee-1b09-4f19-9551-34622b6d730f")
 		)
 		(pin "2"
-			(uuid "a0135373-62bc-4c5b-8d02-8e7a8b440152")
+			(uuid "9d996f95-449b-4484-87b7-e5f59b9ab2db")
 		)
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "SW1")
+					(reference "R6")
 					(unit 1)
 				)
 			)
@@ -11894,7 +12081,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:LED-SMD_4P-L4.0-W1.6-L"
+		(property "Footprint" "todbot_stuff:LED-SMD_4P-L4.0-W1.6-L-todedits"
 			(at 110.49 193.04 0)
 			(hide yes)
 			(show_name no)
@@ -12321,7 +12508,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:LED-SMD_4P-L4.0-W1.6-L"
+		(property "Footprint" "todbot_stuff:LED-SMD_4P-L4.0-W1.6-L-todedits"
 			(at 44.45 243.84 0)
 			(hide yes)
 			(show_name no)
@@ -13229,6 +13416,83 @@
 	)
 	(symbol
 		(lib_id "power:GND")
+		(at 139.7 74.93 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "6ef25c76-579f-4c5a-9328-c1bc99f533f2")
+		(property "Reference" "#PWR0211"
+			(at 139.7 81.28 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 140.462 78.994 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 139.7 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 139.7 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 139.7 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "4397f853-bfb1-4ebc-b0f4-49f035912179")
+		)
+		(instances
+			(project "sketchingpad_stripproto1"
+				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
+					(reference "#PWR0211")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
 		(at 129.54 44.45 0)
 		(unit 1)
 		(body_style 1)
@@ -13336,7 +13600,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:LED-SMD_4P-L4.0-W1.6-L"
+		(property "Footprint" "todbot_stuff:LED-SMD_4P-L4.0-W1.6-L-todedits"
 			(at 175.26 243.84 0)
 			(hide yes)
 			(show_name no)
@@ -14477,7 +14741,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:LED-SMD_4P-L4.0-W1.6-L"
+		(property "Footprint" "todbot_stuff:LED-SMD_4P-L4.0-W1.6-L-todedits"
 			(at 153.67 243.84 0)
 			(hide yes)
 			(show_name no)
@@ -14657,7 +14921,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "816be3e6-1e9c-47ed-8485-e1afcf71ee70")
-		(property "Reference" "R18"
+		(property "Reference" "R2"
 			(at 251.46 44.45 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14710,6 +14974,49 @@
 				)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 254 44.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "DigikeyPN" ""
+			(at 254 44.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 254 44.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Note" ""
+			(at 254 44.45 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "ec96a8b9-4ed7-4263-ac8d-a30d8c8bc314")
 		)
@@ -14719,7 +15026,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "R18")
+					(reference "R2")
 					(unit 1)
 				)
 			)
@@ -14973,7 +15280,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "884b18e5-9d28-4422-b304-49685623d45a")
-		(property "Reference" "C100"
+		(property "Reference" "C23"
 			(at 308.61 31.7499 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -15080,7 +15387,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "C100")
+					(reference "C23")
 					(unit 1)
 				)
 			)
@@ -15272,7 +15579,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:LED-SMD_4P-L4.0-W1.6-L"
+		(property "Footprint" "todbot_stuff:LED-SMD_4P-L4.0-W1.6-L-todedits"
 			(at 110.49 243.84 0)
 			(hide yes)
 			(show_name no)
@@ -15841,7 +16148,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "8f83b196-5112-4bc9-85c1-4a7d0c531bd5")
-		(property "Reference" "R17"
+		(property "Reference" "R3"
 			(at 257.81 44.45 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -15894,6 +16201,49 @@
 				)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 260.35 44.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "DigikeyPN" ""
+			(at 260.35 44.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 260.35 44.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Note" ""
+			(at 260.35 44.45 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "338e706f-e91b-47db-aad6-70ad90591efa")
 		)
@@ -15903,7 +16253,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "R17")
+					(reference "R3")
 					(unit 1)
 				)
 			)
@@ -15941,7 +16291,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:LED-SMD_4P-L4.0-W1.6-L"
+		(property "Footprint" "todbot_stuff:LED-SMD_4P-L4.0-W1.6-L-todedits"
 			(at 196.85 243.84 0)
 			(hide yes)
 			(show_name no)
@@ -16832,7 +17182,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:LED-SMD_4P-L4.0-W1.6-L"
+		(property "Footprint" "todbot_stuff:LED-SMD_4P-L4.0-W1.6-L-todedits"
 			(at 66.04 243.84 0)
 			(hide yes)
 			(show_name no)
@@ -17223,7 +17573,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:LED-SMD_4P-L4.0-W1.6-L"
+		(property "Footprint" "todbot_stuff:LED-SMD_4P-L4.0-W1.6-L-todedits"
 			(at 44.45 193.04 0)
 			(hide yes)
 			(show_name no)
@@ -17281,6 +17631,27 @@
 		(property "LCSC Part" "C5378737"
 			(at 44.45 203.2 0)
 			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "DigikeyPN" ""
+			(at 44.45 181.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Note" ""
+			(at 44.45 181.61 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -17826,191 +18197,6 @@
 		)
 	)
 	(symbol
-		(lib_id "PCM_marbastlib-promicroish:Seeeduino_Xiao_nRF52840")
-		(at 58.42 68.58 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "a76c98d1-8fcc-417e-b7e3-4f995f2d1800")
-		(property "Reference" "U2"
-			(at 68.1833 82.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "Seeeduino Xiao nRF52840"
-			(at 68.1833 85.09 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "todbot_stuff:Xiao_nRF52840_ACH-todedit"
-			(at 58.42 99.06 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 45.72 54.61 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Symbol for a Seeeduino Xiao nRF52840"
-			(at 58.42 68.58 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC Part" ""
-			(at 58.42 68.58 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "DigikeyPN" ""
-			(at 58.42 68.58 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "MPN" ""
-			(at 58.42 68.58 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Note" ""
-			(at 58.42 68.58 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "6"
-			(uuid "be9e0a4c-352b-48b1-9417-4d45f6327569")
-		)
-		(pin "22"
-			(uuid "f5f50145-e4c2-45f7-a7ed-6d5d3da8d8d2")
-		)
-		(pin "20"
-			(uuid "88c80549-86b8-4821-8c55-0832e499727a")
-		)
-		(pin "21"
-			(uuid "3c9fb55c-0da6-4981-bc77-80decc2c22d3")
-		)
-		(pin "1"
-			(uuid "4aa9f487-f9e7-4057-8905-75c9a5bc965a")
-		)
-		(pin "3"
-			(uuid "8c2f1a65-8f64-456b-8b6f-ef51ea841b09")
-		)
-		(pin "4"
-			(uuid "bb1261f4-59e0-4be9-95d5-771ca60cfff5")
-		)
-		(pin "13"
-			(uuid "562cee38-2973-4fb7-bb23-0fdb5adcc12d")
-		)
-		(pin "19"
-			(uuid "22e91a85-2c7a-457a-82c2-d18673281ed1")
-		)
-		(pin "5"
-			(uuid "bf93406e-0279-4460-ba34-9395eb55625b")
-		)
-		(pin "18"
-			(uuid "d2bc1359-4caf-43f9-b323-cb57b1dbd0b4")
-		)
-		(pin "17"
-			(uuid "766a9ccc-4c7a-4669-898c-df16ba15bef3")
-		)
-		(pin "8"
-			(uuid "05838425-28d8-416a-8942-a17e07ddea36")
-		)
-		(pin "12"
-			(uuid "3e5d162e-3305-4d32-8960-adedfc9e2533")
-		)
-		(pin "16"
-			(uuid "d34dbe1f-1b9e-47d4-85bd-3e8cb4077fd3")
-		)
-		(pin "15"
-			(uuid "57e4024c-a950-41b4-8495-262b667f8a1c")
-		)
-		(pin "7"
-			(uuid "9e0c6793-1c18-4bc3-b68e-c06848b88693")
-		)
-		(pin "11"
-			(uuid "d712e9f3-3a26-4930-a3b6-c48d00fa9c96")
-		)
-		(pin "10"
-			(uuid "f066232d-a7be-4672-8566-cc6c34711a12")
-		)
-		(pin "2"
-			(uuid "b801ee74-5677-4be3-af10-e1b7f3d7f050")
-		)
-		(pin "9"
-			(uuid "52f864fb-5e2d-43ac-a5f4-686daa483379")
-		)
-		(pin "14"
-			(uuid "95fbc2e4-61f5-4e56-aad7-613a40fc1c3c")
-		)
-		(instances
-			(project "sketchingpad_stripproto1"
-				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "U2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
 		(at 175.26 189.23 0)
 		(unit 1)
@@ -18257,7 +18443,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "abb68599-6c03-467e-94a3-1d6f23651d8f")
-		(property "Reference" "R16"
+		(property "Reference" "R1"
 			(at 241.3 44.45 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -18310,6 +18496,49 @@
 				)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 243.84 44.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "DigikeyPN" ""
+			(at 243.84 44.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 243.84 44.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Note" ""
+			(at 243.84 44.45 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "ffbf4534-ba58-4fd5-b02d-4b786aa22c27")
 		)
@@ -18319,7 +18548,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "R16")
+					(reference "R1")
 					(unit 1)
 				)
 			)
@@ -18921,7 +19150,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "b10b0068-683b-48a3-b487-a9675ee4de6a")
-		(property "Reference" "R21"
+		(property "Reference" "R5"
 			(at 151.384 85.598 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -18974,6 +19203,49 @@
 				)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 151.13 87.63 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "DigikeyPN" ""
+			(at 151.13 87.63 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 151.13 87.63 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Note" ""
+			(at 151.13 87.63 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "1bc106b4-c34c-452d-bec7-92935d893d6b")
 		)
@@ -18983,7 +19255,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "R21")
+					(reference "R5")
 					(unit 1)
 				)
 			)
@@ -19459,7 +19731,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:LED-SMD_4P-L4.0-W1.6-L"
+		(property "Footprint" "todbot_stuff:LED-SMD_4P-L4.0-W1.6-L-todedits"
 			(at 259.08 243.84 0)
 			(hide yes)
 			(show_name no)
@@ -20257,7 +20529,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:LED-SMD_4P-L4.0-W1.6-L"
+		(property "Footprint" "todbot_stuff:LED-SMD_4P-L4.0-W1.6-L-todedits"
 			(at 67.31 193.04 0)
 			(hide yes)
 			(show_name no)
@@ -20376,7 +20648,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:LED-SMD_4P-L4.0-W1.6-L"
+		(property "Footprint" "todbot_stuff:LED-SMD_4P-L4.0-W1.6-L-todedits"
 			(at 237.49 243.84 0)
 			(hide yes)
 			(show_name no)
@@ -20458,6 +20730,148 @@
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
 					(reference "LED17")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "todbot_stuff:Seeeduino_Xiao_nRF52840")
+		(at 58.42 68.58 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d50775ce-5057-40b2-b093-e50506fe9869")
+		(property "Reference" "U2"
+			(at 68.1833 82.55 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Seeeduino Xiao nRF52840"
+			(at 68.1833 85.09 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "todbot_stuff:Xiao_nRF52840_ACH-todedit"
+			(at 58.42 99.06 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 45.72 54.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Symbol for a Seeeduino Xiao nRF52840"
+			(at 58.42 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "12"
+			(uuid "925ad064-0ab0-4de2-8052-fdf473faebdb")
+		)
+		(pin "6"
+			(uuid "034f6d5b-b0cd-4ffa-b903-41167e92bfb7")
+		)
+		(pin "8"
+			(uuid "49cb98a9-dbb3-4505-950a-994cacacbb6e")
+		)
+		(pin "14"
+			(uuid "cc1bc129-8380-4fb6-a221-bbb64437676f")
+		)
+		(pin "15"
+			(uuid "081af8b0-25b1-45c2-92bb-7bcb12ab41a6")
+		)
+		(pin "9"
+			(uuid "e23e5d1f-e314-4ca7-882a-e703f55af370")
+		)
+		(pin "10"
+			(uuid "306e1ec3-025d-46e6-a4a8-fe06dadd4127")
+		)
+		(pin "1"
+			(uuid "b6e5a1ed-c543-4a27-9b1e-f762675e9c38")
+		)
+		(pin "22"
+			(uuid "50eafd82-1eff-49c5-9a1a-15dcfc7549f7")
+		)
+		(pin "21"
+			(uuid "bd81fa65-02c9-4aaf-8258-0cd720eebd59")
+		)
+		(pin "17"
+			(uuid "8e2af6f5-dfb6-416d-9c6c-920ed417f0ba")
+		)
+		(pin "3"
+			(uuid "89762310-cfbd-4d6e-ad78-50f9222e8ba8")
+		)
+		(pin "20"
+			(uuid "fbb7b48f-0e69-4de2-b06e-6b6ce143e048")
+		)
+		(pin "4"
+			(uuid "f0100829-8960-431e-99e0-f9c03143147e")
+		)
+		(pin "13"
+			(uuid "01324f27-6776-4764-9679-70b56b2cebdb")
+		)
+		(pin "11"
+			(uuid "b20a8489-2533-43e0-8f9b-d9e62836ea00")
+		)
+		(pin "7"
+			(uuid "8a3898b7-b447-4d73-8c97-088049e4999a")
+		)
+		(pin "5"
+			(uuid "e416e296-a897-48d5-8825-1a409de1341b")
+		)
+		(pin "18"
+			(uuid "a6d96e70-72a6-4239-a1cc-cf6eefd2b5ba")
+		)
+		(pin "16"
+			(uuid "dd153fa3-c2a7-49e5-af43-296018535c71")
+		)
+		(pin "19"
+			(uuid "572c5c24-1510-470a-9533-969e8e485a1b")
+		)
+		(pin "2"
+			(uuid "69e67da9-c197-45f3-86a4-113e32c6b4f2")
+		)
+		(instances
+			(project "sketchingpad_stripproto1"
+				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
+					(reference "U2")
 					(unit 1)
 				)
 			)
@@ -20572,7 +20986,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:LED-SMD_4P-L4.0-W1.6-L"
+		(property "Footprint" "todbot_stuff:LED-SMD_4P-L4.0-W1.6-L-todedits"
 			(at 280.67 243.84 0)
 			(hide yes)
 			(show_name no)
@@ -21126,7 +21540,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:LED-SMD_4P-L4.0-W1.6-L"
+		(property "Footprint" "todbot_stuff:LED-SMD_4P-L4.0-W1.6-L-todedits"
 			(at 88.9 243.84 0)
 			(hide yes)
 			(show_name no)
@@ -21322,7 +21736,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:LED-SMD_4P-L4.0-W1.6-L"
+		(property "Footprint" "todbot_stuff:LED-SMD_4P-L4.0-W1.6-L-todedits"
 			(at 132.08 243.84 0)
 			(hide yes)
 			(show_name no)
@@ -21518,7 +21932,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:LED-SMD_4P-L4.0-W1.6-L"
+		(property "Footprint" "todbot_stuff:LED-SMD_4P-L4.0-W1.6-L-todedits"
 			(at 302.26 243.84 0)
 			(hide yes)
 			(show_name no)
@@ -21834,7 +22248,7 @@
 				)
 			)
 		)
-		(property "Footprint" "easyeda2kicad:LED-SMD_4P-L4.0-W1.6-L"
+		(property "Footprint" "todbot_stuff:LED-SMD_4P-L4.0-W1.6-L-todedits"
 			(at 196.85 193.04 0)
 			(hide yes)
 			(show_name no)
@@ -21892,6 +22306,27 @@
 		(property "LCSC Part" "C5378737"
 			(at 196.85 203.2 0)
 			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "DigikeyPN" ""
+			(at 196.85 181.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Note" ""
+			(at 196.85 181.61 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -22010,7 +22445,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "ea3ed91f-e989-4cae-aa26-22cb24a7f1d4")
-		(property "Reference" "R23"
+		(property "Reference" "R7"
 			(at 186.182 91.694 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -22063,6 +22498,49 @@
 				)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 184.15 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "DigikeyPN" ""
+			(at 184.15 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" ""
+			(at 184.15 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Note" ""
+			(at 184.15 91.44 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "0de0e705-84cd-4641-8ad2-e2dd96ae408f")
 		)
@@ -22072,7 +22550,7 @@
 		(instances
 			(project "sketchingpad_stripproto1"
 				(path "/69aff514-3aa6-493d-bc6d-4103dc0ce10d"
-					(reference "R23")
+					(reference "R7")
 					(unit 1)
 				)
 			)
