@@ -15,6 +15,8 @@
 #include <Wire.h>
 #include <bluefruit.h>
 
+#include "device_id_code.h"
+
 // sketchingpad_stripproto1 -> XIAO nRF52840:
 //   SDA       = D4       (Wire default)
 //   SCL       = D5       (Wire default)
@@ -51,7 +53,27 @@ const uint8_t pad_to_key[TS20_NUM_PADS] = {
     HID_KEY_1, HID_KEY_2, HID_KEY_3, HID_KEY_4,     // pads 17-20
 };
 
+// Which pads show the device ID code, left to right.  The bottom row is
+// pads 9-16; these are its left five.  Change this line if you want the
+// code somewhere else.
+const uint8_t ID_PADS[DEVICE_ID_CODE_LEN] = {9, 10, 11, 12, 13};
+
 uint32_t last_touches = 0;
+
+// Light the device's ID code on ID_PADS.  Called at the end of setup(); it
+// stays up until the first touch, since loop() only redraws on a change.
+void showDeviceIdCode() {
+  uint32_t colors[DEVICE_ID_CODE_LEN];
+  deviceIdColors(colors);
+  leds.clear();
+  for (uint8_t i = 0; i < DEVICE_ID_CODE_LEN; i++) {
+    for (int led = 0; led < NUM_LEDS; led++) {
+      // ID_PADS is 1-based to match the layout above, led_to_pad is 0-based
+      if (led_to_pad[led] == ID_PADS[i] - 1) { leds.setPixelColor(led, colors[i]); }
+    }
+  }
+  leds.show();
+}
 
 void setup() {
   Serial.begin(115200);
@@ -80,8 +102,14 @@ void setup() {
   Bluefruit.begin(1, 0); // one peripheral, no central
   Bluefruit.setName("sketchingpad");
 
+  // Model carries this board's ID code, e.g. "sketchingpad-RYGGB", matching
+  // the five LEDs lit at the end of setup().  static: BLEDis holds the
+  // pointer until begin() copies the string into the GATT table.
+  static char model[32];
+  deviceIdName(model, sizeof(model), "sketchingpad");
+
   bledis.setManufacturer("todbot");
-  bledis.setModel("sketchingpad");
+  bledis.setModel(model);
   bledis.begin();
 
   blehid.begin();
@@ -95,7 +123,10 @@ void setup() {
   Bluefruit.Advertising.setFastTimeout(30);
   Bluefruit.Advertising.start(0); // 0 = advertise forever
 
-  Serial.println("ble_keyboard_simple: pair with \"sketchingpad\"");
+  showDeviceIdCode();
+
+  Serial.printf("ble_keyboard_simple: pair with \"sketchingpad\", model %s\n",
+                model);
 }
 
 void loop() {

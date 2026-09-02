@@ -579,7 +579,7 @@
     "last_paths": {
       "idf": "",
       "netlist": "",
-      "plot": "",
+      "plot": "/Users/tod/projects/synth/sketchingpad/schematics/sketchingpad_proto2/",
       "specctra_dsn": "",
       "vrml": ""
     },
@@ -745,13 +745,13 @@
         "uuid": "69aff514-3aa6-493d-bc6d-4103dc0ce10d"
       }
     ],
-    "used_designators": "3V3_LED1,J3,SW2-5,C21-22,#PWR15,#PWR18,#PWR32,#PWR35-36,#PWR209-211,R20-23,TP21-23,U2-3,#FLG1-7",
+    "used_designators": "3V3_LED1,J3,SW2-5,C21-22,#PWR15,#PWR18,#PWR32,#PWR35-36,#PWR209-211,R20-23,TP21-24,U2-3,#FLG1-7",
     "variants": []
   },
   "sheets": [
     [
       "69aff514-3aa6-493d-bc6d-4103dc0ce10d",
-      "sketchingpad_stripproto1"
+      "sketchingpad_proto2"
     ]
   ],
   "text_variables": {},
