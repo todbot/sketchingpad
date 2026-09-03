@@ -102,7 +102,7 @@ void setup() {
   Bluefruit.begin(1, 0); // one peripheral, no central
   Bluefruit.setName("sketchingpad");
 
-  // Model carries this board's ID code, e.g. "sketchingpad-RYGGB", matching
+  // Model carries this board's ID code, e.g. "sketchingpad-RMGGB", matching
   // the five LEDs lit at the end of setup().  static: BLEDis holds the
   // pointer until begin() copies the string into the GATT table.
   static char model[32];

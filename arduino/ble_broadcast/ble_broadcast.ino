@@ -16,6 +16,8 @@
 
 #include <bluefruit.h>
 
+#include "device_id_code.h"
+
 // Manufacturer Specific Data company ID.  0xFFFF is the SIG's test value:
 // fine for our own gear, "shall not be used in shipping end products".
 #define COMPANY_ID (0xFFFF)
@@ -26,6 +28,8 @@
 
 // 0 = derive a stable ID from the chip's factory device ID, so two boards
 // running identical firmware still differ.  Override for a fixed address.
+// See device_id_code.h; the same hash drives the color code printed at
+// startup, so the hex ID and the letters always name the same board.
 #define DEVICE_ID (0)
 
 // Refuse to send faster than this.  Advertising is unacknowledged, so a
@@ -171,11 +175,7 @@ void setup() {
   Serial.begin(115200);
   while (!Serial && millis() < 3000) { delay(10); }
 
-  // FICR is readable with the SoftDevice enabled; fold 32 bits into 16 so
-  // two boards with identical firmware still get different IDs.
-  my_id = DEVICE_ID ? DEVICE_ID
-                    : (uint16_t)(NRF_FICR->DEVICEID[0] ^
-                                 (NRF_FICR->DEVICEID[0] >> 16));
+  my_id = DEVICE_ID ? DEVICE_ID : deviceIdShort();
   memset(peers, 0, sizeof(peers));
 
   Bluefruit.begin(1, 1); // 1 peripheral (advertise) + 1 central (scan)
@@ -215,8 +215,13 @@ void setup() {
   Bluefruit.Scanner.setInterval(SCAN_INTERVAL, SCAN_WINDOW);
   Bluefruit.Scanner.start(0); // 0 = scan forever
 
-  Serial.printf("ble_broadcast: device %04x, %u byte payload, adv %s\n",
-                my_id, PAYLOAD_LEN,
+  // The letter code is what identifies this board by eye -- it is the same
+  // code ble_keyboard_simple puts in its BLE model name and lights on the
+  // LEDs, so a peer seen on air can be matched to a board on the bench.
+  char code[DEVICE_ID_CODE_LEN + 1];
+  deviceIdCode(code);
+  Serial.printf("ble_broadcast: device %04x (%s), %u byte payload, adv %s\n",
+                my_id, code, PAYLOAD_LEN,
                 adv_nonconnectable ? "non-connectable" : "connectable");
   Serial.println("type a line to broadcast it");
 }
