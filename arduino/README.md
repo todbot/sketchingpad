@@ -73,14 +73,14 @@ Taken from the `schematics/sketchingpad_stripproto1` netlist.
 | Signal      | XIAO pin | Notes                         |
 |-------------|----------|-------------------------------|
 | `PWM_AUDIO` | D0 / A0  | net at the header only        |
-| `BUTTON`    | D2 / A2  | SW1 to GND, internal pull-up  |
+| `BUTTON`    | D10/MOSI | SW1 to GND, internal pull-up  |
 | `TS20_INT`  | D3 / A3  | open collector, R16 pulls up  |
 | `SDA`       | D4       | `Wire` default                |
 | `SCL`       | D5       | `Wire` default                |
 | `LED_DAT`   | D6 / TX  | also `PIN_SERIAL1_TX`         |
 | `LED_POWER` | D7 / RX  | P-FET gate, LOW = rail on     |
 
-Still spare: D1/A1 and D8-D10.
+Still spare: D1/A1, D8 and D9.
 
 `PWM_AUDIO` is a named net with no other nodes in the netlist -- the pin
 is reserved but nothing is wired to it yet, so no sketch drives it.
@@ -244,9 +244,9 @@ matching tier degrades.
    with R19 100k pulling up to the source so the rail is **off** by
    default. Highest-value change on the board; see the sections below
    for why that polarity and that part.
-2. **SW1 pin 1 wired to D3.** It used to float, so there was no button
-   input at all. Now a wake source, and a press forces DEEP sleep.
-3. **TS20 INT (U1 pin 19) brought to D10/MOSI.** Previously it only
+2. **SW1 pin 1 wired to D10/MOSI.** It used to float, so there was no
+   button input at all. Now a wake source, and a press forces DEEP sleep.
+3. **TS20 INT (U1 pin 19) brought to D3/A3.** Previously it only
    reached its 10k pull-up R16 and dead-ended. This is what makes
    interrupt-driven scanning and touch-to-wake possible; without it the
    firmware had to poll, and `SYSTEM_OFF` was unreachable because

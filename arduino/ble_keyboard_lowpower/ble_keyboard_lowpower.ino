@@ -34,7 +34,7 @@
 
 // sketchingpad_stripproto1 -> XIAO nRF52840:
 //   PWM_AUDIO = D0 / A0  (net at the header only, unused here)
-//   BUTTON    = D2 / A2  (SW1 to GND, needs internal pull-up)
+//   BUTTON    = D10/MOSI (SW1 to GND, needs internal pull-up)
 //   TS20 INT  = D3 / A3  (open collector, R16 pulls it up)
 //   SDA       = D4       (Wire default)
 //   SCL       = D5       (Wire default)
@@ -42,7 +42,10 @@
 //   LED_POWER = D7 / RX  (P-FET gate: LOW = rail on)
 #define PIN_LED_DATA  (6)
 #define PIN_LED_POWER (7)
-#define PIN_BUTTON    (A2)
+// BUTTON is D10/P1.15, not D2 -- /BUTTON in the proto2 netlist goes to
+// U2 pin 11.  D2/A2 (P0.28) has no net at all, so the old value floated
+// high forever and the button could never fire.
+#define PIN_BUTTON    (10)
 #define PIN_TS20_INT  (A3)
 
 // Enable the nRF52840 DC/DC regulator.  Set to 0 if the XIAO turns out not

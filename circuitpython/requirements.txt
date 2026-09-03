@@ -1,2 +1,4 @@
 neopixel
 ts20
+adafruit-circuitpython-ble
+adafruit-circuitpython-hid
