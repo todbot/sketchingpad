@@ -1,14 +1,18 @@
 // hwtest_leds.ino -- chase a single pixel around the sketchingpad LED ring
 //
 // Arduino port of circuitpython/hwtest/code_ledtest.py, for a
-// Seeed XIAO nRF52840 plugged into the sketchingpad_stripproto1 board.
+// Seeed XIAO nRF52840 plugged into the sketchingpad_proto2 board.
+// The pins below are the same on sketchingpad_stripproto1.
 //
 // Board: Seeeduino:nrf52:xiaonRF52840
 
 #include <Adafruit_NeoPixel.h>
 
-// sketchingpad_stripproto1: LED_DAT goes to XIAO D6 (also TX).
-#define PIN_LED_DATA (6)
+// sketchingpad_proto2 -> XIAO nRF52840:
+//   LED_DAT   = D6 / TX
+//   LED_POWER = D7 / RX  (P-FET gate: LOW = rail on)
+#define PIN_LED_DATA  (6)
+#define PIN_LED_POWER (7)
 
 const int NUM_LEDS = 20;
 const int LED_BRIGHTNESS = 50; // out of 255, ~0.2 like the CircuitPython test
@@ -29,6 +33,13 @@ uint32_t colorwheel(uint8_t pos) {
 
 void setup() {
   Serial.begin(115200);
+
+  // The LED power rail hangs off a P-FET whose gate is pulled up to its
+  // source, so the rail is OFF until D7 is driven low.  Without this the
+  // LEDs never light.
+  pinMode(PIN_LED_POWER, OUTPUT);
+  digitalWrite(PIN_LED_POWER, LOW);
+  delay(2); // let ~2 uF of rail decoupling settle before clocking data in
 
   leds.begin();
   leds.setBrightness(LED_BRIGHTNESS);

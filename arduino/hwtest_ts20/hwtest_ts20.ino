@@ -1,7 +1,8 @@
 // hwtest_ts20.ino -- light up an LED for each touched pad, with a fading trail
 //
 // Arduino port of circuitpython/hwtest/code_test_ts20.py, for a
-// Seeed XIAO nRF52840 plugged into the sketchingpad_stripproto1 board.
+// Seeed XIAO nRF52840 plugged into the sketchingpad_proto2 board.
+// The pins below are the same on sketchingpad_stripproto1.
 //
 // Sensitivity is 0 (most sensitive) to 15 (least) and can be changed
 // per pad at runtime, see below.
@@ -28,11 +29,13 @@
 #include <TS20.h>
 #include <Wire.h>
 
-// sketchingpad_stripproto1 -> XIAO nRF52840:
-//   SDA     = D4  (Wire default)
-//   SCL     = D5  (Wire default)
-//   LED_DAT = D6  (also TX)
-#define PIN_LED_DATA (6)
+// sketchingpad_proto2 -> XIAO nRF52840:
+//   SDA       = D4       (Wire default)
+//   SCL       = D5       (Wire default)
+//   LED_DAT   = D6 / TX
+//   LED_POWER = D7 / RX  (P-FET gate: LOW = rail on)
+#define PIN_LED_DATA  (6)
+#define PIN_LED_POWER (7)
 
 #define USE_INT_PIN (1)
 
@@ -91,6 +94,13 @@ uint32_t colorwheel(uint8_t pos) {
 
 void setup() {
   Serial.begin(115200);
+
+  // The LED power rail hangs off a P-FET whose gate is pulled up to its
+  // source, so the rail is OFF until D7 is driven low.  Without this the
+  // LEDs never light.
+  pinMode(PIN_LED_POWER, OUTPUT);
+  digitalWrite(PIN_LED_POWER, LOW);
+  delay(2); // let ~2 uF of rail decoupling settle before clocking data in
 
   leds.begin();
   leds.setBrightness(LED_BRIGHTNESS);

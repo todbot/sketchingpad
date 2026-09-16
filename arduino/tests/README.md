@@ -35,6 +35,30 @@ point it elsewhere to test a different sketch's copy.
 - Malformed packets: zero, oversized, and out-of-range chunk indices.
 - Single-event and 72-event animations; the short final chunk is padded.
 
+`id_test.cpp` -- `device_id_code.h`, the R/Y/G/B/M board identity:
+
+- **Every letter appears at every position**, swept over 20000 synthetic
+  device IDs. This is the suite's reason to exist: the code is five base-5
+  digits because there are five colors, and it was five 2-bit slices back
+  when there were four. Revert the modulus to bit masking and M becomes
+  unreachable while every code still looks perfectly valid.
+- `deviceIdColors()` agrees with `deviceIdCode()` position by position.
+- **Both FICR words feed the hash.** `ble_broadcast` once folded
+  `DEVICEID[0]` alone; going back to that would silently collide boards
+  differing only in the high word.
+- Code and short id are stable for a fixed device and differ across
+  devices.
+- `deviceIdName()` formatting, and that an undersized buffer is terminated
+  rather than overrun.
+- Letters and colors are all distinct, so a code stays readable.
+
+It builds against `stubs/Arduino.h`, which supplies `snprintf`, `size_t`
+and a writable fake `NRF_FICR`. The header under test is unmodified: it
+includes `<Arduino.h>` and must keep doing so, since that is where
+`NRF_FICR` comes from and the header promises to drop into any nRF52
+sketch. The cost of the stub is that these tests do not prove the header
+compiles against the real `Arduino.h` -- the sketch builds cover that.
+
 `player_test.cpp` -- `LedAnim` timing:
 
 - Events fire on their deadline, not a millisecond early.
@@ -56,9 +80,20 @@ event fires about 49 days early. The test sets that case up specifically.
 
 That hole was found by mutating the header and re-running: any test that
 still passes against a deliberately broken header is not testing anything.
-Three others were found the same way and fixed.
+Three others were found the same way and fixed. Worth repeating that
+exercise after adding tests here -- it is the only way to know a new
+assertion does anything.
 
-One known equivalent mutant: deleting the duplicate-chunk short-circuit in
-`AnimReassembler::feed()` changes nothing observable, because the repeat
-rewrites identical bytes and the received-mask OR is idempotent. It is an
-optimization, not a correctness guard, so no test covers it.
+## Two things deliberately not tested
+
+Deleting the duplicate-chunk short-circuit in `AnimReassembler::feed()`
+changes nothing observable: the repeat rewrites identical bytes and the
+received-mask OR is idempotent. It is an optimization, not a correctness
+guard, so no test covers it.
+
+There is no cross-check that a changed `deviceIdShort()` implies a changed
+`deviceIdCode()`, or the reverse. Both are projections of one hash but at
+different widths -- 3125 possible codes against 65536 shorts -- so each
+collides independently and neither implies the other. An earlier draft
+asserted it and was simply wrong. What does guard the shared-hash property
+is the `DEVICEID[1]` test.
