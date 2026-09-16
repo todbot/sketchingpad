@@ -2,7 +2,8 @@ import board, time, random
 import synthio
 import audiopwmio
 
-audio = audiopwmio.PWMAudioOut(board.P0_02)
+# PWM_AUDIO is XIAO D0 on sketchingpad_proto2 (P0.02 -> R5)
+audio = audiopwmio.PWMAudioOut(board.D0)
 
 synth = synthio.Synthesizer(sample_rate=22050)
 amp_env = synthio.Envelope(attack_time=0.01, release_time=0.4, sustain_level=0.5, attack_level=0.5)
