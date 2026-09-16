@@ -57,8 +57,8 @@ TS20 ts20;
 // the CircuitPython test calls "touch_to_led" and searches with .index();
 // walking the LEDs instead of the pads gets the same mapping for free.
 const uint8_t led_to_pad[NUM_LEDS] = {
-    18, 1, 3, 4, 6, 9, 19, 2, 5, 8,
-    17, 0, 10, 11, 16, 15, 14, 13, 12, 7,
+    0, 1, 2, 3, 8, 9, 10, 11, 16, 17,
+    18, 19, 12, 13, 14, 15, 4, 5, 6, 7,
 };
 
 // our own pixel buffer, so the fade does not fight setBrightness() rounding

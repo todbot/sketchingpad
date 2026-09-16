@@ -74,20 +74,22 @@ BLEHidAdafruit blehid;
 
 // Index is LED number, value is the pad wired to it (same table as hwtest_ts20)
 const uint8_t led_to_pad[NUM_LEDS] = {
-    18, 1, 3, 4, 6, 9, 19, 2, 5, 8,
-    17, 0, 10, 11, 16, 15, 14, 13, 12, 7,
+    0, 1, 2, 3, 8, 9, 10, 11, 16, 17,
+    18, 19, 12, 13, 14, 15, 4, 5, 6, 7,
 };
 
-// Index is pad number.  Pad layout from planning.md, pads numbered 1-20:
-//        17 18 19 20
-//     1  2  3  4    5  6  7  8
-//     9 10 11 12   13 14 15 16
+// The TS20 channel order is NOT the pad numbering on the silkscreen.
+// Physical layout on proto2, TP refdes above each column, channel below:
+//
+//            TP17 TP18 TP19 TP20              4  5  6  7
+//   TP1  TP2  TP3  TP4   TP5  TP6  TP7  TP8   0  1  2  3   8  9 10 11
+//   TP9 TP10 TP11 TP12  TP13 TP14 TP15 TP16  16 17 18 19  12 13 14 15
 const uint8_t pad_to_key[TS20_NUM_PADS] = {
-    HID_KEY_A, HID_KEY_S, HID_KEY_D, HID_KEY_F,     // pads 1-4
-    HID_KEY_G, HID_KEY_H, HID_KEY_J, HID_KEY_K,     // pads 5-8
-    HID_KEY_Z, HID_KEY_X, HID_KEY_C, HID_KEY_V,     // pads 9-12
-    HID_KEY_B, HID_KEY_N, HID_KEY_M, HID_KEY_COMMA, // pads 13-16
-    HID_KEY_1, HID_KEY_2, HID_KEY_3, HID_KEY_4,     // pads 17-20
+    HID_KEY_A, HID_KEY_S, HID_KEY_D, HID_KEY_F,       // TP1-4,   mid left
+    HID_KEY_1, HID_KEY_2, HID_KEY_3, HID_KEY_4,       // TP17-20, top row
+    HID_KEY_G, HID_KEY_H, HID_KEY_J, HID_KEY_K,       // TP5-8,   mid right
+    HID_KEY_B, HID_KEY_N, HID_KEY_M, HID_KEY_COMMA,   // TP13-16, low right
+    HID_KEY_Z, HID_KEY_X, HID_KEY_C, HID_KEY_V,       // TP9-12,  low left
 };
 
 bool     usb_present = false;

@@ -2,7 +2,7 @@
 
 Arduino firmware for the sketchingpad: a 20-pad capacitive touch surface
 (TS20) with 20 side-view SK6812 LEDs, driven by a Seeed XIAO nRF52840
-plugged into a `sketchingpad` board. (current proto: `sketchingpad_stripproto1`)
+plugged into a `sketchingpad` board. (current proto: `sketchingpad_proto2`)
 
 ## Sketches
 

@@ -5,7 +5,7 @@
 // board in range plays the same thing.  No pairing, no connections, any
 // number of participants, all running this same firmware.
 //
-// Pads 17-20 (the top row) are color swatches rather than animation
+// The top row of pads (TP17-20) are color swatches rather than animation
 // events: touching one picks the color for everything recorded after it.
 // Touching the swatch that is already selected switches to its second
 // variant, so four pads reach all eight palette entries.
@@ -38,8 +38,10 @@ const int NUM_LEDS = ANIM_NUM_LEDS;
 const int LED_BRIGHTNESS = 40;
 const int TS20_SENSITIVITY = 15; // 0 = most sensitive, 15 = least
 
-// Pads 17-20, zero-based.  These pick a color instead of recording.
-const uint8_t SWATCH_FIRST_PAD = 16;
+// The top row (TP17-20) is TS20 channels 4-7 on proto2 -- a middle slice,
+// not the top of the range, so this needs a range test and not a >=.
+const uint8_t SWATCH_FIRST_PAD = 4;
+const uint8_t SWATCH_COUNT = 4;
 
 const uint32_t REC_SILENCE_MS = 1500;  // quiet this long ends a recording
 const uint32_t LED_IDLE_MS = 30000;    // blank the rail after this
@@ -65,8 +67,8 @@ AnimReassembler reasm;
 
 // Index is LED number, value is the pad wired to it.
 const uint8_t led_to_pad[NUM_LEDS] = {
-    18, 1, 3, 4, 6, 9, 19, 2, 5, 8,
-    17, 0, 10, 11, 16, 15, 14, 13, 12, 7,
+    0, 1, 2, 3, 8, 9, 10, 11, 16, 17,
+    18, 19, 12, 13, 14, 15, 4, 5, 6, 7,
 };
 uint8_t pad_to_led[TS20_NUM_PADS]; // inverted from led_to_pad at startup
 
@@ -311,7 +313,7 @@ void setup() {
   deviceIdCode(code);
   Serial.printf("ble_broadcast_anim: device %04x (%s), %u byte packets\n",
                 my_id, code, ANIM_MSG_LEN);
-  Serial.println("touch pads 1-16 to record, 17-20 pick a color");
+  Serial.println("touch pads to record; the top row picks a color");
 
   last_activity_ms = millis();
 }
@@ -332,7 +334,7 @@ void loop() {
   for (uint8_t pad = 0; pad < TS20_NUM_PADS; pad++) {
     if (!((newly >> pad) & 1)) { continue; }
     last_activity_ms = now;
-    if (pad >= SWATCH_FIRST_PAD) {
+    if (pad >= SWATCH_FIRST_PAD && pad < SWATCH_FIRST_PAD + SWATCH_COUNT) {
       // Touching the selected swatch again reaches its second variant, so
       // four pads cover all eight palette entries.
       uint8_t base = pad - SWATCH_FIRST_PAD;
