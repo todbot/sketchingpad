@@ -14,9 +14,13 @@ plugged into a `sketchingpad` board. (current proto: `sketchingpad_proto2`)
 | `ble_keyboard_simple`    | BLE HID keyboard, no power management        |
 | `ble_keyboard_lowpower`  | BLE HID keyboard, three power tiers          |
 | `ble_broadcast`          | Symmetric BLE broadcast messaging, no pairing |
+| `ble_broadcast_anim`     | Record an LED animation by touch, broadcast it |
 
 `hwtest_leds` and `hwtest_ts20` are Arduino ports of
 `circuitpython/hwtest/code_ledtest.py` and `code_test_ts20.py`.
+
+`arduino/tests/` holds host-side tests for the dependency-free headers;
+see the last section.
 
 ## Board and libraries
 
@@ -64,7 +68,11 @@ arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
   arduino/ble_keyboard_simple
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
   arduino/ble_keyboard_lowpower
+arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
+  arduino/hwtest_ts20_lowpower
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_broadcast
+arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
+  arduino/ble_broadcast_anim
 ```
 
 Start from `ble_keyboard_simple` when bringing up a board or changing the
@@ -199,9 +207,12 @@ Two consequences for `SYSTEM_OFF`:
 SW1 is the opposite case: a held level, so `enterDeepSleep()` waits for
 release before arming `SENSE_LOW`, or it would wake the instant it slept.
 
-## Low power concerns
-
 ## Low power
+
+Two sketches implement the power tiers. 
+`ble_keyboard_lowpower` uses BLE SoftDevice `sd_power_system_off()`
+The simpler `hwtest_ts20_lowpower` uses `NRF_POWER->SYSTEM_OFF=1` 
+and is simpler to put a power meter on, since BLE can dominate power consumption.
 
 `ble_keyboard_lowpower` runs three tiers:
 
@@ -231,7 +242,8 @@ The rest, roughly in order of payoff:
    `configUSE_TICKLESS_IDLE 1`, so the 1024 Hz tick is suppressed while
    idle rather than waking the CPU every millisecond. Nothing in
    `loop()` busy-waits.
-2. **Peripheral latency.** (slave_latency in ble_gap.h) On the ACTIVE -> IDLE transition the sketch asks
+2. **Peripheral latency** (`slave_latency` in `ble_gap.h`). On the
+   ACTIVE -> IDLE transition the sketch asks
    the central to let it skip 20 connection events (~630 ms effective,
    well inside the 4 s supervision timeout). This goes through
    `BLEConnection::requestConnectionParameter()`, *not*
@@ -254,6 +266,63 @@ The core's `initVariant()` already turns off the XIAO's onboard RGB LEDs
 and disables the battery-sense divider, so the sketches do not repeat
 that.
 
+### `hwtest_ts20_lowpower`: the tiers without a radio
+
+Same visible behaviour as `hwtest_ts20` -- touch a pad, its LED lights
+and fades -- with the power techniques underneath and no BLE at all.
+ACTIVE and IDLE differ only by the LED rail here; DEEP is still
+`SYSTEM_OFF` woken by the INT line or the button.
+
+Dropping BLE makes two things *simpler*, not harder. The SoftDevice is
+enabled only inside `Bluefruit.begin()`, so without it POWER is not a
+restricted peripheral:
+
+```c
+NRF_POWER->DCDCEN = 1;      // plain write; an SVC call with BLE up
+NRF_POWER->SYSTEMOFF = 1;   // was sd_power_system_off()
+```
+
+It also means `DCDCEN` reads back reliably, so the banner prints it. The
+BLE sketch can only report the SVC return code, because the readback is
+unreliable once the SoftDevice owns POWER.
+
+One thing this sketch does better than `ble_keyboard_lowpower`: the
+block time follows what is on screen. `hwtest_ts20` runs a flat
+`delay(10)` -- 100 Hz forever -- purely to animate a fade that usually
+is not running. Here 100 Hz applies only while a pixel is actually lit,
+and a dark board wakes 4x/sec for the tier timers alone.
+
+#### Measured, 2026-09-16
+
+Confirmed on hardware over USB:
+
+- **`DCDCEN=1` holds**, so the DC/DC inductors are populated on this
+  XIAO. That was the open risk behind the `USE_DCDC` guard.
+- **Tier timers are exact.** With `DEEP_TIMEOUT_MS` set to 1 minute,
+  IDLE to DEEP measured 50.023 s. 50 s is correct: both timers run from
+  `last_touch_ms`, not from each other, so DEEP fires at T+60 s when
+  IDLE already fired at T+10 s.
+- **Wake from DEEP measured 2.42 s -- but that number is mostly the
+  serial guard, not the wake.** `setup()` has
+  `while (!Serial && millis() < 2000)`, and `millis()` runs from reset,
+  so after waking it blocks until USB CDC finishes re-enumerating. The
+  rest is ~50 ms button debounce plus the ~100 ms TS20 power-up delay.
+  The real wake is likely ~300-400 ms, and on battery the 2 s
+  disappears entirely because `Serial` is never touched.
+
+To measure the wake properly, drive a spare pin (D1/A1, D8, D9 are
+free) high at the top of `setup()` and low before `SYSTEMOFF`, and scope
+the gap. `NRF_POWER->RESETREAS & POWER_RESETREAS_OFF_Msk` is also worth
+reading at boot: that bit is set only on a System-OFF wake via GPIO
+DETECT, and it is the only way to *confirm* `SYSTEM_OFF` was entered
+rather than inferring it from the reset. It needs clearing by writing
+1s back, or the bits accumulate.
+
+Note that with USB attached the DEEP tier's **current** is meaningless
+-- you are powered from the host and the USB peripheral is live. Timing
+is fine to measure this way; microamps need a battery run with USB
+detached.
+
 ### Power budget
 
 | Source                                 | Draw                     |
@@ -274,15 +343,15 @@ numbers above.
 
 ### Board changes this firmware assumes
 
-All three were added to `sketchingpad_stripproto1` and are no longer
-"next rev" items. Sketches will still build without them, but the
-matching tier degrades.
+All three are present on `sketchingpad_stripproto1` and
+`sketchingpad_proto2`, and are no longer "next rev" items. Sketches
+will still build without them, but the matching tier degrades.
 
 1. **P-FET high-side load switch on the LED rail** -- Q1 (AO3415A),
    source on `+3.3V`, drain feeding `3V3_LED`, gate on `LED_POWER` (D7)
    with R4 100k pulling up to the source so the rail is **off** by
-   default. Highest-value change on the board; see the sections below
-   for why that polarity and that part.
+   default. Highest-value change on the board; see
+   `docs/low-power-notes.md` for why that polarity and that part.
 2. **SW1 pin 1 wired to D10/MOSI.** It used to float, so there was no
    button input at all. Now a wake source, and a press forces DEEP sleep.
 3. **TS20 INT (U1 pin 19) brought to D3/A3.** Previously it only
@@ -291,3 +360,114 @@ matching tier degrades.
    firmware had to poll, and `SYSTEM_OFF` was unreachable because
    nothing could wake it.
 
+## `ble_broadcast_anim`: animations over advertising
+
+One board records a short LED animation by touch and broadcasts it;
+every other board in range plays it. No pairing, no connections, any
+number of participants, all running this same firmware. The transport is
+`ble_broadcast`; what is new is the animation layer.
+
+Touch pads 1-16 to record -- the first touch starts it, ~1.5 s of
+silence ends it, and then it plays locally *and* goes out over the air.
+The top row picks the color for everything recorded after it; touching
+the already-selected swatch again reaches its second variant, so four
+pads cover all eight palette entries. Remember the top row is TS20
+channels 4-7, not 16-19; see the pad-numbering section above.
+
+### Wire format
+
+Two bytes per event, nine events per packet:
+
+```
+AnimEvent (2 bytes)
+  dt        : 8 bits   units of 10 ms, 0-2550 ms between events
+  led       : 5 bits   0-19
+  color     : 3 bits   index into an 8-entry firmware palette
+
+AnimMsg (25 bytes)
+  company_id   : 2     0xFFFF, as in ble_broadcast
+  device_id    : 2     deviceIdShort() from device_id_code.h
+  anim_id      : 1     increments per animation; dedupes replays
+  chunk_idx    : 1     0-7
+  total_events : 1     in EVERY packet, so any chunk reveals the total
+  events       : 18    9 x AnimEvent, zero-padded on the last chunk
+```
+
+The 25-byte ceiling is not arbitrary. `BLEAdvertisingData::addData()`
+guards `_count + len + 2 <= 31`, and the flags element has already spent
+3, so an MSD element can carry at most 26 bytes.
+
+`total_events` rides in every packet rather than a chunk count so a
+receiver that misses chunk 0 still knows how many chunks to expect. Max
+8 chunks = 72 events. There is no version field: `scan_callback` tests
+`len == ANIM_MSG_LEN` exactly, so a format change changes the length and
+old packets are ignored by construction.
+
+The sender advertises each chunk for 200 ms and repeats the whole cycle
+three times -- advertising is unacknowledged, so repetition is the
+entire reliability mechanism. `SCAN_WINDOW` is raised to a 100% receive
+duty cycle, unlike `ble_broadcast`: a missed chunk costs a whole
+animation. Halve it to get `ble_broadcast`'s power behaviour back.
+
+### Three things that shape the code
+
+- **`isNewMessage()` from `ble_broadcast` cannot be used here.** It is
+  1-deep per peer and treats any differing sequence number as new, so it
+  would drop exactly the chunk repeats that reliability depends on. The
+  peer table instead holds `last_played_anim`.
+- **`scan_callback()` must not touch the LEDs.** It runs on the
+  SoftDevice event task, and NeoPixel `show()` blocks with interrupts
+  disabled for over a millisecond across 20 pixels -- which would make
+  us miss the advertisements we are collecting. It parks packets in a
+  4-deep ring; `loop()` drains and renders. Getting this wrong looks
+  like a flaky radio, not a timing bug.
+- **A sender never sees its own broadcast** (`scan_callback` filters on
+  `device_id`), so local playback is kicked off from the send path.
+
+### The two headers
+
+`led_anim.h` is the non-blocking player: `load()`, `start()`,
+`update(now_ms)` returning true when the frame changed, `pixel(i)`, and
+`poke()` for live touch feedback. `anim_wire.h` is the packing and the
+reassembler. Both depend on nothing but `<stdint.h>` -- no NeoPixel, no
+BLE -- so they drop into any sketch and run on a host. They are copied
+per sketch, the same convention as `device_id_code.h`.
+
+## Host tests
+
+`arduino/tests/` builds the dependency-free headers natively and runs
+assertions against them. A chunk-reassembly bug is miserable to diagnose
+over the air and trivial to catch here.
+
+```sh
+cd arduino/tests
+make run
+```
+
+Built with `-fsanitize=address,undefined`: an out-of-bounds write in the
+reassembler is silent on the nRF52 and fatal here, which is most of the
+value. `build/` is gitignored.
+
+- **`wire_test.cpp`** -- `AnimMsg` size and the 31-byte advert budget,
+  event packing, chunk arithmetic, reassembly in order / reversed /
+  duplicated, losing any single chunk and redelivering it, two senders
+  interleaved, partial expiry, malformed packets.
+- **`player_test.cpp`** -- event timing, a single late update firing
+  everything overdue, the fade, `stop()` and re-`start()`, `poke()`,
+  out-of-range LED indices, and the `millis()` wrap.
+- **`id_test.cpp`** -- `device_id_code.h`: every letter reachable at
+  every position over 20000 synthetic IDs, colors agreeing with letters,
+  both FICR words feeding the hash, `deviceIdName()` truncation.
+
+`id_test.cpp` builds against `stubs/Arduino.h`, which supplies
+`snprintf`, `size_t` and a writable fake `NRF_FICR`. The header under
+test is unmodified -- it includes `<Arduino.h>` and must keep doing so,
+since that is where `NRF_FICR` comes from. The cost is that these tests
+do not prove the header compiles against the real `Arduino.h`; the
+sketch builds cover that.
+
+**Mutate the headers when you add a test.** Every one of these suites
+had holes that only showed up by deliberately breaking the header and
+re-running -- a test that still passes against broken code is not
+testing anything. `tests/README.md` records what was found that way,
+and the two mutants deliberately left uncovered.
