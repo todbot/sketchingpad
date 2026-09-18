@@ -14,6 +14,7 @@ sensor sections below.
 | `hwtest_ts20`            | Touched pad -> LED, fading. Poll or INT mode |
 | `hwtest_ts20_lowpower`   | Touched pad -> LED, three power tiers        |
 | `hwtest_mpr`             | Touched pad -> LED, on the 2x MPR121 board    |
+| `hwtest_mpr_bench`       | 1-2 MPR121s, touch to serial. Poll or INT    |
 | `ble_keyboard_simple`    | BLE HID keyboard, no power management        |
 | `ble_keyboard_lowpower`  | BLE HID keyboard, three power tiers          |
 | `ble_broadcast`          | Symmetric BLE broadcast messaging, no pairing |
@@ -70,6 +71,8 @@ The pin numbers are `#define`s at the top of each sketch.
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/hwtest_leds
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/hwtest_ts20
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/hwtest_mpr
+arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
+  arduino/hwtest_mpr_bench
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
   arduino/ble_keyboard_simple
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
@@ -219,7 +222,23 @@ The TS20 went out of stock at LCSC, so `sketchingpad1_mpr` replaces it
 with two 12-channel MPR121s. Same 20 pads, same 20 LEDs, same pins --
 `TS20_INT` is just renamed `TOUCH_INT` and is still D3/A3.
 `hwtest_mpr` is the bring-up sketch; it is `hwtest_ts20` with the
-sensor swapped and diagnostics added.
+sensor swapped and diagnostics added. `hwtest_mpr_bench` is the smaller
+one: no LEDs, printing each touch and release as chip, electrode, `TPn`
+and LED index. It probes both addresses and uses whichever answer, so a
+pair of breakouts on jumpers, a single chip, and a half-populated board
+are all ordinary cases -- which is also what makes it the sketch that
+says which of the two chips is at fault when `hwtest_mpr` cannot.
+
+Both sketches carry the same `led_to_pad` table -- the bench one inverts
+it at startup rather than keeping a second copy -- and it prints the
+whole map per chip in its banner, so a wrong table shows up before you
+touch anything.
+
+One deliberate difference: `hwtest_mpr` masks U4's four J2 electrodes and
+parks their thresholds at 0xFF so they cannot chatter the shared IRQ
+line. The bench sketch leaves them live and prints them as `no pad`,
+because there you want to find out whether they would. Untouched `no pad`
+lines appearing on their own is the answer.
 
 - **U3 is 0x5A** (ADDR to GND), **U4 is 0x5B** (ADDR to VDD).
 - **Both /IRQ pins share one net**, pulled up by R1 10k. They are open
@@ -266,9 +285,18 @@ otherwise invisible -- the edge counter climbs and nothing else moves. On
 an untouched board that counter should stay flat; if it climbs, the 0xFF
 thresholds did not take.
 
-With autoconfig enabled this matters more, not less. Those four will
-likely report Out Of Range, and `ARE` (auto-reconfiguration) then retries
-an OOR channel on *every sampling interval*, indefinitely.
+They were expected to report Out Of Range under autoconfig, which would
+have mattered: `ARE` (auto-reconfiguration) retries an OOR channel on
+*every sampling interval*, indefinitely. **They do not.** Measured
+2026-09-17 on two MPR121 breakouts, both chips came up
+`OOR=000 ACFF=0 ARFF=0` -- autoconfig found working charge settings for
+all 24 electrodes. Recheck on the assembled board, where those four are
+short traces to an unpopulated J2 rather than breakout pads, but there is
+no reason to expect a small capacitance to defeat the search.
+
+Whether they *chatter* is a separate question and still unmeasured. A
+finger on them registers, as `no pad` lines, so they do work as
+electrodes -- what has not been observed is them toggling on their own.
 
 ### CONFIG2 is the power knob
 
@@ -296,25 +324,55 @@ restarts baseline tracking and reruns autoconfig -- the same caveat as
 `ts20.setFastMode()`. `CONFIG2_VALUE` at the top of `hwtest_mpr` is
 there to sweep against a current meter.
 
-### The MPR121 IRQ line: not yet characterised
+### The MPR121 IRQ line
 
-**Unmeasured, as of 2026-09-17.** The MPR121 datasheet says only that
-IRQ is "triggered any time a touch or release is detected" and stops
-there. AN3895, which the datasheet cites for the serial interface, is
-purely the I2C protocol -- addressing, START/STOP, auto-increment reads
--- and never mentions IRQ. So whether it is a level held until the touch
-status registers are read, as it is widely reported to be, is not
-established by anything in `docs/`.
+**It is a level, held low until the touch status registers are read.**
+Not the TS20's ~1 ms pulse. Measured 2026-09-17 on U3 with
+`hwtest_mpr_bench`, `USE_INT_PIN 1`:
 
-It matters, because a held level would remove the `SYSTEM_OFF` arming
-race the TS20's ~1 ms pulse creates (see above): `SENSE_LOW` would latch
-on its own, and the only rule would be to read both chips immediately
-before arming so a stale assertion does not wake the board instantly.
+```
+[INT ] edges=1 int=0->1     touch
+touched   ELE6   TP1   led 0
+[INT ] edges=3 int=0->1     release
+```
 
-`hwtest_mpr` settles it the same way `hwtest_ts20` settled the TS20's --
-empirically. It prints the INT pin level immediately before and after
-the status read as `int=N->N`, alongside the same edge counter, 500 ms
-watchdog and `INT MISSED` check.
+`int=0->1` is the whole result: the line was already low when `loop()`
+got there and went high immediately after the status read, on release as
+well as on touch. The edge count corroborates it -- one falling edge for
+the touch, then two more for our own read's rising edge and the release's
+falling edge. A pulse would have gone high on its own and read `1->1`.
+
+It holds with both chips wired-OR onto the line, confirmed the same day:
+still exactly two edges per event and `int=0->1`, whichever chip raised
+it, with no `INT MISSED`.
+
+This had to be measured. The datasheet says only that IRQ is "triggered
+any time a touch or release is detected" and stops there, and AN3895,
+which it cites for the serial interface, is purely the I2C protocol --
+addressing, START/STOP, auto-increment reads -- and never mentions IRQ.
+
+The consequence is the one that matters for a sleeping tier: a held level
+removes the `SYSTEM_OFF` arming race the TS20's pulse creates (see
+above). `SENSE_LOW` latches on its own, so the only rule is to read both
+chips immediately before arming, or a stale assertion wakes the board the
+instant it sleeps.
+
+Both sketches print `int=N->N` around the status read, alongside an edge
+counter, a 500 ms watchdog and the `INT MISSED` check, the same way
+`hwtest_ts20` settled the TS20's line.
+
+#### One chip was the right instrument
+
+With two chips wired-OR onto one line, a level still low after a read
+could be either of them, so `int=N->N` is ambiguous by construction --
+which is why the measurement above was taken with only one chip wired.
+Repeat it that way if it is ever in doubt: unplug one, and the level
+belongs to the chip you are reading.
+
+`hwtest_mpr_bench` probes both addresses and drives whichever answer, so
+one chip, two chips and a half-populated board are all ordinary cases.
+`hwtest_mpr` requires both and stops if either is missing, which is right
+for a sketch whose job is testing the assembled board.
 
 One consequence is already certain, whichever way that goes. Two chips
 on one open-collector line means a chip can re-assert in the gap between

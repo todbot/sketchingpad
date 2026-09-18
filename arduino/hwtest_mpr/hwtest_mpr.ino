@@ -12,12 +12,11 @@
 //      changed, never which chip, so every edge reads both.  See the
 //      re-assert loop in loop() for the race that creates.
 //
-//   2. The MPR121 datasheet says IRQ is "triggered any time a touch or
-//      release is detected" and stops there; AN3895 is only the I2C
-//      protocol.  So whether the line is a level held until the touch
-//      status registers are read -- which is what a SYSTEM_OFF SENSE_LOW
-//      wake would depend on -- is measured here, not assumed.  Watch the
-//      int=N->N field.
+//   2. /IRQ is a level, held low until the touch status registers are
+//      read, which is what makes a SYSTEM_OFF SENSE_LOW wake viable.
+//      Neither the datasheet nor AN3895 says so; measured on U3 with
+//      hwtest_mpr_bench, 2026-09-17.  int=N->N still prints it here,
+//      where two chips share the line and either could be asserting.
 //
 //   3. CONFIG2 sets the sample interval, which is most of the sensor's idle
 //      current, and costs latency in exchange.  See CONFIG2_VALUE below.
@@ -179,7 +178,7 @@ void reportChip(int i) {
   }
   if (oor) {
     Serial.println("  out-of-range electrodes: autoconfig found no working"
-                   " charge setting (expect 0f0 on U4, the J2 header)");
+                   " charge setting for these");
   }
 }
 
