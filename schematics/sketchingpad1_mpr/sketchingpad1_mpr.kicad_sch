@@ -5741,7 +5741,7 @@
 		)
 		(uuid "1af09182-69d2-4116-a287-0e8901b6ca91")
 	)
-	(label "TOUCH22"
+	(label "TOUCH24"
 		(at 262.89 177.8 0)
 		(effects
 			(font
@@ -5861,7 +5861,7 @@
 		)
 		(uuid "3ed31155-63c7-405c-bf95-035fc876b66a")
 	)
-	(label "TOUCH21"
+	(label "TOUCH23"
 		(at 262.89 175.26 0)
 		(effects
 			(font
@@ -6011,7 +6011,7 @@
 		)
 		(uuid "7817580c-38c6-4475-a2b7-70d640a68b5c")
 	)
-	(label "TOUCH23"
+	(label "TOUCH21"
 		(at 262.89 180.34 0)
 		(effects
 			(font
@@ -6231,7 +6231,7 @@
 		)
 		(uuid "c14e17a9-87f6-4398-a602-92a8158d330a")
 	)
-	(label "TOUCH24"
+	(label "TOUCH22"
 		(at 262.89 182.88 0)
 		(effects
 			(font
@@ -21829,9 +21829,9 @@
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
-		(in_pos_files yes)
+		(in_pos_files no)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ce8a5d4e-df0d-4254-8d58-3e891d1273cb")
