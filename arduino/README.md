@@ -18,6 +18,7 @@ with either through the shared touch layer.
 | `hwtest_touch`                    | Pad -> LED, fading. Either sensor   |
 | `hwtest_touch_lowpower`           | Pad -> LED, tiers. Either sensor    |
 | `ble_broadcast`                   | Symmetric BLE broadcast, no pairing |
+| `ble_broadcast_anim`              | Record an LED animation, broadcast  |
 | `ts20/hwtest_ts20`                | Pad -> LED, fading. Poll or INT     |
 | `ts20/hwtest_lowpower_ts20`       | Pad -> LED, three power tiers       |
 | `ts20/ble_keyboard_simple_ts20`   | BLE HID keyboard, no power mgmt     |
@@ -29,12 +30,13 @@ with either through the shared touch layer.
 `hwtest_leds` and `hwtest_ts20` are Arduino ports of
 `circuitpython/hwtest/code_ledtest.py` and `code_test_ts20.py`.
 
-`hwtest_touch` and `hwtest_touch_lowpower` are the sensor-agnostic
-versions of the four sensor-specific hwtest sketches, over the shared
-touch layer -- see that section. They supersede `hwtest_ts20`,
-`hwtest_mpr` and `hwtest_lowpower_ts20`, which stay until the
-replacements have run on both boards. `hwtest_bench_mpr` is not superseded: one chip, serial
-only, no LEDs, it is a different instrument.
+`hwtest_touch`, `hwtest_touch_lowpower` and `ble_broadcast_anim` are the
+sensor-agnostic versions of their `ts20/` and `mpr/` counterparts, over
+the shared touch layer -- see that section. They supersede `hwtest_ts20`,
+`hwtest_mpr`, `hwtest_lowpower_ts20` and `ble_broadcast_anim_ts20`,
+which stay until the replacements have run on both boards.
+`hwtest_bench_mpr` is not superseded: one chip, serial only, no LEDs, it
+is a different instrument.
 
 `arduino/tests/` holds host-side tests for the dependency-free headers;
 see the last section.
@@ -95,6 +97,8 @@ arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_broadcast
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
   arduino/ts20/ble_broadcast_anim_ts20
+arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
+  arduino/ble_broadcast_anim
 ```
 
 Start from `ble_keyboard_simple_ts20` when bringing up a board or changing the
@@ -173,7 +177,9 @@ TP1-4 are channels 0-3, but TP17-20 are channels 4-7 -- so the top row
 sits in the *middle* of the channel range, not at the end. Anything that
 selects a range of pads by index has to account for that; assuming the top
 row was the top of the range is what put `ble_broadcast_anim_ts20`'s color
-swatches on the wrong four pads.
+swatches on the wrong four pads. Sketches over the shared touch layer
+index by LED instead, where the top row really is 16-19, so the same
+mistake is not available to them.
 
 **`led_to_pad` is board-rev specific and must be re-derived, not carried
 forward.** proto1 and proto2 have entirely different tables. A proto1 table
@@ -606,7 +612,11 @@ will still build without them, but the matching tier degrades.
    firmware had to poll, and `SYSTEM_OFF` was unreachable because
    nothing could wake it.
 
-## `ble_broadcast_anim_ts20`: animations over advertising
+## `ble_broadcast_anim`: animations over advertising
+
+`ble_broadcast_anim` runs on either sensor over the shared touch layer;
+`ts20/ble_broadcast_anim_ts20` is the original, TS20-only, and stays
+until the port has run on hardware. Everything below describes both.
 
 One board records a short LED animation by touch and broadcasts it;
 every other board in range plays it. No pairing, no connections, any
