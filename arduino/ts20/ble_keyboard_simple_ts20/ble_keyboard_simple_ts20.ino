@@ -1,11 +1,11 @@
-// ble_keyboard_simple.ino -- sketchingpad as a BLE HID keyboard, plainly
+// ble_keyboard_simple_ts20.ino -- sketchingpad as a BLE HID keyboard, plainly
 //
 // Touching a pad types a character over BLE and lights its LED.  That is
 // all it does: poll the TS20, send a report when the pad state changes,
 // update the LEDs.  No interrupts, no power tiers, no sleep.
 //
 // Start here when bringing up a board or changing the key map.  See
-// ble_keyboard_lowpower for the same thing with interrupt-driven scanning,
+// ble_keyboard_lowpower_ts20 for the same thing with interrupt-driven scanning,
 // connection-parameter management and SYSTEM_OFF sleep.
 //
 // Board: Seeeduino:nrf52:xiaonRF52840
@@ -127,7 +127,7 @@ void setup() {
 
   showDeviceIdCode();
 
-  Serial.printf("ble_keyboard_simple: pair with \"sketchingpad\", model %s\n",
+  Serial.printf("ble_keyboard_simple_ts20: pair with \"sketchingpad\", model %s\n",
                 model);
 }
 

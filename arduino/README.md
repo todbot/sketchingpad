@@ -8,28 +8,32 @@ sensor sections below.
 
 ## Sketches
 
-| Sketch                   | What it does                                |
-|--------------------------|---------------------------------------------|
-| `hwtest_leds`            | Chases one pixel around the 20 LEDs         |
-| `hwtest_ts20`            | Touched pad -> LED, fading. Poll or INT mode |
-| `hwtest_ts20_lowpower`   | Touched pad -> LED, three power tiers        |
-| `hwtest_mpr`             | Touched pad -> LED, on the 2x MPR121 board    |
-| `hwtest_mpr_bench`       | 1-2 MPR121s, touch to serial. Poll or INT    |
-| `hwtest_touch`           | Touched pad -> LED, on either sensor          |
-| `hwtest_touch_lowpower`  | Touched pad -> LED, three tiers, either sensor |
-| `ble_keyboard_simple`    | BLE HID keyboard, no power management        |
-| `ble_keyboard_lowpower`  | BLE HID keyboard, three power tiers          |
-| `ble_broadcast`          | Symmetric BLE broadcast messaging, no pairing |
-| `ble_broadcast_anim`     | Record an LED animation by touch, broadcast it |
+Sensor-specific sketches live under `ts20/` and `mpr/` and carry the
+sensor as a suffix; the ones at the top level need no sensor, or work
+with either through the shared touch layer.
+
+| Sketch                            | What it does                        |
+|-----------------------------------|-------------------------------------|
+| `hwtest_leds`                     | Chases one pixel around the 20 LEDs |
+| `hwtest_touch`                    | Pad -> LED, fading. Either sensor   |
+| `hwtest_touch_lowpower`           | Pad -> LED, tiers. Either sensor    |
+| `ble_broadcast`                   | Symmetric BLE broadcast, no pairing |
+| `ts20/hwtest_ts20`                | Pad -> LED, fading. Poll or INT     |
+| `ts20/hwtest_lowpower_ts20`       | Pad -> LED, three power tiers       |
+| `ts20/ble_keyboard_simple_ts20`   | BLE HID keyboard, no power mgmt     |
+| `ts20/ble_keyboard_lowpower_ts20` | BLE HID keyboard, three power tiers |
+| `ts20/ble_broadcast_anim_ts20`    | Record an LED animation, broadcast  |
+| `mpr/hwtest_mpr`                  | Pad -> LED, on the 2x MPR121 board  |
+| `mpr/hwtest_bench_mpr`            | 1-2 MPR121s, touch to serial        |
 
 `hwtest_leds` and `hwtest_ts20` are Arduino ports of
 `circuitpython/hwtest/code_ledtest.py` and `code_test_ts20.py`.
 
 `hwtest_touch` and `hwtest_touch_lowpower` are the sensor-agnostic
-versions of the four sketches above them, over the shared touch layer --
-see that section. They supersede `hwtest_ts20`, `hwtest_mpr` and
-`hwtest_ts20_lowpower`, which stay until the replacements have run on
-both boards. `hwtest_mpr_bench` is not superseded: one chip, serial
+versions of the four sensor-specific hwtest sketches, over the shared
+touch layer -- see that section. They supersede `hwtest_ts20`,
+`hwtest_mpr` and `hwtest_lowpower_ts20`, which stay until the
+replacements have run on both boards. `hwtest_bench_mpr` is not superseded: one chip, serial
 only, no LEDs, it is a different instrument.
 
 `arduino/tests/` holds host-side tests for the dependency-free headers;
@@ -78,27 +82,27 @@ The pin numbers are `#define`s at the top of each sketch.
 
 ```sh
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/hwtest_leds
-arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/hwtest_ts20
-arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/hwtest_mpr
+arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/hwtest_ts20
+arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/mpr/hwtest_mpr
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
-  arduino/hwtest_mpr_bench
+  arduino/mpr/hwtest_bench_mpr
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
-  arduino/ble_keyboard_simple
+  arduino/ts20/ble_keyboard_simple_ts20
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
-  arduino/ble_keyboard_lowpower
+  arduino/ts20/ble_keyboard_lowpower_ts20
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
-  arduino/hwtest_ts20_lowpower
+  arduino/ts20/hwtest_lowpower_ts20
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_broadcast
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
-  arduino/ble_broadcast_anim
+  arduino/ts20/ble_broadcast_anim_ts20
 ```
 
-Start from `ble_keyboard_simple` when bringing up a board or changing the
+Start from `ble_keyboard_simple_ts20` when bringing up a board or changing the
 key map: it polls the TS20, sends a report on change, lights the LEDs,
-and does nothing else. `ble_keyboard_lowpower` is the same keyboard with
+and does nothing else. `ble_keyboard_lowpower_ts20` is the same keyboard with
 interrupt-driven scanning, connection-parameter management and sleep.
 
-Note that even `ble_keyboard_simple` has to drive `LED_POWER` (D7) low in
+Note that even `ble_keyboard_simple_ts20` has to drive `LED_POWER` (D7) low in
 `setup()`. That is not power management -- the rail is off by default
 because the P-FET gate is pulled up to its source, so the LEDs never
 light without it.
@@ -124,7 +128,7 @@ over all 8 bytes) and slices it 2 bits at a time into five letters drawn
 from `R`/`Y`/`G`/`B`/`M` (red, amber, green, blue, magenta) -- e.g.
 `RMGGB`. Two sketches use it:
 
-- `ble_keyboard_simple` advertises the BLE model `sketchingpad-RMGGB` and
+- `ble_keyboard_simple_ts20` advertises the BLE model `sketchingpad-RMGGB` and
   lights the code on five LEDs at the end of `setup()`, so you can read a
   board's identity off the board itself. It stays lit until the first
   touch.
@@ -144,7 +148,7 @@ step: it is header-only and pulls in nothing but the core. Copy it in and
 `#include "device_id_code.h"`. The copies must stay identical:
 
 ```sh
-diff arduino/ble_keyboard_simple/device_id_code.h \
+diff arduino/ts20/ble_keyboard_simple_ts20/device_id_code.h \
      arduino/ble_broadcast/device_id_code.h
 ```
 
@@ -168,7 +172,7 @@ physical layout, TP refdes        the same pads, by TS20 channel
 TP1-4 are channels 0-3, but TP17-20 are channels 4-7 -- so the top row
 sits in the *middle* of the channel range, not at the end. Anything that
 selects a range of pads by index has to account for that; assuming the top
-row was the top of the range is what put `ble_broadcast_anim`'s color
+row was the top of the range is what put `ble_broadcast_anim_ts20`'s color
 swatches on the wrong four pads.
 
 **`led_to_pad` is board-rev specific and must be re-derived, not carried
@@ -205,7 +209,7 @@ board's historical table
   transition is announced too.
 - **The pin never tells you the state**, only that state changed. Every
   edge must be followed by an I2C read. `hwtest_ts20` uses `CHANGE`
-  because it is characterising the line; `ble_keyboard_lowpower` uses
+  because it is characterising the line; `ble_keyboard_lowpower_ts20` uses
   `FALLING`, one event per change, since it reads the sensor either way.
 
 Two consequences for `SYSTEM_OFF`:
@@ -231,7 +235,7 @@ The TS20 went out of stock at LCSC, so `sketchingpad1_mpr` replaces it
 with two 12-channel MPR121s. Same 20 pads, same 20 LEDs, same pins --
 `TS20_INT` is just renamed `TOUCH_INT` and is still D3/A3.
 `hwtest_mpr` is the bring-up sketch; it is `hwtest_ts20` with the
-sensor swapped and diagnostics added. `hwtest_mpr_bench` is the smaller
+sensor swapped and diagnostics added. `hwtest_bench_mpr` is the smaller
 one: no LEDs, printing each touch and release as chip, electrode, `TPn`
 and LED index. It probes both addresses and uses whichever answer, so a
 pair of breakouts on jumpers, a single chip, and a half-populated board
@@ -337,7 +341,7 @@ there to sweep against a current meter.
 
 **It is a level, held low until the touch status registers are read.**
 Not the TS20's ~1 ms pulse. Measured 2026-09-17 on U3 with
-`hwtest_mpr_bench`, `USE_INT_PIN 1`:
+`hwtest_bench_mpr`, `USE_INT_PIN 1`:
 
 ```
 [INT ] edges=1 int=0->1     touch
@@ -378,7 +382,7 @@ which is why the measurement above was taken with only one chip wired.
 Repeat it that way if it is ever in doubt: unplug one, and the level
 belongs to the chip you are reading.
 
-`hwtest_mpr_bench` probes both addresses and drives whichever answer, so
+`hwtest_bench_mpr` probes both addresses and drives whichever answer, so
 one chip, two chips and a half-populated board are all ordinary cases.
 `hwtest_mpr` requires both and stops if either is missing, which is right
 for a sketch whose job is testing the assembled board.
@@ -452,11 +456,11 @@ header, which is portable and host-tested.
 ## Low power
 
 Two sketches implement the power tiers. 
-`ble_keyboard_lowpower` uses BLE SoftDevice `sd_power_system_off()`
-The simpler `hwtest_ts20_lowpower` uses `NRF_POWER->SYSTEM_OFF=1` 
+`ble_keyboard_lowpower_ts20` uses BLE SoftDevice `sd_power_system_off()`
+The simpler `hwtest_lowpower_ts20` uses `NRF_POWER->SYSTEM_OFF=1` 
 and is simpler to put a power meter on, since BLE can dominate power consumption.
 
-`ble_keyboard_lowpower` runs three tiers:
+`ble_keyboard_lowpower_ts20` runs three tiers:
 
 | Tier | Entered | BLE | LED rail | Cost |
 |------|---------|-----|----------|------|
@@ -508,7 +512,7 @@ The core's `initVariant()` already turns off the XIAO's onboard RGB LEDs
 and disables the battery-sense divider, so the sketches do not repeat
 that.
 
-### `hwtest_ts20_lowpower`: the tiers without a radio
+### `hwtest_lowpower_ts20`: the tiers without a radio
 
 Same visible behaviour as `hwtest_ts20` -- touch a pad, its LED lights
 and fades -- with the power techniques underneath and no BLE at all.
@@ -528,7 +532,7 @@ It also means `DCDCEN` reads back reliably, so the banner prints it. The
 BLE sketch can only report the SVC return code, because the readback is
 unreliable once the SoftDevice owns POWER.
 
-One thing this sketch does better than `ble_keyboard_lowpower`: the
+One thing this sketch does better than `ble_keyboard_lowpower_ts20`: the
 block time follows what is on screen. `hwtest_ts20` runs a flat
 `delay(10)` -- 100 Hz forever -- purely to animate a fade that usually
 is not running. Here 100 Hz applies only while a pixel is actually lit,
@@ -602,7 +606,7 @@ will still build without them, but the matching tier degrades.
    firmware had to poll, and `SYSTEM_OFF` was unreachable because
    nothing could wake it.
 
-## `ble_broadcast_anim`: animations over advertising
+## `ble_broadcast_anim_ts20`: animations over advertising
 
 One board records a short LED animation by touch and broadcasts it;
 every other board in range plays it. No pairing, no connections, any

@@ -15,7 +15,7 @@
 //   2. /IRQ is a level, held low until the touch status registers are
 //      read, which is what makes a SYSTEM_OFF SENSE_LOW wake viable.
 //      Neither the datasheet nor AN3895 says so; measured on U3 with
-//      hwtest_mpr_bench, 2026-09-17.  int=N->N still prints it here,
+//      hwtest_bench_mpr, 2026-09-17.  int=N->N still prints it here,
 //      where two chips share the line and either could be asserting.
 //
 //   3. CONFIG2 sets the sample interval, which is most of the sensor's idle

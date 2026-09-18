@@ -1,7 +1,7 @@
 # Notes: low power in CircuitPython vs Arduino on nRF52840
 
 Question: can the CircuitPython `alarm` module give the same low-power
-modes as `arduino/ble_keyboard_lowpower/`?
+modes as `arduino/ts20/ble_keyboard_lowpower_ts20/`?
 
 Short answer: **partly.** Roughly the IDLE tier is reachable. The DEEP
 tier is not, and the biggest connected-mode lever is not. These are

@@ -21,7 +21,7 @@
 //
 // Note INT mode does not save power here -- the loop still runs at 100 Hz
 // to animate the LED fade.  What it removes is the I2C traffic.  The power
-// win lands in ble_keyboard_lowpower, which can then sleep between touches.
+// win lands in ble_keyboard_lowpower_ts20, which can then sleep between touches.
 //
 // Board: Seeeduino:nrf52:xiaonRF52840
 

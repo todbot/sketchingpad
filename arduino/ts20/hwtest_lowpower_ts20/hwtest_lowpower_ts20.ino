@@ -1,11 +1,11 @@
-// hwtest_ts20_lowpower.ino -- hwtest_ts20 with the power techniques, no BLE
+// hwtest_lowpower_ts20.ino -- hwtest_ts20 with the power techniques, no BLE
 //
 // Same visible behaviour as hwtest_ts20: touch a pad, its LED lights and
 // fades.  The difference is everything underneath.  This is the sketch to
 // measure against, because with no radio running the numbers are the
-// firmware's own -- ble_keyboard_lowpower's floor is dominated by BLE.
+// firmware's own -- ble_keyboard_lowpower_ts20's floor is dominated by BLE.
 //
-// Three tiers, same shape as ble_keyboard_lowpower minus the connection
+// Three tiers, same shape as ble_keyboard_lowpower_ts20 minus the connection
 // management:
 //
 //   ACTIVE  any touch in the last 10 s.  LED rail on, frames at 100 Hz to
@@ -16,7 +16,7 @@
 //           the TS20 INT line or the button.  Waking resets the chip.
 //
 // No BLE means no SoftDevice, which makes two things *simpler* than in
-// ble_keyboard_lowpower: POWER is not a restricted peripheral, so the
+// ble_keyboard_lowpower_ts20: POWER is not a restricted peripheral, so the
 // DC/DC regulator and SYSTEM_OFF are plain register writes rather than
 // SVC calls that have to be error-checked.
 //
@@ -216,7 +216,7 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(PIN_TS20_INT), ts20_isr, FALLING);
 
   last_touch_ms = millis();
-  LOG("hwtest_ts20_lowpower: DCDCEN=%lu, touch a pad\n",
+  LOG("hwtest_lowpower_ts20: DCDCEN=%lu, touch a pad\n",
       (unsigned long)NRF_POWER->DCDCEN);
 }
 

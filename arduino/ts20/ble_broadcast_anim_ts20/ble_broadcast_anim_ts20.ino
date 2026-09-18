@@ -1,4 +1,4 @@
-// ble_broadcast_anim.ino -- record an LED animation by touch, broadcast it
+// ble_broadcast_anim_ts20.ino -- record an LED animation by touch, broadcast it
 //
 // Touch pads to record a short animation; after a moment of silence it
 // plays back locally and goes out over BLE advertising, and every other
@@ -311,7 +311,7 @@ void setup() {
 
   char code[DEVICE_ID_CODE_LEN + 1];
   deviceIdCode(code);
-  Serial.printf("ble_broadcast_anim: device %04x (%s), %u byte packets\n",
+  Serial.printf("ble_broadcast_anim_ts20: device %04x (%s), %u byte packets\n",
                 my_id, code, ANIM_MSG_LEN);
   Serial.println("touch pads to record; the top row picks a color");
 

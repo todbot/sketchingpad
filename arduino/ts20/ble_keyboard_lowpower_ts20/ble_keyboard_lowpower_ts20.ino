@@ -1,4 +1,4 @@
-// ble_keyboard_lowpower.ino -- sketchingpad as a low-power BLE HID keyboard
+// ble_keyboard_lowpower_ts20.ino -- sketchingpad as a low-power BLE HID keyboard
 //
 // Seeed XIAO nRF52840 on the sketchingpad_stripproto1 board (rev with the
 // LED rail switch, the TS20 INT line, and SW1 wired).  Touching a pad types
@@ -292,7 +292,7 @@ void setup() {
 
   last_touch_ms = millis();
   active = true;
-  LOG("ble_keyboard_lowpower ready, advertising as \"sketchingpad\"\n");
+  LOG("ble_keyboard_lowpower_ts20 ready, advertising as \"sketchingpad\"\n");
 }
 
 // ------------------------------------------------------------------- loop

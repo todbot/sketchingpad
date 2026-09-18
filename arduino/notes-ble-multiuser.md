@@ -86,7 +86,7 @@ every other node in range.
 
 The 16-bit on-air device ID comes from `deviceIdShort()` in
 `device_id_code.h`, which hashes the chip's factory `NRF_FICR->DEVICEID`.
-That is the same hash behind the color code `ble_keyboard_simple` shows,
+That is the same hash behind the color code `ble_keyboard_simple_ts20` shows,
 so a peer logged as `a3f1` can be matched to the board on the bench
 lighting `RMGGB`. The startup banner prints both.
 

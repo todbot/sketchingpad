@@ -216,7 +216,7 @@ void setup() {
   Bluefruit.Scanner.start(0); // 0 = scan forever
 
   // The letter code is what identifies this board by eye -- it is the same
-  // code ble_keyboard_simple puts in its BLE model name and lights on the
+  // code ble_keyboard_simple_ts20 puts in its BLE model name and lights on the
   // LEDs, so a peer seen on air can be matched to a board on the bench.
   char code[DEVICE_ID_CODE_LEN + 1];
   deviceIdCode(code);

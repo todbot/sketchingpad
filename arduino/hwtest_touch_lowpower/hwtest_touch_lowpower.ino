@@ -1,14 +1,14 @@
 // hwtest_touch_lowpower.ino -- hwtest_touch with the power techniques, no BLE
 //
-// Replaces hwtest_ts20_lowpower, and runs on the MPR121 board too:
+// Replaces hwtest_lowpower_ts20, and runs on the MPR121 board too:
 // touch.h probes I2C at startup and the banner says which sensor it
 // found.  Same visible behaviour as hwtest_touch -- touch a pad, its LED
 // lights and fades.  The difference is everything underneath.  This is
 // the sketch to measure against, because with no radio running the
-// numbers are the firmware's own -- ble_keyboard_lowpower's floor is
+// numbers are the firmware's own -- ble_keyboard_lowpower_ts20's floor is
 // dominated by BLE.
 //
-// Three tiers, same shape as ble_keyboard_lowpower minus the connection
+// Three tiers, same shape as ble_keyboard_lowpower_ts20 minus the connection
 // management:
 //
 //   ACTIVE  any touch in the last 10 s.  LED rail on, frames at 100 Hz to
@@ -24,7 +24,7 @@
 // opposite orders.  touchArmWake() owns that; see touch.h.
 //
 // No BLE means no SoftDevice, which makes two things *simpler* than in
-// ble_keyboard_lowpower: POWER is not a restricted peripheral, so the
+// ble_keyboard_lowpower_ts20: POWER is not a restricted peripheral, so the
 // DC/DC regulator and SYSTEM_OFF are plain register writes rather than
 // SVC calls that have to be error-checked.
 //

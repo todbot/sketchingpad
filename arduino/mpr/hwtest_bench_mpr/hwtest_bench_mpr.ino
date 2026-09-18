@@ -1,4 +1,4 @@
-// hwtest_mpr_bench.ino -- one or two MPR121s, touch to serial, no LEDs
+// hwtest_bench_mpr.ino -- one or two MPR121s, touch to serial, no LEDs
 //
 // The smallest thing that proves an MPR121 works and that the pad mapping
 // is right: printing every touch and release as the chip, the electrode,
@@ -147,7 +147,7 @@ void setup() {
   Serial.begin(115200);
   while (!Serial && millis() < 5000) { delay(10); }
 
-  Serial.println("hwtest_mpr_bench");
+  Serial.println("hwtest_bench_mpr");
 
   Wire.begin();
   // Left at 100 kHz, unlike hwtest_mpr: bench wiring is longer and its
