@@ -1,8 +1,10 @@
 # sketchingpad -- Arduino sketches
 
 Arduino firmware for the sketchingpad: a 20-pad capacitive touch surface
-(TS20) with 20 side-view SK6812 LEDs, driven by a Seeed XIAO nRF52840
-plugged into a `sketchingpad` board. (current proto: `sketchingpad_proto2`)
+with 20 side-view SK6812 LEDs, driven by a Seeed XIAO nRF52840 plugged
+into a `sketchingpad` board. Touch is a TS20 on every board up to
+`sketchingpad1`, and two MPR121s on `sketchingpad1_mpr` -- see the two
+sensor sections below.
 
 ## Sketches
 
@@ -11,6 +13,7 @@ plugged into a `sketchingpad` board. (current proto: `sketchingpad_proto2`)
 | `hwtest_leds`            | Chases one pixel around the 20 LEDs         |
 | `hwtest_ts20`            | Touched pad -> LED, fading. Poll or INT mode |
 | `hwtest_ts20_lowpower`   | Touched pad -> LED, three power tiers        |
+| `hwtest_mpr`             | Touched pad -> LED, on the 2x MPR121 board    |
 | `ble_keyboard_simple`    | BLE HID keyboard, no power management        |
 | `ble_keyboard_lowpower`  | BLE HID keyboard, three power tiers          |
 | `ble_broadcast`          | Symmetric BLE broadcast messaging, no pairing |
@@ -29,6 +32,8 @@ Board: **Seeed XIAO nRF52840**, FQBN `Seeeduino:nrf52:xiaonRF52840`.
 Libraries used:
 
 - `TS20` -- todbot's TS20 Arduino library
+- `Adafruit MPR121` -- for `sketchingpad1_mpr` only; pulls in
+  `Adafruit BusIO`
 - `Adafruit NeoPixel` -- Adafruit easy neopixel library
 
 Adafruit_NeoPixel takes the nRF52 PWM + EasyDMA path, thus`show()` does 
@@ -64,6 +69,7 @@ The pin numbers are `#define`s at the top of each sketch.
 ```sh
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/hwtest_leds
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/hwtest_ts20
+arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/hwtest_mpr
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
   arduino/ble_keyboard_simple
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
@@ -206,6 +212,116 @@ Two consequences for `SYSTEM_OFF`:
 
 SW1 is the opposite case: a held level, so `enterDeepSleep()` waits for
 release before arming `SENSE_LOW`, or it would wake the instant it slept.
+
+## MPR121 capsense touch chip (`sketchingpad1_mpr`)
+
+The TS20 went out of stock at LCSC, so `sketchingpad1_mpr` replaces it
+with two 12-channel MPR121s. Same 20 pads, same 20 LEDs, same pins --
+`TS20_INT` is just renamed `TOUCH_INT` and is still D3/A3.
+`hwtest_mpr` is the bring-up sketch; it is `hwtest_ts20` with the
+sensor swapped and diagnostics added.
+
+- **U3 is 0x5A** (ADDR to GND), **U4 is 0x5B** (ADDR to VDD).
+- **Both /IRQ pins share one net**, pulled up by R1 10k. They are open
+  collector, so this is wired-OR and intended -- but the line says only
+  that *something* changed, never which chip. Every edge reads both.
+- **REXT (R8, R9) must be 75k 1%.** A wrong value here trips OVCF
+  (status register 0x01 bit 7), on which the chip drops to Stop Mode and
+  *discards* subsequent ECR writes. `Adafruit_MPR121::begin()` returns
+  true anyway, so the symptom is a chip that answers on I2C, answers
+  register reads, and never reports a touch. `hwtest_mpr` reads the ECR
+  back and prints OVCF for exactly this reason.
+
+### Pad numbering is not MPR121 electrode order either
+
+Re-derived from the `sketchingpad1_mpr` netlist, same three steps as the
+TS20 table above, with `TPn` landing on a pin whose pinfunction is
+`ELEm` on one of the two chips. The combined word this firmware uses is
+**bit = chip * 12 + ELEm**, so U3 occupies bits 0-11 and U4 bits 12-23.
+
+```
+physical layout, TP refdes        the same pads, by combined bit
+       17 18 19 20                       10 11  0  1
+  1  2  3  4  5  6  7  8            6  7  8  9   2  3  4  5
+  9 10 11 12 13 14 15 16           20 21 22 23  12 13 14 15
+```
+
+TP and LED footprint positions are byte-identical to `sketchingpad1`, so
+LED*n* still sits at TP*n*; only the sensor side of the table moved.
+
+### Four electrodes you cannot turn off
+
+U4's ELE4-7 are TOUCH21-24, brought out to the J2 header rather than to
+pads. ECR's `ELE_EN` field enables ELE0..ELE(n-1) contiguously, so they
+cannot be disabled without also losing ELE8-11, which are real pads.
+Left floating they can chatter, and every spurious touch pulls the
+*shared* IRQ down -- a spurious wake, once there is a sleeping tier.
+`hwtest_mpr` parks their per-channel touch thresholds at 0xFF and masks
+bits 16-19 in software. Masking alone would not help: the interrupt is
+hardware.
+
+Which is also why the sketch prints a `chatter:` line, counting IRQ
+assertions whose read turned up no change in `touches`. Masked chatter is
+otherwise invisible -- the edge counter climbs and nothing else moves. On
+an untouched board that counter should stay flat; if it climbs, the 0xFF
+thresholds did not take.
+
+With autoconfig enabled this matters more, not less. Those four will
+likely report Out Of Range, and `ARE` (auto-reconfiguration) then retries
+an OOR channel on *every sampling interval*, indefinitely.
+
+### CONFIG2 is the power knob
+
+`CONFIG2` (0x5D) bits 2-0 are ESI, the electrode sample interval, and it
+is most of the sensor's idle current. `Adafruit_MPR121::begin()` writes
+`0x20`, which is ESI = 1 ms -- the chip's most expensive setting, and
+not the part's own reset default of `0x24`.
+
+| CONFIG2 | ESI    | IDD per chip |
+|---------|--------|--------------|
+| `0x20`  | 1 ms   | 393 uA       |
+| `0x24`  | 16 ms  | 29 uA        |
+| `0x25`  | 32 ms  | 17 uA        |
+| `0x27`  | 128 ms | 8 uA         |
+
+Two chips, so double it. The datasheet's IDD table is headed
+"VDD and VREG = 1.8V" and this board runs 3.3V, so treat those as ratios
+to measure against rather than predictions.
+
+What it buys is latency: the touch status update rate is **ESI x SFI**,
+and SFI defaults to 4 samples, so `0x24` responds in 64 ms rather than
+4 ms. A fast interval while playing and a slow one while idle is the
+obvious answer, but switching it means a Stop -> Run transition, which
+restarts baseline tracking and reruns autoconfig -- the same caveat as
+`ts20.setFastMode()`. `CONFIG2_VALUE` at the top of `hwtest_mpr` is
+there to sweep against a current meter.
+
+### The MPR121 IRQ line: not yet characterised
+
+**Unmeasured, as of 2026-09-17.** The MPR121 datasheet says only that
+IRQ is "triggered any time a touch or release is detected" and stops
+there. AN3895, which the datasheet cites for the serial interface, is
+purely the I2C protocol -- addressing, START/STOP, auto-increment reads
+-- and never mentions IRQ. So whether it is a level held until the touch
+status registers are read, as it is widely reported to be, is not
+established by anything in `docs/`.
+
+It matters, because a held level would remove the `SYSTEM_OFF` arming
+race the TS20's ~1 ms pulse creates (see above): `SENSE_LOW` would latch
+on its own, and the only rule would be to read both chips immediately
+before arming so a stale assertion does not wake the board instantly.
+
+`hwtest_mpr` settles it the same way `hwtest_ts20` settled the TS20's --
+empirically. It prints the INT pin level immediately before and after
+the status read as `int=N->N`, alongside the same edge counter, 500 ms
+watchdog and `INT MISSED` check.
+
+One consequence is already certain, whichever way that goes. Two chips
+on one open-collector line means a chip can re-assert in the gap between
+the two status reads, leaving the line low with no new edge behind it --
+and nothing would ever read it again. So the read chases the level down
+rather than reading once, bounded to `MAX_INT_PASSES` because a chip
+stuck low would otherwise hang `loop()`.
 
 ## Low power
 
