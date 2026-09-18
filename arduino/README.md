@@ -15,6 +15,8 @@ sensor sections below.
 | `hwtest_ts20_lowpower`   | Touched pad -> LED, three power tiers        |
 | `hwtest_mpr`             | Touched pad -> LED, on the 2x MPR121 board    |
 | `hwtest_mpr_bench`       | 1-2 MPR121s, touch to serial. Poll or INT    |
+| `hwtest_touch`           | Touched pad -> LED, on either sensor          |
+| `hwtest_touch_lowpower`  | Touched pad -> LED, three tiers, either sensor |
 | `ble_keyboard_simple`    | BLE HID keyboard, no power management        |
 | `ble_keyboard_lowpower`  | BLE HID keyboard, three power tiers          |
 | `ble_broadcast`          | Symmetric BLE broadcast messaging, no pairing |
@@ -22,6 +24,13 @@ sensor sections below.
 
 `hwtest_leds` and `hwtest_ts20` are Arduino ports of
 `circuitpython/hwtest/code_ledtest.py` and `code_test_ts20.py`.
+
+`hwtest_touch` and `hwtest_touch_lowpower` are the sensor-agnostic
+versions of the four sketches above them, over the shared touch layer --
+see that section. They supersede `hwtest_ts20`, `hwtest_mpr` and
+`hwtest_ts20_lowpower`, which stay until the replacements have run on
+both boards. `hwtest_mpr_bench` is not superseded: one chip, serial
+only, no LEDs, it is a different instrument.
 
 `arduino/tests/` holds host-side tests for the dependency-free headers;
 see the last section.
@@ -380,6 +389,65 @@ the two status reads, leaving the line low with no new edge behind it --
 and nothing would ever read it again. So the read chases the level down
 rather than reading once, bounded to `MAX_INT_PASSES` because a chip
 stuck low would otherwise hang `loop()`.
+
+## The shared touch layer
+
+`touch.h` and `touch_map.h` are one driver over both sensors, so a sketch
+does not care which board it is on. Copied per sketch, the same
+convention as `device_id_code.h`; the copies must stay identical.
+
+**The boards identify themselves at runtime.** The TS20 is at `0x6A` and
+the MPR121s at `0x5A`/`0x5B`, so `touchBegin()` probes and picks. One
+binary runs on both and nothing needs reflashing to swap boards on the
+bench. `touchName()` prints `TS20` or `2x MPR121` in the banner.
+
+**Everything is in LED-index space.** Bit *n* of `touchRead()` is LED
+*n*, which is TP*(n+1)* on the silkscreen, on both boards. Sketches
+write `(touches >> n) & 1` and carry no `led_to_pad` of their own -- both
+tables live in `touch_map.h`, one per board rev. That is the actual
+payoff: selecting a range of pads by index becomes correct by
+construction, rather than by remembering that the top row sits in the
+middle of the TS20's channel range.
+
+| Call                  | What it does                                  |
+|-----------------------|-----------------------------------------------|
+| `touchBegin()`        | Probes 0x6A, then 0x5A/0x5B, and brings it up |
+| `touchName()`         | `"TS20"` / `"2x MPR121"`, for banners          |
+| `touchRead()`         | Bit n = LED n = TP(n+1), 20 bits               |
+| `touchReadPasses()`   | Status reads the last `touchRead()` took       |
+| `touchIntPin()`       | A3 on both revs, but let it say so             |
+| `touchSetLowPower()`  | TS20 auto/fast; MPR121 CONFIG2 ESI             |
+| `touchFault()`        | TS20 noise flag; MPR121 OVCF                   |
+| `touchArmWake()`      | Arms SYSTEM_OFF wake; false = do not sleep     |
+| `touchSource(led)`    | `"ch3"` / `"U3 ELE6"`, for diagnostic prints   |
+| `touchReport()`       | Whatever this sensor says about its own health |
+
+`touchRead()` hides the MPR121's two transactions and the bounded
+re-read-while-low loop, so callers cannot get that wrong.
+`touchReadPasses()` is how that shows: greater than 1 means a chip
+re-asserted mid-read, and it is always 1 on the TS20.
+
+`touchSetLowPower()` is a set-once call, not a per-tier toggle. Both
+backends soft-reset on that write, which restarts calibration and would
+swallow a touch in progress.
+
+### `touchArmWake()` is where the INT difference lives
+
+The two orderings are opposite, which is why this cannot be a flag the
+sketch branches on:
+
+- **MPR121**: read first. The read is what releases the held-low line;
+  arming `SENSE_LOW` while it is still low latches DETECT and wakes the
+  board the instant it sleeps.
+- **TS20**: arm first. The ~1 ms pulse is long gone by then, so the final
+  read is what closes the software race -- the chip still holds the state
+  in its output register.
+
+So the driver owns the whole sequence and returns false if activity
+arrived during the arm. The sketch keeps its own button arming either
+side of the call. This is what makes `touch.h` nRF52-specific
+(`nrf_gpio_cfg_sense_input`), and why the tables live in the other
+header, which is portable and host-tested.
 
 ## Low power
 

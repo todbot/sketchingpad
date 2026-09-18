@@ -16,7 +16,7 @@ CXX      ?= c++
 # write in the reassembler is silent on the nRF52 and fatal here.
 CXXFLAGS ?= -std=c++11 -Wall -Wextra -O1 -g \
             -fsanitize=address,undefined -fno-omit-frame-pointer
-INCLUDES  = -I../ble_broadcast_anim -Istubs
+INCLUDES  = -I../ble_broadcast_anim -I../hwtest_touch -Istubs
 BUILD     = build
 
 SRCS := $(wildcard *_test.cpp)

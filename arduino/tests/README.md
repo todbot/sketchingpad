@@ -59,6 +59,28 @@ includes `<Arduino.h>` and must keep doing so, since that is where
 sketch. The cost of the stub is that these tests do not prove the header
 compiles against the real `Arduino.h` -- the sketch builds cover that.
 
+`touch_map_test.cpp` -- `touch_map.h`, the per-board pad tables:
+
+- **Each table is a permutation**: every LED 0-19 covered exactly once,
+  no sensor bit used twice, every bit within its sensor's range. This is
+  the bug class that has bitten twice on hardware.
+- Each sensor bit alone lights exactly its own LED, which is what proves
+  the table and the mapper agree. A mapper that read the table backwards
+  still produces a permutation, so the structural checks alone pass it.
+- **Sensor bits ascend within every group of four pads.** Two transposed
+  entries are still a permutation and still round-trip, so nothing else
+  notices them; both boards route the pads in blocks of four, so this
+  does. Found by mutating the header -- the earlier suite passed against
+  a swapped pair, which is exactly the wrong-table bug it exists for.
+- U4's ELE4-7 reach no LED. They have no pad and cannot be disabled in
+  the ECR, so if they ever chatter they must still paint nothing.
+- The two tables differ, and TP17-20 is the top of neither sensor's
+  range. Sharing a table across revs, and assuming the top row was the
+  top of the range, are the two mistakes already made.
+
+It includes only `<stdint.h>`, not `stubs/Arduino.h`. That it builds
+with no stub at all is the proof that the table/driver split held.
+
 `player_test.cpp` -- `LedAnim` timing:
 
 - Events fire on their deadline, not a millisecond early.
