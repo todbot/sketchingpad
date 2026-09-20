@@ -86,19 +86,13 @@ The pin numbers are `#define`s at the top of each sketch.
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/hwtest_leds
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/hwtest_ts20
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/mpr/hwtest_mpr
-arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
-  arduino/mpr/hwtest_bench_mpr
-arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
-  arduino/ts20/ble_keyboard_simple_ts20
-arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
-  arduino/ts20/ble_keyboard_lowpower_ts20
-arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
-  arduino/ts20/hwtest_lowpower_ts20
+arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/mpr/hwtest_bench_mpr
+arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/ble_keyboard_simple_ts20
+arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/ble_keyboard_lowpower_ts20
+arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/hwtest_lowpower_ts20
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_broadcast
-arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
-  arduino/ts20/ble_broadcast_anim_ts20
-arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 \
-  arduino/ble_broadcast_anim
+arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/ble_broadcast_anim_ts20
+arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_broadcast_anim
 ```
 
 Start from `ble_keyboard_simple_ts20` when bringing up a board or changing the
