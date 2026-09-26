@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>superimposed sines</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+<style>
+  html,body { margin:0; padding:0; overflow:hidden; background:#000; }
+  canvas { display:block; }
+</style>
+</head>
+<body>
+<script>
+/*
+  seasons, cycles, sequences — wave islands
+  ---------------------------------------------------------------
+  Every island is a sum of two to five sines, windowed by a raised
+  cosine so both the amplitude and the ink fade to nothing at its
+  ends. Nothing is rotated: all islands lie flat, and the seasonal
+  wavefront holds one fixed direction for the life of the sketch.
+
+  Component frequencies are small integers in cycles across the
+  island. Their phases advance at rates drawn from a set of simple
+  ratios, some running backwards, so an island keeps re-forming
+  without repeating on its neighbours' schedule.
+
+  The seasonal wavefront crosses the canvas in a fixed direction over
+  the course of a year. Islands flatten and dim as its trough reaches
+  them and swell back up behind it, so the field breathes in a band
+  rather than all at once. At every season boundary one island
+  re-tunes a component; at every year boundary one island is thrown
+  somewhere else.
+
+  Palette is black and white only.
+
+  space  save a png
+  i invert    l re-scatter    [ ] fewer / more islands
+  s island size    - = phase rate    , . year length
+  a amplitude    n harmonics    w line weight
+  t persistence    g grain    h hide keys    r restart
+  any other key  new seed
+*/
+
+const FREQS = [0.5, 1, 1, 1.5, 2, 2, 3, 3, 4, 5, 5, 8];
+const RATIOS = [0.75, 1, 1, 1.5, 2, 2, 3, 4, 6];
+
+let cfg, islands = [], grainG;
+let t0 = 0, invert = false, frontDir = { c: 1, s: 0 };
+let lastSeason = -1, lastYear = -1, seasonFlash = 0;
+let pendingSave = false, showHUD = true, hudUntil = 0;
+
+function defaults() {
+  return {
+    count:    34,     // number of islands
+    size:     1.0,    // island width scale
+    harm:     4,      // maximum components per island
+    amp:      1.0,    // global amplitude scale
+    weight:   1.5,    // base line weight
+    cycleSec: 26,     // base phase period
+    yearSec:  300,    // one full pass of the seasonal wavefront
+    trail:    0.10,
+    grain:    true,
+    seed:     Math.floor(Math.random() * 99999),
+  };
+}
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  pixelDensity(min(2, displayDensity()));
+  textFont('ui-monospace, SFMono-Regular, Menlo, Consolas, monospace');
+  noiseSeed(29);
+  cfg = defaults();
+  scatter();
+  makeGrain();
+  resetClock();
+  hudUntil = millis() + 10000;
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  scatter();
+  makeGrain();
+  wipe();
+}
+
+// ---------------------------------------------------------------- islands
+
+// raised cosine: 0 at both ends, 1 in the middle
+function win(u) { return pow(0.5 - 0.5 * cos(TWO_PI * constrain(u, 0, 1)), 0.85); }
+
+function makeComp() {
+  return {
+    f:    random(FREQS),
+    a:    random(0.22, 1.0),
+    ph:   random(1),
+    rate: random(RATIOS) * (random() < 0.35 ? -1 : 1),
+  };
+}
+
+function makeIsland() {
+  const D = min(width, height);
+  const comps = [];
+  const nc = floor(random(2, cfg.harm + 1));
+  for (let i = 0; i < nc; i++) comps.push(makeComp());
+  const len = D * random(0.13, 0.52) * cfg.size;
+  return {
+    x:   random(-0.04, 1.04) * width,
+    y:   random(0.02, 0.98) * height,
+    len,
+    comps,
+    norm: comps.reduce((s, c) => s + c.a, 0),
+    amp:  D * random(0.016, 0.070) * (0.6 + 0.8 * (len / (D * 0.5))),
+    off:  random(500),
+  };
+}
+
+function scatter() {
+  randomSeed(cfg.seed);
+  const a = random(TWO_PI);           // fixed for the life of this seed
+  frontDir = { c: cos(a), s: sin(a) };
+  islands = [];
+  for (let i = 0; i < cfg.count; i++) islands.push(makeIsland());
+}
+
+function retune(t) {
+  if (!islands.length) return;
+  const is = islands[floor(noise(t * 0.23, 5.1) * islands.length) % islands.length];
+  const c = is.comps[floor(noise(t * 0.61, 8.8) * is.comps.length) % is.comps.length];
+  c.f = FREQS[floor(noise(t * 0.37, 2.4) * FREQS.length) % FREQS.length];
+  c.rate = RATIOS[floor(noise(t * 0.83, 7.7) * RATIOS.length) % RATIOS.length] *
+           (noise(t * 1.1, 4.2) < 0.35 ? -1 : 1);
+  is.norm = is.comps.reduce((s, q) => s + q.a, 0);
+}
+
+function relocate(t) {
+  if (!islands.length) return;
+  const i = floor(noise(t * 0.17, 13.7) * islands.length) % islands.length;
+  islands[i] = makeIsland();
+}
+
+function reseed() {
+  cfg.seed = floor(random(99999));
+  scatter();
+}
+
+// ---------------------------------------------------------------- black & white
+
+function tone(v, a = 255) {
+  v = constrain(v, 0, 1);
+  const g = invert ? 255 - v * 255 : v * 255;
+  return color(g, g, g, a);
+}
+
+function bgLevel() { return invert ? 255 : 0; }
+
+function wipe() { background(bgLevel()); }
+
+function resetClock() { t0 = millis(); lastSeason = -1; lastYear = -1; wipe(); }
+
+// ---------------------------------------------------------------- season field
+
+function seasonAt(px, py, t) {
+  const u = (px / width - 0.5) * frontDir.c + (py / height - 0.5) * frontDir.s;
+  return 0.5 + 0.5 * sin(TWO_PI * (t / cfg.yearSec - u * 0.85));
+}
+
+// ---------------------------------------------------------------- draw
+
+function draw() {
+  const t = (millis() - t0) / 1000;
+
+  noStroke();
+  fill(bgLevel(), bgLevel(), bgLevel(), cfg.trail * 255);
+  rect(0, 0, width, height);
+
+  const season = floor(t / (cfg.yearSec / 4));
+  if (season !== lastSeason) {
+    if (lastSeason >= 0) { retune(t); seasonFlash = 1; }
+    lastSeason = season;
+  }
+  const yr = floor(t / cfg.yearSec);
+  if (yr !== lastYear) {
+    if (lastYear >= 0) relocate(t);
+    lastYear = yr;
+  }
+  seasonFlash *= 0.955;
+
+  noFill();
+  strokeJoin(ROUND);
+  strokeCap(ROUND);
+  for (const is of islands) drawIsland(is, t);
+
+  if (cfg.grain) drawGrain(t);
+  if (pendingSave) {
+    saveCanvas('waves-' + nf(year(),4) + nf(month(),2) + nf(day(),2) + '-' +
+               nf(hour(),2) + nf(minute(),2) + nf(second(),2), 'png');
+    pendingSave = false;
+  } else if (showHUD) {
+    drawHUD(t, season);
+  }
+}
+
+function drawIsland(is, t) {
+  const env = 0.16 + 0.84 * seasonAt(is.x, is.y, t);
+  const breath = 0.78 + 0.44 * noise(t * 0.011 + is.off, 3.1);
+  const A = is.amp * cfg.amp * env * breath;
+  const L = is.len * cfg.size;
+  const N = constrain(floor(L / 2.2), 48, 260);
+  const x0 = is.x - L / 2;
+
+  // sample the windowed superposition
+  const ys = new Array(N + 1);
+  for (let i = 0; i <= N; i++) {
+    const u = i / N;
+    let s = 0;
+    for (const c of is.comps) {
+      const ph = c.ph + t / (cfg.cycleSec * abs(c.rate)) * Math.sign(c.rate);
+      s += c.a * sin(TWO_PI * (u * c.f + ph));
+    }
+    ys[i] = is.y + (s / is.norm) * A * win(u);
+  }
+
+  // drawn in chunks so ink can fade out with the same window
+  const CH = 20;
+  for (let ch = 0; ch < CH; ch++) {
+    const i0 = floor((ch / CH) * N);
+    const i1 = floor(((ch + 1) / CH) * N);
+    const mu = (ch + 0.5) / CH;
+    const w = win(mu);
+    if (w < 0.03) continue;
+    const local = 0.6 + 0.5 * noise(mu * 2.2 + is.off, t * 0.05);
+    const v = constrain((0.30 + 0.62 * env) * local + 0.10 * seasonFlash, 0, 1);
+    stroke(tone(v, 240 * pow(w, 0.9)));
+    strokeWeight(max(0.3, cfg.weight * (0.45 + 0.95 * env) * local * (0.35 + 0.65 * w)));
+    beginShape();
+    for (let i = i0; i <= i1; i++) vertex(x0 + (i / N) * L, ys[i]);
+    endShape();
+  }
+}
+
+// ---------------------------------------------------------------- texture
+
+function makeGrain() {
+  grainG = createGraphics(width + 48, height + 48);
+  grainG.pixelDensity(1);
+  grainG.loadPixels();
+  for (let i = 0; i < grainG.pixels.length; i += 4) {
+    const v = 118 + Math.random() * 24;
+    grainG.pixels[i] = grainG.pixels[i + 1] = grainG.pixels[i + 2] = v;
+    grainG.pixels[i + 3] = 255;
+  }
+  grainG.updatePixels();
+}
+
+function drawGrain(t) {
+  push();
+  blendMode(OVERLAY);
+  tint(255, 24);
+  image(grainG, -24 + (floor(t * 6) % 3) * 8, -24 + (floor(t * 6.7) % 3) * 8);
+  pop();
+  blendMode(BLEND);
+  noTint();
+}
+
+// ---------------------------------------------------------------- hud
+
+function drawHUD(t, season) {
+  const fade = constrain((hudUntil - millis()) / 1200, 0, 1);
+  if (fade <= 0) return;
+  const names = ['spring', 'summer', 'autumn', 'winter'];
+  const lines = [
+    'year ' + (floor(t / cfg.yearSec) + 1) + '   ' + names[((season % 4) + 4) % 4] +
+      '   islands ' + islands.length,
+    'cycle ' + floor(cfg.cycleSec) + 's   year ' + floor(cfg.yearSec) + 's   harmonics ' +
+      cfg.harm + '   amp ' + nf(cfg.amp, 1, 2) + '   size ' + nf(cfg.size, 1, 2),
+    '',
+    'space save png    i invert    l re-scatter    [ ] islands',
+    's size    - = phase rate    , . year    a amplitude',
+    'n harmonics    w weight    t persistence    g grain',
+    'h hide    r restart    any other key  new seed',
+  ];
+  push();
+  noStroke();
+  textSize(12);
+  textLeading(17);
+  textAlign(LEFT, BOTTOM);
+  fill(tone(0.62, 210 * fade));
+  text(lines.join('\n'), 22, height - 20);
+  pop();
+}
+
+// ---------------------------------------------------------------- input
+
+function keyPressed() {
+  if (keyCode === 32) { pendingSave = true; return false; }
+
+  const k = key.toLowerCase();
+  hudUntil = millis() + 9000;
+  showHUD = true;
+
+  switch (k) {
+    case 'i': invert = !invert; wipe(); break;
+    case 'l': cfg.seed = floor(random(99999)); scatter(); wipe(); break;
+    case '[': cfg.count = max(1, cfg.count - 4); scatter(); wipe(); break;
+    case ']': cfg.count = min(200, cfg.count + 4); scatter(); wipe(); break;
+    case 's': cfg.size = cfg.size > 2.2 ? 0.35 : cfg.size * 1.35; wipe(); break;
+    case '-': cfg.cycleSec = min(600, cfg.cycleSec * 1.3); break;
+    case '=':
+    case '+': cfg.cycleSec = max(1.5, cfg.cycleSec / 1.3); break;
+    case ',': cfg.yearSec = max(20, cfg.yearSec / 1.4); break;
+    case '.': cfg.yearSec = min(3600, cfg.yearSec * 1.4); break;
+    case 'a': cfg.amp = cfg.amp > 2.4 ? 0.35 : cfg.amp * 1.35; break;
+    case 'n': cfg.harm = cfg.harm >= 6 ? 2 : cfg.harm + 1; scatter(); break;
+    case 'w': cfg.weight = cfg.weight > 4.5 ? 0.5 : cfg.weight * 1.5; break;
+    case 't': cfg.trail = cfg.trail > 0.5 ? 0.02 : (cfg.trail < 0.05 ? 0.10 : 1.0); break;
+    case 'g': cfg.grain = !cfg.grain; break;
+    case 'h': showHUD = false; break;
+    case 'r': resetClock(); break;
+    default:  reseed(); wipe(); break;
+  }
+  return false;
+}
+</script>
+</body>
+</html>
