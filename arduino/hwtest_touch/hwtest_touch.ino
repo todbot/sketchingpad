@@ -30,6 +30,7 @@
 #include <Wire.h>
 
 // sketchingpad1 / sketchingpad1_mpr -> XIAO nRF52840:
+//   BUTTON    = D10/MOSI (SW1 to GND, needs internal pull-up)
 //   TOUCH_INT = D3 / A3  (open collector, R1 pulls up; both /IRQ on _mpr)
 //   SDA       = D4       (Wire default)
 //   SCL       = D5       (Wire default)
@@ -37,6 +38,7 @@
 //   LED_POWER = D7 / RX  (P-FET gate: LOW = rail on)
 #define PIN_LED_DATA  (6)
 #define PIN_LED_POWER (7)
+#define PIN_BUTTON    (10)
 
 #define USE_INT_PIN (1)
 
@@ -101,6 +103,8 @@ uint32_t colorwheel(uint8_t pos) {
 void setup() {
   Serial.begin(115200);
 
+  pinMode(PIN_BUTTON, INPUT_PULLUP);  // little physical button up top
+
   // The LED power rail hangs off a P-FET whose gate is pulled up to its
   // source, so the rail is OFF until D7 is driven low.  Without this the
   // LEDs never light.
@@ -143,6 +147,11 @@ void loop() {
     for (int c = 0; c < 3; c++) {
       pix[n][c] = (pix[n][c] > DIM_BY) ? pix[n][c] - DIM_BY : 0;
     }
+  }
+
+  if (digitalRead(PIN_BUTTON) == LOW) {
+      Serial.println("BUTTON press!");
+      delay(20);
   }
 
 #if USE_INT_PIN
