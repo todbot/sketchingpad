@@ -19,6 +19,7 @@ with either through the shared touch layer.
 | `hwtest_touch_lowpower`           | Pad -> LED, tiers. Either sensor    |
 | `ble_broadcast`                   | Symmetric BLE broadcast, no pairing |
 | `ble_broadcast_anim`              | Record an LED animation, broadcast  |
+| `ble_keyboard_simple`             | BLE HID keyboard. Either sensor     |
 | `ts20/hwtest_ts20`                | Pad -> LED, fading. Poll or INT     |
 | `ts20/hwtest_lowpower_ts20`       | Pad -> LED, three power tiers       |
 | `ts20/ble_keyboard_simple_ts20`   | BLE HID keyboard, no power mgmt     |
@@ -30,11 +31,12 @@ with either through the shared touch layer.
 `hwtest_leds` and `hwtest_ts20` are Arduino ports of
 `circuitpython/hwtest/code_ledtest.py` and `code_test_ts20.py`.
 
-`hwtest_touch`, `hwtest_touch_lowpower` and `ble_broadcast_anim` are the
-sensor-agnostic versions of their `ts20/` and `mpr/` counterparts, over
-the shared touch layer -- see that section. They supersede `hwtest_ts20`,
-`hwtest_mpr`, `hwtest_lowpower_ts20` and `ble_broadcast_anim_ts20`,
-which stay until the replacements have run on both boards.
+`hwtest_touch`, `hwtest_touch_lowpower`, `ble_broadcast_anim` and
+`ble_keyboard_simple` are the sensor-agnostic versions of their `ts20/`
+and `mpr/` counterparts, over the shared touch layer -- see that section.
+They supersede `hwtest_ts20`, `hwtest_mpr`, `hwtest_lowpower_ts20`,
+`ble_broadcast_anim_ts20` and `ble_keyboard_simple_ts20`, which stay
+until the replacements have run on both boards.
 `hwtest_bench_mpr` is not superseded: one chip, serial only, no LEDs, it
 is a different instrument.
 

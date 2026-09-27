@@ -43,8 +43,9 @@ Sensor-agnostic, at the top of `arduino/`. These probe I2C through
 * `ble_broadcast`         -- symmetric BLE broadcast, no pairing
 * `ble_broadcast_auto`    -- `ble_broadcast`, auto-sending a counter
 * `ble_broadcast_anim`    -- record an animation, broadcast it
+* `ble_keyboard_simple`   -- BLE HID keyboard, no power mgmt
 
-TS20-only, in `arduino/ts20/`. The BLE HID keyboard sketches exist
+TS20-only, in `arduino/ts20/`. The low-power BLE HID keyboard exists
 only here.
 
 * `hwtest_ts20`                -- pad -> LED, poll or INT
@@ -58,11 +59,12 @@ MPR121-only, in `arduino/mpr/`.
 * `hwtest_mpr`       -- pad -> LED on the 2x MPR121 board
 * `hwtest_bench_mpr` -- 1-2 MPR121s, touch to serial, no LEDs
 
-`hwtest_touch`, `hwtest_touch_lowpower` and `ble_broadcast_anim`
-supersede `hwtest_ts20`, `hwtest_lowpower_ts20`, `hwtest_mpr` and
-`ble_broadcast_anim_ts20`, which stay until the replacements have
-run on both boards. `hwtest_bench_mpr` is not superseded: one chip,
-serial only, no LEDs, a different instrument.
+`hwtest_touch`, `hwtest_touch_lowpower`, `ble_broadcast_anim` and
+`ble_keyboard_simple` supersede `hwtest_ts20`, `hwtest_lowpower_ts20`,
+`hwtest_mpr`, `ble_broadcast_anim_ts20` and `ble_keyboard_simple_ts20`,
+which stay until the replacements have run on both boards.
+`hwtest_bench_mpr` is not superseded: one chip, serial only, no LEDs,
+a different instrument.
 
 `arduino/tests/` holds host-native tests for the dependency-free
 headers: `cd arduino/tests && make run`.
