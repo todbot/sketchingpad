@@ -125,7 +125,7 @@ KiCad source files available in the "schematics" directory.
 
 ### sketchingpad1-mpr  (2xMPR121)
 
-[<img src="./docs/sketchingpad1_mpr-sch.png" width=700>](./schematics/sketchingpad1_mpr/sketchingpad1_mpr.pdf)
+[<img src="./docs/sketchingpad1_mpr-sch.png" width=700>](./schematics/sketchingpad1_mpr/sketchingpad1_mpr-sch.pdf)
 
 
 
