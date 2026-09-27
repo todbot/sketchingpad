@@ -20,6 +20,7 @@ with either through the shared touch layer.
 | `ble_broadcast`                   | Symmetric BLE broadcast, no pairing |
 | `ble_broadcast_anim`              | Record an LED animation, broadcast  |
 | `ble_keyboard_simple`             | BLE HID keyboard. Either sensor     |
+| `ble_midi_simple`                 | BLE MIDI controller. Either sensor  |
 | `ts20/hwtest_ts20`                | Pad -> LED, fading. Poll or INT     |
 | `ts20/hwtest_lowpower_ts20`       | Pad -> LED, three power tiers       |
 | `ts20/ble_keyboard_simple_ts20`   | BLE HID keyboard, no power mgmt     |
@@ -53,6 +54,7 @@ Libraries used:
 - `Adafruit MPR121` -- for `sketchingpad1_mpr` only; pulls in
   `Adafruit BusIO`
 - `Adafruit NeoPixel` -- Adafruit easy neopixel library
+- `MIDI Library` -- FortySevenEffects, for `ble_midi_simple` only
 
 Adafruit_NeoPixel takes the nRF52 PWM + EasyDMA path, thus`show()` does 
 not disable interrupts and will not disturb BLE radio events)
@@ -68,7 +70,7 @@ From the `sketchingpad_proto2` board; `sketchingpad_proto1` differs, see below.
 
 | Signal      | XIAO pin | Notes                         |
 |-------------|----------|-------------------------------|
-| `PWM_AUDIO` | D0 / A0  | net at the header only        |
+| `PWM_AUDIO` | D0 / A0  | to audio jack via RC filter   |
 | `BUTTON`    | D10/MOSI | SW1 to GND, internal pull-up  |
 | `TS20_INT`  | D3 / A3  | open collector, R1 pulls up   |
 | `SDA`       | D4       | `Wire` default                |
@@ -92,6 +94,7 @@ arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/mpr/hwtest_bench_mpr
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/ble_keyboard_simple_ts20
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/ble_keyboard_lowpower_ts20
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/hwtest_lowpower_ts20
+arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_midi_simple
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_broadcast
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/ble_broadcast_anim_ts20
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_broadcast_anim
@@ -120,15 +123,76 @@ arduino-cli upload -b Seeeduino:nrf52:xiaonRF52840 \
   -p /dev/cu.usbmodemXXXX arduino/hwtest_leds
 ```
 
-## Telling boards apart: `device_id_code.h`
+## `touch.h`: touch abstraction layer
+
+The `touch.h` and `touch_map.h` files are one driver abstracting away
+for both sensors, so a sketch does not care which board it is on. 
+Copied per sketch.
+
+| Call                  | What it does                                  |
+|-----------------------|-----------------------------------------------|
+| `touchBegin()`        | Probes 0x6A, then 0x5A/0x5B, and brings it up |
+| `touchName()`         | `"TS20"` / `"2x MPR121"`, for banners          |
+| `touchRead()`         | Bit n = LED n = TP(n+1), 20 bits               |
+| `touchReadPasses()`   | Status reads the last `touchRead()` took       |
+| `touchIntPin()`       | A3 on both revs, but let it say so             |
+| `touchSetLowPower()`  | TS20 auto/fast; MPR121 CONFIG2 ESI             |
+| `touchFault()`        | TS20 noise flag; MPR121 OVCF                   |
+| `touchArmWake()`      | Arms SYSTEM_OFF wake; false = do not sleep     |
+| `touchSource(led)`    | `"ch3"` / `"U3 ELE6"`, for diagnostic prints   |
+| `touchReport()`       | Whatever this sensor says about its own health |
+
+**The boards identify themselves at runtime.** The TS20 is at I2C addr `0x6A` 
+and the MPR121s at `0x5A`/`0x5B`, so `touchBegin()` probes and picks. One
+binary runs on both and nothing needs reflashing to swap boards on the
+bench. `touchName()` prints `TS20` or `2x MPR121` in the banner.
+
+**Everything is in LED-index space.** Bit *n* of `touchRead()` is LED
+*n*, which is TP*(n+1)* on the silkscreen, on both boards. Sketches
+write `(touches >> n) & 1` and carry no `led_to_pad` of their own -- both
+tables live in `touch_map.h`, one per board type (ts20 vs mpr). 
+Selecting a range of pads by index becomes correct by construction.
+
+`touchRead()` hides the MPR121's two transactions and the bounded
+re-read-while-low loop, so callers cannot get that wrong.
+
+`touchReadPasses()` retur value:  greater than 1 means a chip
+re-asserted mid-read, and it is always 1 on the TS20.
+
+`touchSetLowPower()` is a set-once call, not a per-tier toggle. Both
+backends soft-reset on that write, which restarts calibration and would
+swallow a touch in progress.
+
+### `touchArmWake()` INT differences
+
+The two orderings are opposite, which is why this cannot be a flag the
+sketch branches on:
+
+- **MPR121**: read first. The read is what releases the held-low line;
+  arming `SENSE_LOW` while it is still low latches DETECT and wakes the
+  board the instant it sleeps.
+- **TS20**: arm first. The ~1 ms pulse is long gone by then, so the final
+  read is what closes the software race -- the chip still holds the state
+  in its output register.
+
+So the driver owns the whole sequence and returns false if activity
+arrived during the arm. The sketch keeps its own button arming either
+side of the call. This is what makes `touch.h` nRF52-specific
+(`nrf_gpio_cfg_sense_input`), and why the tables live in the other
+header, which is portable and host-tested.
+
+## `device_id_code.h`: telling boards apart
+
+API for helping to identify a board both on BLE advertisements and LED colors.
+Copied per board. 
 
 Two boards running identical firmware are otherwise indistinguishable.
-`device_id_code.h` hashes the chip's factory `NRF_FICR->DEVICEID` (FNV-1a
+`device_id_code.h` hashes the chip's UID `NRF_FICR->DEVICEID` (FNV-1a
 over all 8 bytes) and slices it 2 bits at a time into five letters drawn
 from `R`/`Y`/`G`/`B`/`M` (red, amber, green, blue, magenta) -- e.g.
-`RMGGB`. Two sketches use it:
+`RMGGB`. Some sketches that use it:
 
-- `ble_keyboard_simple_ts20` advertises the BLE model `sketchingpad-RMGGB` and
+- `ble_keyboard_simple` advertises the BLE model `sketchingpad-RMGGB` and
   lights the code on five LEDs at the end of `setup()`, so you can read a
   board's identity off the board itself. It stays lit until the first
   touch.
@@ -141,16 +205,6 @@ not a guarantee. Collisions get likely somewhere past a couple of dozen
 boards. Because five is not a power of two, the code is read out as
 base-5 digits of the hash rather than as bit slices.
 
-**The file is deliberately duplicated, not shared.** Arduino cannot share
-a header between sketch folders without making it a library, and the
-point of this one is that it drops into any nRF52 sketch with no install
-step: it is header-only and pulls in nothing but the core. Copy it in and
-`#include "device_id_code.h"`. The copies must stay identical:
-
-```sh
-diff arduino/ts20/ble_keyboard_simple_ts20/device_id_code.h \
-     arduino/ble_broadcast/device_id_code.h
-```
 
 
 
@@ -160,7 +214,7 @@ diff arduino/ts20/ble_keyboard_simple_ts20/device_id_code.h \
 
 The `TPn` refdes silkscreened on the board is **not** the index the
 firmware uses. The firmware indexes everything by TS20 channel, and on
-proto2 those two numberings disagree:
+the sketchingpad1 (aka proto2) board, those two numberings disagree:
 
 ```
 physical layout, TP refdes        the same pads, by TS20 channel
@@ -236,8 +290,7 @@ release before arming `SENSE_LOW`, or it would wake the instant it slept.
 The TS20 went out of stock at LCSC, so `sketchingpad1_mpr` replaces it
 with two 12-channel MPR121s. Same 20 pads, same 20 LEDs, same pins --
 `TS20_INT` is just renamed `TOUCH_INT` and is still D3/A3.
-`hwtest_mpr` is the bring-up sketch; it is `hwtest_ts20` with the
-sensor swapped and diagnostics added. `hwtest_bench_mpr` is the smaller
+`hwtest_mpr` is the bring-up sketch. `hwtest_bench_mpr` is the smaller
 one: no LEDs, printing each touch and release as chip, electrode, `TPn`
 and LED index. It probes both addresses and uses whichever answer, so a
 pair of breakouts on jumpers, a single chip, and a half-populated board
@@ -275,7 +328,7 @@ TS20 table above, with `TPn` landing on a pin whose pinfunction is
 
 ```
 physical layout, TP refdes        the same pads, by combined bit
-       17 18 19 20                       10 11  0  1
+     17 18      19 20                  10 11       0  1
   1  2  3  4  5  6  7  8            6  7  8  9   2  3  4  5
   9 10 11 12 13 14 15 16           20 21 22 23  12 13 14 15
 ```
@@ -294,7 +347,7 @@ Left floating they can chatter, and every spurious touch pulls the
 bits 16-19 in software. Masking alone would not help: the interrupt is
 hardware.
 
-Which is also why the sketch prints a `chatter:` line, counting IRQ
+Which is also why the `hwtest_mpr` sketch prints a `chatter:` line, counting IRQ
 assertions whose read turned up no change in `touches`. Masked chatter is
 otherwise invisible -- the edge counter climbs and nothing else moves. On
 an untouched board that counter should stay flat; if it climbs, the 0xFF
@@ -396,64 +449,6 @@ and nothing would ever read it again. So the read chases the level down
 rather than reading once, bounded to `MAX_INT_PASSES` because a chip
 stuck low would otherwise hang `loop()`.
 
-## The shared touch layer
-
-`touch.h` and `touch_map.h` are one driver over both sensors, so a sketch
-does not care which board it is on. Copied per sketch, the same
-convention as `device_id_code.h`; the copies must stay identical.
-
-**The boards identify themselves at runtime.** The TS20 is at `0x6A` and
-the MPR121s at `0x5A`/`0x5B`, so `touchBegin()` probes and picks. One
-binary runs on both and nothing needs reflashing to swap boards on the
-bench. `touchName()` prints `TS20` or `2x MPR121` in the banner.
-
-**Everything is in LED-index space.** Bit *n* of `touchRead()` is LED
-*n*, which is TP*(n+1)* on the silkscreen, on both boards. Sketches
-write `(touches >> n) & 1` and carry no `led_to_pad` of their own -- both
-tables live in `touch_map.h`, one per board rev. That is the actual
-payoff: selecting a range of pads by index becomes correct by
-construction, rather than by remembering that the top row sits in the
-middle of the TS20's channel range.
-
-| Call                  | What it does                                  |
-|-----------------------|-----------------------------------------------|
-| `touchBegin()`        | Probes 0x6A, then 0x5A/0x5B, and brings it up |
-| `touchName()`         | `"TS20"` / `"2x MPR121"`, for banners          |
-| `touchRead()`         | Bit n = LED n = TP(n+1), 20 bits               |
-| `touchReadPasses()`   | Status reads the last `touchRead()` took       |
-| `touchIntPin()`       | A3 on both revs, but let it say so             |
-| `touchSetLowPower()`  | TS20 auto/fast; MPR121 CONFIG2 ESI             |
-| `touchFault()`        | TS20 noise flag; MPR121 OVCF                   |
-| `touchArmWake()`      | Arms SYSTEM_OFF wake; false = do not sleep     |
-| `touchSource(led)`    | `"ch3"` / `"U3 ELE6"`, for diagnostic prints   |
-| `touchReport()`       | Whatever this sensor says about its own health |
-
-`touchRead()` hides the MPR121's two transactions and the bounded
-re-read-while-low loop, so callers cannot get that wrong.
-`touchReadPasses()` is how that shows: greater than 1 means a chip
-re-asserted mid-read, and it is always 1 on the TS20.
-
-`touchSetLowPower()` is a set-once call, not a per-tier toggle. Both
-backends soft-reset on that write, which restarts calibration and would
-swallow a touch in progress.
-
-### `touchArmWake()` is where the INT difference lives
-
-The two orderings are opposite, which is why this cannot be a flag the
-sketch branches on:
-
-- **MPR121**: read first. The read is what releases the held-low line;
-  arming `SENSE_LOW` while it is still low latches DETECT and wakes the
-  board the instant it sleeps.
-- **TS20**: arm first. The ~1 ms pulse is long gone by then, so the final
-  read is what closes the software race -- the chip still holds the state
-  in its output register.
-
-So the driver owns the whole sequence and returns false if activity
-arrived during the arm. The sketch keeps its own button arming either
-side of the call. This is what makes `touch.h` nRF52-specific
-(`nrf_gpio_cfg_sense_input`), and why the tables live in the other
-header, which is portable and host-tested.
 
 ## Low power
 
@@ -684,6 +679,84 @@ animation. Halve it to get `ble_broadcast`'s power behaviour back.
 reassembler. Both depend on nothing but `<stdint.h>` -- no NeoPixel, no
 BLE -- so they drop into any sketch and run on a host. They are copied
 per sketch, the same convention as `device_id_code.h`.
+
+## `ble_midi_simple`: MIDI over BLE
+
+The MIDI counterpart to `ble_keyboard_simple`: poll the sensor, send on
+a change, light the LEDs, nothing else. It runs on either sensor through
+the shared touch layer, and it pairs the way the keyboard does -- the
+BLE MIDI characteristic is `SECMODE_ENC_NO_MITM` in both directions
+(`BLEMidi.cpp:153`), so an unbonded host gets nothing.
+
+Messages go out through the FortySevenEffects MIDI library, which has
+to be installed (`arduino-cli lib install "MIDI Library"`), over the
+`BLEMidi` transport the core already ships -- the pairing the core's own
+`blemidi` example uses. `MIDI_CREATE_BLE_INSTANCE(blemidi)` puts a
+`SerialMIDI<BLEMidi>` wrapper in between, and `MIDI.begin()` reaches
+`BLEMidi::begin()` down that chain, so it replaces the `blemidi.begin()`
+a Bluefruit sketch would otherwise call.
+
+Two of the library's conventions are not the wire's, and each fails
+silently rather than loudly:
+
+- **Channels are 1-16.** Channel 0 is `MIDI_CHANNEL_OMNI`, and a send on
+  it returns having transmitted nothing (`MIDI.hpp:168-173`).
+- **`sendPitchBend()` is centered on 0**, taking -8192..8191. It adds
+  the 8192 offset itself and does not clamp, so a value already centered
+  on 8192 overflows 14 bits and arrives as garbage.
+
+Both are why `MIDI_CHANNEL` is 1 and the `BEND_*` constants are signed.
+
+Not yet run on hardware, on either board rev. It compiles clean under
+`--warnings all`.
+
+### Pad map
+
+The 16 pads of the bottom two rows are notes -- C major pentatonic,
+climbing left to right and bottom to top, fixed velocity 100 on channel
+1:
+
+```
+  TP1  TP2  TP3  TP4   TP5  TP6  TP7  TP8    G3 A3 C4 D4  E4 G4 A4 C5
+  TP9 TP10 TP11 TP12  TP13 TP14 TP15 TP16    C2 D2 E2 G2  A2 C3 D3 E3
+```
+
+The top row of four is two momentary control pairs:
+
+| Pads        | Held                  | Nothing held in the pair |
+|-------------|-----------------------|--------------------------|
+| TP17 / TP18 | bend 0 / bend 16383   | bend 8192, centered      |
+| TP19 / TP20 | CC1 = 64 / CC1 = 127  | CC1 = 0                  |
+
+Both bend pads at once cancel to center. Both mod pads at once send
+127 -- the higher value wins. Both values are recomputed from the whole pad
+word on every change, so rolling off one pad of a pair lands on what the
+other still asks for instead of springing back.
+
+The top row is *not* sensor channels 16-19 on either board -- see the
+pad-numbering sections above. `led_to_note` and the four `PAD_*`
+constants are indexed by LED, which is TP(n+1), so they read straight
+off the silkscreen.
+
+### Stuck notes
+
+A disconnect leaves whatever was sounding to ring on the host, and there
+is no link left to silence it over. What the sketch can do it does on
+the way back in: when `notifyEnabled()` goes true it sends all-notes-off
+(CC123), recenters bend, zeroes CC1, and replays from an empty pad word
+so pads still being held come back as fresh note-ons.
+
+Sends are gated on `notifyEnabled()`, not just `connected()`: a host can
+hold a connection without ever subscribing, and the notification would
+go nowhere.
+
+Past that gate a refused send is silent. `BLEMidi::send()` returns a
+bool, but the library's send methods return `void` and discard it, and
+`send()` is not virtual, so a subclass cannot intercept it either. A
+notification the SoftDevice will not queue -- 16 pads released at once
+is the way to provoke it -- is therefore a dropped note-off that shows
+up only as a note that will not stop. Serial still logs every pad
+change, so serial disagreeing with what you hear localises it.
 
 ## Host tests
 
