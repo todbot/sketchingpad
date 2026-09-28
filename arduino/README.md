@@ -21,7 +21,7 @@ with either through the shared touch layer.
 | `ble_broadcast_anim`              | Record an LED animation, broadcast  |
 | `ble_keyboard_simple`             | BLE HID keyboard. Either sensor     |
 | `ble_midi_simple`                 | BLE MIDI controller. Either sensor  |
-| `sketchpad_midi_simple`           | USB + BLE MIDI. Either sensor       |
+| `sketchingpad_midi_simple`        | USB + BLE MIDI. Either sensor       |
 | `ts20/hwtest_ts20`                | Pad -> LED, fading. Poll or INT     |
 | `ts20/hwtest_lowpower_ts20`       | Pad -> LED, three power tiers       |
 | `ts20/ble_keyboard_simple_ts20`   | BLE HID keyboard, no power mgmt     |
@@ -96,7 +96,7 @@ arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/ble_keyboard_si
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/ble_keyboard_lowpower_ts20
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/hwtest_lowpower_ts20
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_midi_simple
-arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/sketchpad_midi_simple
+arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/sketchingpad_midi_simple
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_broadcast
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/ble_broadcast_anim_ts20
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_broadcast_anim
@@ -761,7 +761,7 @@ is the way to provoke it -- is therefore a dropped note-off that shows
 up only as a note that will not stop. Serial still logs every pad
 change, so serial disagreeing with what you hear localises it.
 
-## `sketchpad_midi_simple`: the same controller over USB as well
+## `sketchingpad_midi_simple`: the same controller over USB as well
 
 `ble_midi_simple` with USB MIDI alongside the radio. The pad map, the
 note table and the control pairs are identical; what is new is that both

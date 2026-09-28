@@ -71,10 +71,19 @@ headers: `cd arduino/tests && make run`.
 
 ### CircuitPython
 
-The CircuitPython programs target the TS20 board (`sketchingpad1`);
-there is no MPR121 support here. Each program directory holds the
-file to copy to the CIRCUITPY root as `code.py`.
+Each program directory holds the file to copy to the CIRCUITPY root as
+`code.py`. Most target the TS20 board (`sketchingpad1`) only;
+`sketchingpad_midi_simple` is the exception and probes for either
+sensor, the way the Arduino sketches do.
 
+* `sketchingpad_midi_simple/code.py` -- USB + BLE MIDI controller, the
+  CircuitPython version of `arduino/sketchingpad_midi_simple`. Either
+  sensor, behind `touch.py`. Copy all three files to the root:
+  `touch.py` is imported, and without `boot.py` `usb_midi.ports` is
+  empty -- boot.py only runs from the root
+* `sketchingpad_midi_simple/touch.py` -- both sensors behind one API,
+  the counterpart of `arduino/shared/touch.h`. Its two pad tables must
+  stay identical to `arduino/shared/touch_map.h`
 * `ble_keyboard_lowpower/code.py` -- low-power BLE HID keyboard, two
   power tiers rather than the Arduino sketch's three
 * `hwtest/code_test_ts20.py` -- lights an LED for each touched pad
@@ -85,6 +94,10 @@ file to copy to the CIRCUITPY root as `code.py`.
 
 `arduino/hwtest_leds` and `arduino/ts20/hwtest_ts20` are Arduino ports
 of `code_ledtest.py` and `code_test_ts20.py`.
+
+Host tests for the touch layer, needing no board and no install:
+`cd circuitpython/tests && make run`. They also pin the pad tables in
+`touch.py` against `arduino/shared/touch_map.h`, which nothing else does.
 
 Libraries come from circup; see `circuitpython/requirements.txt`.
 That includes `ts20.py`, the TS20 driver, although a copy of it also

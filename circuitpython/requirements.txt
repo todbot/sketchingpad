@@ -1,4 +1,7 @@
 neopixel
-ts20
+circuitpython-ts20
+circuitpython-tmidi
+adafruit-circuitpython-mpr121
 adafruit-circuitpython-ble
+adafruit-circuitpython-ble-midi
 adafruit-circuitpython-hid
