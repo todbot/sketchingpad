@@ -821,10 +821,11 @@ host that never opened the port.
 object do stick, so it is only the value from construction that is lost.
 A constructor argument would not help -- whatever loses it happens before
 `setup()` runs. With the cable count right the descriptor goes 75 -> 167
-bytes and MIDIStreaming appears:
+bytes and MIDIStreaming appears. The sketch no longer prints this; it
+was dumped from `tud_descriptor_configuration_cb(0)` while this was being
+chased, which is the way to check it again:
 
 ```
-usb desc 75 -> 167 bytes
 usb desc: 167 bytes, 4 interfaces
   itf 0: class 02 sub 02
   itf 1: class 0a sub 00
