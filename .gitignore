@@ -38,3 +38,10 @@ schematics/*/*zip
 *.afdesign
 *.tar.gz
 *.zip
+
+# CircuitPython-specific files
+*.mpy
+
+# Python-specific files
+__pycache__
+*.pyc
