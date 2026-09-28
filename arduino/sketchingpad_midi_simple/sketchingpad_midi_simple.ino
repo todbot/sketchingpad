@@ -209,27 +209,16 @@ void setup() {
 
   // Required on the Seeed core, despite the constructor already
   // defaulting to one cable.  That core's platform.txt puts its bundled
-  // TinyUSB 1.7.0 headers on every include path, and they shadow the 3.7.7
-  // headers actually compiled -- same include guard, and a smaller
-  // Adafruit_USBD_Device.  The constructed cable count does not survive
-  // that, arriving as 206, and makeItfDesc() sizes the descriptor from it
-  // as 34 + 30*n + 2*(13+n): 6652 bytes, which addInterface() refuses.
-  // Adafruit_USBD_MIDI::begin() then gives up silently, since MIDI.begin()
-  // discards its return value, leaving a CDC-only descriptor.
-  //
+  // TinyUSB 1.7.0 headers on every include path. If you have a later 
+  // version of Adafruit_TinyUSB (3.7.7 latest), you get old header with new driver.
   // Re-asserting it here works because the store goes through a library
-  // method after the damage; a constructor argument would not.  See the
-  // README -- no core patching is needed, this line is the whole fix.
+  // method after the damage; a constructor argument would not.  
+  // This hack works, but the Seeed nrf52 Arduino core needs to be patched.
   usb_midi.setCables(1);
 
   MIDI_USB.begin(MIDI_CHANNEL); // also does usb_midi.begin()
 
-  // Adding an interface only edits the descriptor in RAM.  If the host has
-  // already read it, the MIDI interface stays invisible until the device
-  // re-enumerates -- and the host usually has read it by now: the USB task
-  // runs at high priority before setup(), and usb_hardware_init() attaches
-  // immediately when VBUS is already live rather than waiting for an event.
-  // Bouncing the connection is what makes the interface appear.
+  // Detach/attach to let the host re-enumerate with the updated USB descriptors.
   bool usb_was_mounted = TinyUSBDevice.mounted();
   if (usb_was_mounted) {
     TinyUSBDevice.detach();
@@ -240,9 +229,7 @@ void setup() {
   Serial.begin(115200);
   while (!Serial && millis() < 3000) { delay(10); } // bounded: may be on battery
 
-  // The LED power rail hangs off a P-FET whose gate is pulled up to its
-  // source, so the rail is OFF until D7 is driven low.  Without this the
-  // LEDs never light.
+  // Enable the power rail to the Neopixels
   pinMode(PIN_LED_POWER, OUTPUT);
   digitalWrite(PIN_LED_POWER, LOW);
   delay(2); // let ~2 uF of rail decoupling settle before clocking data in
@@ -252,8 +239,7 @@ void setup() {
   leds.clear();
   leds.show();
 
-  // Does Wire.begin(), the TS20's 100 ms power-up wait, the 400 kHz clock
-  // and the per-sensor configuration.
+  // Does Wire.begin(), the TS20's 100 ms power-up wait, and per-sensor config
   if (!touchBegin()) {
     Serial.println("No touch sensor found, check wiring!");
     while (1) { delay(100); }
@@ -288,9 +274,7 @@ void setup() {
 
   showDeviceIdCode();
 
-  // Seed from a real read rather than 0.  A sensor that reports anything at
-  // all on the first pass would otherwise trip loop()'s repaint immediately
-  // and wipe the ID code before it could be seen.
+  // Seed from a real read so we don't wipe the ID code on startup. 
   last_touches = touchRead();
   last_bend = bendFor(last_touches);
   last_mod = modFor(last_touches);
