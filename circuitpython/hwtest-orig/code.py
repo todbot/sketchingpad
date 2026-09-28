@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Tod Kurt
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 print("Hello World!")
 
 import time, board, busio

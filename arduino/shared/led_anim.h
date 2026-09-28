@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Tod Kurt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // led_anim.h -- a tiny non-blocking LED animation player
 //
 // An animation is a list of (delta time, LED, color) events.  Load one,

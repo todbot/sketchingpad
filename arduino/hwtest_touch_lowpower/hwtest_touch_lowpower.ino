@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Tod Kurt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // hwtest_touch_lowpower.ino -- hwtest_touch with the power techniques, no BLE
 //
 // Replaces hwtest_lowpower_ts20, and runs on the MPR121 board too:

@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Tod Kurt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // ble_broadcast.ino -- symmetric BLE broadcast messaging, no connections
 //
 // Every node advertises a small payload and simultaneously scans for

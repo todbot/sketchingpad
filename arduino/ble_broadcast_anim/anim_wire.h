@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Tod Kurt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // anim_wire.h -- packing an animation into BLE advertising packets
 //
 // An animation is chunked across several advertising packets and

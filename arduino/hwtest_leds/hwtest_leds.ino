@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Tod Kurt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // hwtest_leds.ino -- chase a single pixel around the sketchingpad LED ring
 //
 // Arduino port of circuitpython/hwtest/code_ledtest.py, for a

@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Tod Kurt
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
 # code.py -- sketchingpad as a low-power BLE HID keyboard, CircuitPython
 #
 # Touching a pad types a character over BLE and lights its LED.  Between

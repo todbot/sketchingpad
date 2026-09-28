@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Tod Kurt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // ble_midi_simple.ino -- sketchingpad as a BLE MIDI controller, plainly
 //
 // The same shape as ble_keyboard_simple, sending MIDI instead of HID:

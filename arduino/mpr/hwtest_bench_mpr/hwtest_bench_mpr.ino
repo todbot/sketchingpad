@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Tod Kurt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // hwtest_bench_mpr.ino -- one or two MPR121s, touch to serial, no LEDs
 //
 // The smallest thing that proves an MPR121 works and that the pad mapping

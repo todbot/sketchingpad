@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Tod Kurt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // id_test.cpp -- device_id_code.h, the board's R/Y/G/B/M identity code
 //
 // The bug this suite exists for: the code is five base-5 digits, because

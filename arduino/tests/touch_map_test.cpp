@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Tod Kurt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // touch_map_test.cpp -- touch_map.h, the per-board pad tables
 //
 // The bug this suite exists for has bitten twice on real hardware: a

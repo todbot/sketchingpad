@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Tod Kurt
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
 # Shared headers: shared/ holds the only copies edited by hand.
 #
 # Every sketch keeps its own copy, because that is what makes a sketch

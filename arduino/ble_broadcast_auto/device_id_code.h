@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Tod Kurt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // device_id_code.h -- nRF5x unique device ID as a short color code
 //
 // Every nRF52 has a 64-bit factory-programmed ID in FICR.  This hashes it

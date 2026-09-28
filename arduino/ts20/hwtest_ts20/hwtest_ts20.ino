@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Tod Kurt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // hwtest_ts20.ino -- light up an LED for each touched pad, with a fading trail
 //
 // Arduino port of circuitpython/hwtest/code_test_ts20.py, for a

@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2024 Tod Kurt
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
 # ts20.py --
 # 11 Mar 2024 - @todbot / Tod Kurt
 #

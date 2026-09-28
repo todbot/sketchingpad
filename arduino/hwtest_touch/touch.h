@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Tod Kurt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // touch.h -- one touch driver over the TS20 and the 2x MPR121 boards
 //
 // sketchingpad1 has one 20-channel TS20 at 0x6A; sketchingpad1_mpr

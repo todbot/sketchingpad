@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Tod Kurt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // ble_keyboard_simple_ts20.ino -- sketchingpad as a BLE HID keyboard, plainly
 //
 // Touching a pad types a character over BLE and lights its LED.  That is

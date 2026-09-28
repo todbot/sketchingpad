@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Tod Kurt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // hwtest_touch.ino -- light up an LED for each touched pad, with a fading trail
 //
 // Replaces hwtest_ts20 and hwtest_mpr with one sketch that runs on both

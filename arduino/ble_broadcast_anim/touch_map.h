@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Tod Kurt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // touch_map.h -- the sketchingpad pad tables, normalised to LED index
 //
 // Dependency-free on purpose -- <stdint.h> and nothing else -- so

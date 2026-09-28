@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Tod Kurt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // ble_keyboard_lowpower_ts20.ino -- sketchingpad as a low-power BLE HID keyboard
 //
 // Seeed XIAO nRF52840 on the sketchingpad_stripproto1 board (rev with the

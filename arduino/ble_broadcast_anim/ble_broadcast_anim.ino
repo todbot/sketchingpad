@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Tod Kurt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // ble_broadcast_anim.ino -- record an LED animation by touch, broadcast it
 //
 // Touch pads to record a short animation; after a moment of silence it

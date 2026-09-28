@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Tod Kurt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // hwtest_mpr.ino -- light up an LED for each touched pad, with a fading trail
 //
 // The MPR121 version of hwtest_ts20, for the sketchingpad1_mpr board, which

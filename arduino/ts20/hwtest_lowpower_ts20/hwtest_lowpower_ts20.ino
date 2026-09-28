@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Tod Kurt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // hwtest_lowpower_ts20.ino -- hwtest_ts20 with the power techniques, no BLE
 //
 // Same visible behaviour as hwtest_ts20: touch a pad, its LED lights and

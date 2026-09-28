@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Tod Kurt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // player_test.cpp -- LedAnim timing, fade and live feedback
 //
 // The player is driven entirely by a caller-supplied millis(), so its

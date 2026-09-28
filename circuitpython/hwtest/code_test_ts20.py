@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Tod Kurt
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
 # code_test_ts20.py -- light up a LED for each touched pad
 #
 # Sensitivity is 0 (most sensitive) to 15 (least) and can be changed

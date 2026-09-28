@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Tod Kurt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
 // wire_test.cpp -- AnimMsg packing, chunking and reassembly
 //
 // The reassembler is the part worth testing here: advertising is

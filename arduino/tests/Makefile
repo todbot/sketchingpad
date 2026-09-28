@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Tod Kurt
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
 # Host tests for the dependency-free headers in the sketch folders.
 #
 # led_anim.h and anim_wire.h depend only on <stdint.h>, so they build and
