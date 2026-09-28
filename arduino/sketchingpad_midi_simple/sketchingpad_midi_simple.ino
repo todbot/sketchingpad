@@ -106,6 +106,41 @@ MIDI_CREATE_INSTANCE(Adafruit_USBD_MIDI, usb_midi, MIDI_USB);
 BLEMidi blemidi;
 MIDI_CREATE_INSTANCE(BLEMidi, blemidi, MIDI_BLE);
 
+// Prints the configuration descriptor this device will actually serve --
+// the same bytes the host reads. Ground truth for "is the MIDI interface
+// there at all", which no amount of reasoning about begin() order settles.
+extern "C" uint8_t const *tud_descriptor_configuration_cb(uint8_t index);
+
+// wTotalLength, which addInterface() rewrites only on success.
+uint16_t usbDescLen() {
+  uint8_t const *c = tud_descriptor_configuration_cb(0);
+  return c ? (uint16_t)(c[2] | (c[3] << 8)) : 0;
+}
+
+uint16_t usb_desc_before = 0, usb_desc_after = 0;
+
+void dumpUsbConfigDescriptor() {
+  uint8_t const *cfg = tud_descriptor_configuration_cb(0);
+  if (!cfg) {
+    Serial.println("usb desc: none (stack not initialised)");
+    return;
+  }
+  uint16_t total = cfg[2] | (cfg[3] << 8);
+  Serial.printf("usb desc: %u bytes, %u interfaces\n", total, cfg[4]);
+
+  for (uint16_t i = 0; i + 1 < total;) {
+    uint8_t len = cfg[i], type = cfg[i + 1];
+    if (len == 0) { break; }
+    if (type == 0x04) { // INTERFACE
+      Serial.printf("  itf %u: class %02x sub %02x%s\n", cfg[i + 2], cfg[i + 5],
+                    cfg[i + 6],
+                    (cfg[i + 5] == 0x01 && cfg[i + 6] == 0x03) ? "  <- MIDIStreaming"
+                                                               : "");
+    }
+    i += len;
+  }
+}
+
 uint32_t last_touches = 0;
 int16_t last_bend = BEND_CENTER;
 uint8_t last_mod = 0;
@@ -205,10 +240,39 @@ void showDeviceIdCode() {
 }
 
 void setup() {
-  // Before Serial: adding a USB interface changes the device descriptor,
-  // and the host must not have enumerated yet when it happens.
   usb_midi.setStringDescriptor("sketchingpad");
+
+  // Required on the Seeed core, despite the constructor already
+  // defaulting to one cable.  That core's platform.txt puts its bundled
+  // TinyUSB 1.7.0 headers on every include path, and they shadow the 3.7.7
+  // headers actually compiled -- same include guard, and a smaller
+  // Adafruit_USBD_Device.  The constructed cable count does not survive
+  // that, arriving as 206, and makeItfDesc() sizes the descriptor from it
+  // as 34 + 30*n + 2*(13+n): 6652 bytes, which addInterface() refuses.
+  // Adafruit_USBD_MIDI::begin() then gives up silently, since MIDI.begin()
+  // discards its return value, leaving a CDC-only descriptor.
+  //
+  // Re-asserting it here works because the store goes through a library
+  // method after the damage; a constructor argument would not.  See the
+  // README -- no core patching is needed, this line is the whole fix.
+  usb_midi.setCables(1);
+
+  usb_desc_before = usbDescLen();
   MIDI_USB.begin(MIDI_CHANNEL); // also does usb_midi.begin()
+  usb_desc_after = usbDescLen();
+
+  // Adding an interface only edits the descriptor in RAM.  If the host has
+  // already read it, the MIDI interface stays invisible until the device
+  // re-enumerates -- and the host usually has read it by now: the USB task
+  // runs at high priority before setup(), and usb_hardware_init() attaches
+  // immediately when VBUS is already live rather than waiting for an event.
+  // Bouncing the connection is what makes the interface appear.
+  bool usb_was_mounted = TinyUSBDevice.mounted();
+  if (usb_was_mounted) {
+    TinyUSBDevice.detach();
+    delay(10);
+    TinyUSBDevice.attach();
+  }
 
   Serial.begin(115200);
   while (!Serial && millis() < 3000) { delay(10); } // bounded: may be on battery
@@ -272,6 +336,18 @@ void setup() {
                 touchName(), adv_name);
   Serial.printf("MIDI channel %d, velocity %d, notes %d-%d\n", MIDI_CHANNEL,
                 MIDI_VELOCITY, led_to_note[8], led_to_note[7]);
+  // Says which way the descriptor race went, since a missing USB MIDI
+  // interface looks identical to a host that simply never opened it.
+  Serial.printf("usb: %s, mounted now %d\n",
+                usb_was_mounted ? "mounted before setup, bounced"
+                                : "not mounted at setup",
+                TinyUSBDevice.mounted());
+  Serial.printf("usb desc %u -> %u bytes%s\n", usb_desc_before,
+                usb_desc_after,
+                usb_desc_after > usb_desc_before
+                    ? ""
+                    : "  <- MIDI interface NOT added, see README");
+  dumpUsbConfigDescriptor();
   Serial.printf("id code on LEDs %d-%d, first read %05lx\n", ID_LEDS[0],
                 ID_LEDS[DEVICE_ID_CODE_LEN - 1], (unsigned long)last_touches);
   touchReport();

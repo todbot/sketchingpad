@@ -798,13 +798,121 @@ so this sketch aims the catch-up at the one that just arrived:
 `resyncHost()` sends it all-notes-off, then the current bend, mod and
 held notes, and leaves `last_touches` alone.
 
-`setup()` brings USB MIDI up **before** `Serial.begin()`. Adding a USB
-interface changes the device descriptor, and the host must not have
-enumerated yet when that happens. On this core USB is started before
-`setup()` runs but does not attach until the VBUS power event, so the
-descriptor built early in `setup()` is the one the host sees. TinyUSB's
-`tud_task()` runs in its own FreeRTOS task here, so `loop()` services
-nothing.
+### `usb_midi.setCables(1)` is not optional
+
+`Adafruit_USBD_MIDI`'s constructor defaults to one cable, but on this core
+`_n_cables` reads back as garbage by the time `setup()` runs -- 206 on the
+board this was found on. `makeItfDesc()` sizes the interface descriptor
+from it:
+
+```
+TUD_MIDI_DESC_HEAD_LEN(34) + TUD_MIDI_DESC_JACK_LEN(30) * n
+                           + 2 * TUD_MIDI_DESC_EP_LEN(13 + n)
+```
+
+At `n = 206` that asks for 6652 bytes. `_desc_cfg_buffer` is 256 and CDC
+has already taken 75, so `addInterface()` cannot fit it, returns 0, and
+`Adafruit_USBD_MIDI::begin()` gives up -- **silently**, because
+`MIDI.begin()` throws its return value away. The device enumerates with a
+75-byte CDC-only descriptor and no USB MIDI, which looks exactly like a
+host that never opened the port.
+
+`usb_midi.setCables(1)` before `MIDI_USB.begin()` fixes it: writes to the
+object do stick, so it is only the value from construction that is lost.
+A constructor argument would not help -- whatever loses it happens before
+`setup()` runs. With the cable count right the descriptor goes 75 -> 167
+bytes and MIDIStreaming appears:
+
+```
+usb desc 75 -> 167 bytes
+usb desc: 167 bytes, 4 interfaces
+  itf 0: class 02 sub 02
+  itf 1: class 0a sub 00
+  itf 2: class 01 sub 01
+  itf 3: class 01 sub 03  <- MIDIStreaming
+```
+
+### Why the field is lost: two TinyUSB layouts in one binary
+
+It is the Seeed core, not this sketch. The stock `midi_test.ino` from the
+Adafruit TinyUSB library, unmodified, enumerates USB MIDI on
+`adafruit:nrf52:feather52840sense` and does not on
+`Seeeduino:nrf52:xiaonRF52840`.
+
+Seeed's `platform.txt` adds
+
+```
+-I{runtime.platform.path}/libraries/Adafruit_TinyUSB_Arduino/src/arduino
+```
+
+to every compilation unit, and `cores/nRF5/Arduino.h` does a bare
+`#include "Adafruit_USBD_CDC.h"`, which resolves there -- to the core's
+**bundled TinyUSB 1.7.0**, not the version being compiled. Both copies
+guard with `ADAFRUIT_USBD_DEVICE_H_`, so the newer header is then skipped
+in that unit, and the two definitions disagree:
+
+| bundled TinyUSB | `STRING_DESCRIPTOR_MAX` | |
+|-----------------|-------------------------|---|
+| Seeed 1.1.13    | 1.7.0 | **8** |
+| Adafruit 1.7.0  | 3.6.0 | 12 |
+| standalone, the one actually compiled | 3.7.7 | 12 |
+
+`_desc_str_arr[STRING_DESCRIPTOR_MAX]` makes `Adafruit_USBD_Device` 16
+bytes smaller on one side than the other. The Adafruit core escapes it
+only because the copy it bundles happens to agree.
+
+**No core patching is required.** `setCables(1)` is the whole fix: the
+store goes through a library method after the damage, so it does not
+depend on anything in the user's Arduino installation. Anyone can clone
+this repo and build it as-is.
+
+Two layouts in one binary is a property of that core's build rather than
+of this sketch, and this fixes the one symptom it produced here. The
+exposure is narrow -- only private members differ, and everything outside
+the library goes through methods compiled in the library's own unit --
+but it is not nil. `setup()` prints the before/after descriptor length and
+flags it when the interface was not added, so a recurrence shows up in a
+serial capture instead of as a missing MIDI port.
+
+### Re-enumerating when the host got there first
+
+`MIDI_USB.begin()` adds an interface, which only edits the configuration
+descriptor in RAM. If the host has already read that descriptor, the new
+interface is invisible -- it does not appear until the device
+re-enumerates.
+
+On this core the host usually *has* already read it. `main()` starts the
+USB stack before `setup()` runs, in a high-priority FreeRTOS task, and
+`usb_hardware_init()` does not wait for a VBUS event when VBUS is already
+live:
+
+```c
+// USB power may already be ready at this time -> no event generated
+// We need to invoke the handler based on the status initially
+if (usb_reg & POWER_USBREGSTATUS_VBUSDETECT_Msk) {
+  tusb_hal_nrf_power_event(NRFX_POWER_USB_EVT_DETECTED);
+}
+```
+
+Plugged in at boot -- the normal case when testing USB MIDI -- the device
+attaches and enumerates with CDC only, before `setup()` gets a turn. So
+`setup()` bounces the connection after adding the interface:
+
+```c
+if (TinyUSBDevice.mounted()) {
+  TinyUSBDevice.detach();
+  delay(10);
+  TinyUSBDevice.attach();
+}
+```
+
+This is the idiom the newer Adafruit TinyUSB examples use, for exactly
+this reason; the example bundled with the Seeed core predates it. The
+startup banner prints which way the race went, because a missing USB MIDI
+interface otherwise looks identical to a host that never opened it.
+
+TinyUSB's `tud_task()` runs in its own FreeRTOS task here, so `loop()`
+services nothing.
 
 ## Shared headers
 
