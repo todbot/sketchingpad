@@ -8,15 +8,18 @@
 #   make run      build and run everything
 #   make clean
 #
-# The headers are copied per sketch (same convention as device_id_code.h),
-# so INCLUDES names the copy under test.
+# The headers are copied per sketch (same convention as device_id_code.h)
+# and ../shared holds the copy those are generated from, so the suites
+# cover the source of truth rather than whichever sketch copy happened to
+# be named here.  `run` checks the copies still agree with it first --
+# suites that pass against shared/ say nothing about a drifted copy.
 
 CXX      ?= c++
 # Sanitizers are the point of building these natively: an out-of-bounds
 # write in the reassembler is silent on the nRF52 and fatal here.
 CXXFLAGS ?= -std=c++11 -Wall -Wextra -O1 -g \
             -fsanitize=address,undefined -fno-omit-frame-pointer
-INCLUDES  = -I../ts20/ble_broadcast_anim_ts20 -I../hwtest_touch -Istubs
+INCLUDES  = -I../shared -Istubs
 BUILD     = build
 
 SRCS := $(wildcard *_test.cpp)
@@ -32,6 +35,7 @@ $(BUILD)/%: %.cpp test_util.h | $(BUILD)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $@ $<
 
 run: $(BINS)
+	@$(MAKE) -s -C .. check
 	@fail=0; for t in $(BINS); do ./$$t || fail=1; done; \
 	 if [ $$fail -eq 0 ]; then echo "\nall suites passed"; \
 	 else echo "\nSUITES FAILED"; fi; exit $$fail

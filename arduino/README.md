@@ -21,6 +21,7 @@ with either through the shared touch layer.
 | `ble_broadcast_anim`              | Record an LED animation, broadcast  |
 | `ble_keyboard_simple`             | BLE HID keyboard. Either sensor     |
 | `ble_midi_simple`                 | BLE MIDI controller. Either sensor  |
+| `sketchpad_midi_simple`           | USB + BLE MIDI. Either sensor       |
 | `ts20/hwtest_ts20`                | Pad -> LED, fading. Poll or INT     |
 | `ts20/hwtest_lowpower_ts20`       | Pad -> LED, three power tiers       |
 | `ts20/ble_keyboard_simple_ts20`   | BLE HID keyboard, no power mgmt     |
@@ -54,7 +55,7 @@ Libraries used:
 - `Adafruit MPR121` -- for `sketchingpad1_mpr` only; pulls in
   `Adafruit BusIO`
 - `Adafruit NeoPixel` -- Adafruit easy neopixel library
-- `MIDI Library` -- FortySevenEffects, for `ble_midi_simple` only
+- `MIDI Library` -- FortySevenEffects, for the two MIDI sketches only
 
 Adafruit_NeoPixel takes the nRF52 PWM + EasyDMA path, thus`show()` does 
 not disable interrupts and will not disturb BLE radio events)
@@ -95,6 +96,7 @@ arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/ble_keyboard_si
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/ble_keyboard_lowpower_ts20
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/hwtest_lowpower_ts20
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_midi_simple
+arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/sketchpad_midi_simple
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_broadcast
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/ble_broadcast_anim_ts20
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_broadcast_anim
@@ -678,7 +680,8 @@ animation. Halve it to get `ble_broadcast`'s power behaviour back.
 `poke()` for live touch feedback. `anim_wire.h` is the packing and the
 reassembler. Both depend on nothing but `<stdint.h>` -- no NeoPixel, no
 BLE -- so they drop into any sketch and run on a host. They are copied
-per sketch, the same convention as `device_id_code.h`.
+per sketch, the same convention as `device_id_code.h`; see Shared
+headers below for which copy to edit.
 
 ## `ble_midi_simple`: MIDI over BLE
 
@@ -757,6 +760,88 @@ notification the SoftDevice will not queue -- 16 pads released at once
 is the way to provoke it -- is therefore a dropped note-off that shows
 up only as a note that will not stop. Serial still logs every pad
 change, so serial disagreeing with what you hear localises it.
+
+## `sketchpad_midi_simple`: the same controller over USB as well
+
+`ble_midi_simple` with USB MIDI alongside the radio. The pad map, the
+note table and the control pairs are identical; what is new is that both
+transports run at once and neither is required. Unplugged it is a BLE
+controller, with nothing paired it is a USB controller, and plugged into
+a host that is also paired it plays both at once. Every message goes to
+whichever transports are up at that instant.
+
+One MIDI library, two transports, so there are two instances --
+`MIDI_USB` over TinyUSB's `Adafruit_USBD_MIDI` and `MIDI_BLE` over the
+core's `BLEMidi`. `MIDI_CREATE_BLE_INSTANCE()` is not used because it
+hardcodes the instance name to `MIDI`. Four small senders
+(`midiNoteOn()` and friends) fan out and hold all the gating, so the pad
+code never learns how many transports there are.
+
+Not yet run on hardware, on either board rev, and the USB half has never
+been enumerated by a host. It compiles clean under `--warnings all`.
+
+### The two readiness tests are not equally strong
+
+BLE knows the host subscribed (`blemidi.notifyEnabled()`). USB only
+knows the host enumerated the device (`TinyUSBDevice.mounted()`) --
+`Adafruit_USBD_MIDI` exposes no per-endpoint state, so there is nothing
+better to ask. A write to an endpoint nobody opened is dropped rather
+than blocking, so the weaker test costs nothing; it just cannot promise
+anyone is listening.
+
+### Catching a transport up
+
+`ble_midi_simple` handles a reconnect by zeroing `last_touches`, which
+replays every held pad as a fresh note-on. With two transports that
+would re-send held notes to the transport that was already playing them,
+so this sketch aims the catch-up at the one that just arrived:
+`resyncHost()` sends it all-notes-off, then the current bend, mod and
+held notes, and leaves `last_touches` alone.
+
+`setup()` brings USB MIDI up **before** `Serial.begin()`. Adding a USB
+interface changes the device descriptor, and the host must not have
+enumerated yet when that happens. On this core USB is started before
+`setup()` runs but does not attach until the VBUS power event, so the
+descriptor built early in `setup()` is the one the host sees. TinyUSB's
+`tud_task()` runs in its own FreeRTOS task here, so `loop()` services
+nothing.
+
+## Shared headers
+
+Five headers are copied into the sketches that use them --
+`device_id_code.h`, `touch.h`, `touch_map.h`, `led_anim.h` and
+`anim_wire.h`, 24 copies in all. **The copies must stay identical.**
+`arduino/shared/` holds the only ones edited by hand; every copy in a
+sketch folder is generated from it.
+
+```sh
+make -C arduino sync     # shared/ -> every sketch copy
+make -C arduino check    # fail, naming names, if any copy has drifted
+```
+
+`arduino/tests` compiles against `shared/`, and `make run` there runs
+`check` first: suites passing against `shared/` say nothing about a copy
+that has drifted away from it.
+
+Copying at all is deliberate, and `docs/touch-layer-plan.md` adopts it.
+A sketch folder that carries its own headers is self-contained -- it
+opens in the Arduino IDE with those headers as editable tabs, and zips
+up and sends as-is. Nothing in the Arduino toolchain offers that *and* a
+single copy:
+
+- **`sketch.yaml` profiles** can name a local library by path (`dir:`,
+  arduino-cli 1.3.0 and later), and would pin the platform and every
+  library version besides. The Arduino IDE ignores `sketch.yaml`
+  entirely, so the IDE and the CLI would build against different
+  libraries.
+- **Symlinks** compile fine under arduino-cli, but the IDE will not show
+  or let you edit a symlinked `.h`, and git on Windows checks symlinks
+  out as text files containing the path.
+- **A real Arduino library** works in both, but only once it is
+  installed into the sketchbook -- a per-machine step a fresh clone does
+  not carry -- and the headers stop being tabs beside the `.ino`.
+
+So the copies stay, and `make check` is what keeps them honest.
 
 ## Host tests
 
