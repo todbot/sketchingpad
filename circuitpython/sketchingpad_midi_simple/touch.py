@@ -83,6 +83,12 @@ def begin(i2c, *, sensitivity=DEFAULT_SENSITIVITY, low_power=False, int_pin=boar
 
     Returns True if one was found.
 
+    ``int_pin`` may be None, and must be on any sketch that sleeps:
+    CircuitPython will not hand a pin to alarm.pin.PinAlarm while a
+    DigitalInOut holds it, and there is nothing to give it back to
+    afterwards.  Only the MPR121 path reads the line anyway -- it is how a
+    chip re-asserting mid-read is noticed -- so a TS20 board loses nothing.
+
     ``low_power`` is the begin() argument that touch.h spells
     touchSetLowPower().  It belongs here rather than in a setter: the
     CircuitPython TS20 driver only takes fast_mode at construction, and
@@ -100,8 +106,9 @@ def begin(i2c, *, sensitivity=DEFAULT_SENSITIVITY, low_power=False, int_pin=boar
     # Input with no pull: R1/R16 already pulls this up on every board rev.
     # Set even though nothing here waits on an edge -- read() tests the
     # level to decide whether a chip re-asserted mid-read.
-    _int = digitalio.DigitalInOut(int_pin)
-    _int.switch_to_input()
+    if int_pin is not None:
+        _int = digitalio.DigitalInOut(int_pin)
+        _int.switch_to_input()
 
     if TS20_ADDR in found:
         _ts20 = ts20.TS20(i2c, sensitivity=sensitivity, fast_mode=not low_power)

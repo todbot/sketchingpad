@@ -72,9 +72,9 @@ headers: `cd arduino/tests && make run`.
 ### CircuitPython
 
 Each program directory holds the file to copy to the CIRCUITPY root as
-`code.py`. Most target the TS20 board (`sketchingpad1`) only;
-`sketchingpad_midi_simple` is the exception and probes for either
-sensor, the way the Arduino sketches do.
+`code.py`. The two that go through `touch.py` probe for either sensor,
+the way the Arduino sketches do; the `hwtest` programs are TS20-only.
+`touch.py` is copied per sketch, so copy it alongside `code.py`.
 
 * `sketchingpad_midi_simple/code.py` -- USB + BLE MIDI controller, the
   CircuitPython version of `arduino/sketchingpad_midi_simple`. Either
@@ -85,7 +85,8 @@ sensor, the way the Arduino sketches do.
   the counterpart of `arduino/shared/touch.h`. Its two pad tables must
   stay identical to `arduino/shared/touch_map.h`
 * `ble_keyboard_lowpower/code.py` -- low-power BLE HID keyboard, two
-  power tiers rather than the Arduino sketch's three
+  power tiers rather than the Arduino sketch's three. Either sensor,
+  behind `touch.py`; copy that too
 * `hwtest/code_test_ts20.py` -- lights an LED for each touched pad
 * `hwtest/code_ledtest.py` -- LED chase, no touch
 * `hwtest/code_pwmaudio_test1.py` -- synthio/audiopwmio tone on D0

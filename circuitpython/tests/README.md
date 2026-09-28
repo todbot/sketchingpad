@@ -78,6 +78,19 @@ makes the two agree. That is the gap `pad_map_test.py` closes.
   pin to an `alarm.pin.PinAlarm` while a `DigitalInOut` holds it, and
   `read()` keeps working afterwards.
 
+`copies_test.py` -- `touch.py` is copied per sketch:
+
+- **Every copy is byte-identical.** Each CIRCUITPY root is one flat pile
+  of files, so a sketch importing `touch.py` needs its own copy beside
+  `code.py`. `make -C arduino check` does this job for the C side but
+  only syncs `.h` files; these copies sit outside it.
+- Any `code.py` that imports `touch` actually has a copy next to it.
+- **No sketch reaches past `touch.py` to a sensor driver.** A stray
+  `import ts20` would also quietly reintroduce a per-board pad table,
+  which is the bug that was already live in `ble_keyboard_lowpower`.
+- If there is ever only one copy left the suite says so rather than
+  passing vacuously.
+
 ## On the stubs
 
 `stubs/` holds four modules standing in for `board`, `digitalio`, `ts20`
@@ -97,8 +110,9 @@ things. Hardware is still Tod's half of the loop.
 ## Mutation-tested
 
 Per `arduino/tests/README.md`: a test that still passes against a
-deliberately broken source is not testing anything. Eleven mutations were
-applied to `touch.py` and `code.py` and every one was caught --
+deliberately broken source is not testing anything. Fourteen mutations were
+applied to `touch.py` and `code.py` and every one was caught -- a drifted
+copy, a sketch driving `ts20` directly, an importer with no local copy,
 transposed table entries, a table borrowed from the wrong board rev,
 dropping OVCF, not chasing the held-low IRQ, checking `ECR` against
 `0x8C`, skipping the J2 parking, ignoring `low_power` on either backend, a

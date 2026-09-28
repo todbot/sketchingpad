@@ -5,7 +5,11 @@
 #
 # Touching a pad types a character over BLE and lights its LED.  Between
 # events the board sleeps in alarm.light_sleep_until_alarms(), woken by the
-# TS20 INT line rather than by polling I2C.
+# touch INT line rather than by polling I2C.
+#
+# The sensor sits behind touch.py, so this runs on the MPR121 board too and
+# works in LED-index space: bit n is LED n, which is TP(n+1) on the
+# silkscreen.  Copy touch.py to the CIRCUITPY root alongside this file.
 #
 # Two tiers, not the Arduino sketch's three.  See notes-lowpower.md for why
 # there is no DEEP tier: CircuitPython's "deep sleep" on nRF52 is not System
@@ -22,7 +26,7 @@ import board
 import busio
 import digitalio
 import neopixel
-import ts20
+import touch
 from adafruit_ble import BLERadio
 from adafruit_ble.advertising.standard import ProvideServicesAdvertisement
 from adafruit_ble.services.standard.hid import HIDService
@@ -31,11 +35,13 @@ from adafruit_hid.keycode import Keycode
 
 # Pins traced from the sketchingpad_proto2 netlist.  Note BUTTON is D10
 # (P1.15): SW1 is NOT on D2, whatever the Arduino sketch used to say.
+# proto2 and sketchingpad1 wire the TS20 identically, so the pad tables in
+# touch.py cover both.
 PIN_SDA = board.D4
 PIN_SCL = board.D5
 PIN_LED_DATA = board.D6
 PIN_LED_POWER = board.D7  # P-FET gate, LOW = rail on
-PIN_TS20_INT = board.D3  # open collector, R1 pulls it up
+PIN_TOUCH_INT = board.D3  # open collector, R1 pulls it up; both /IRQ on _mpr
 PIN_BUTTON = board.D10  # SW1 to GND
 
 NUM_LEDS = 20
@@ -53,19 +59,18 @@ TICK_IDLE_S = 2.0
 CONN_INTERVAL_ACTIVE_MS = 15.0
 CONN_INTERVAL_IDLE_MS = 500.0
 
-# Index is LED number, value is the pad wired to it.
-led_to_pad = (18, 1, 3, 4, 6, 9, 19, 2, 5, 8, 17, 0, 10, 11, 16, 15, 14, 13, 12, 7)
-
-# Index is pad number. Pads numbered 1-20:
-#        17 18 19 20
-#     1  2  3  4    5  6  7  8
-#     9 10 11 12   13 14 15 16
-pad_to_key = (
-    Keycode.A, Keycode.S, Keycode.D, Keycode.F,  # pads 1-4
-    Keycode.G, Keycode.H, Keycode.J, Keycode.K,  # pads 5-8
-    Keycode.Z, Keycode.X, Keycode.C, Keycode.V,  # pads 9-12
-    Keycode.B, Keycode.N, Keycode.M, Keycode.COMMA,  # pads 13-16
-    Keycode.ONE, Keycode.TWO, Keycode.THREE, Keycode.FOUR,  # pads 17-20
+# Indexed by LED, which is TP(n+1), so the table reads in silkscreen order
+# and is the same on both boards:
+#
+#            TP17 TP18 TP19 TP20               1  2  3  4
+#   TP1  TP2  TP3  TP4   TP5  TP6  TP7  TP8    a  s  d  f   g  h  j  k
+#   TP9 TP10 TP11 TP12  TP13 TP14 TP15 TP16    z  x  c  v   b  n  m  ,
+led_to_key = (
+    Keycode.A, Keycode.S, Keycode.D, Keycode.F,  # TP1-4,   mid left
+    Keycode.G, Keycode.H, Keycode.J, Keycode.K,  # TP5-8,   mid right
+    Keycode.Z, Keycode.X, Keycode.C, Keycode.V,  # TP9-12,  low left
+    Keycode.B, Keycode.N, Keycode.M, Keycode.COMMA,  # TP13-16, low right
+    Keycode.ONE, Keycode.TWO, Keycode.THREE, Keycode.FOUR,  # TP17-20, top row
 )
 
 # ----------------------------------------------------------------- LED rail
@@ -117,18 +122,23 @@ def show_touches(touches):
     if not rail_on:
         return
     for i in range(NUM_LEDS):
-        lit = (touches >> led_to_pad[i]) & 1
-        leds[i] = TOUCH_COLOR if lit else 0
+        leds[i] = TOUCH_COLOR if (touches >> i) & 1 else 0
     leds.show()
 
 
 # --------------------------------------------------------------------- init
 
 i2c = busio.I2C(PIN_SCL, PIN_SDA, frequency=400_000)
-# fast_mode=False alternates fast/slow sensing to save power.  It is a
-# constructor kwarg because the driver applies it in its one startup reset;
+
+# int_pin=None because PIN_TOUCH_INT belongs to the PinAlarm below, and a
+# DigitalInOut holding it would make light_sleep_until_alarms() fail.  Only
+# the MPR121 path reads the line, so the TS20 board loses nothing.
+#
+# low_power=True alternates fast/slow sensing to save power.  It is a
+# begin() argument because the driver applies it in its one startup reset;
 # changing it later would soft-reset the chip and restart calibration.
-touch = ts20.TS20(i2c, sensitivity=TS20_SENSITIVITY, fast_mode=False)
+if not touch.begin(i2c, sensitivity=TS20_SENSITIVITY, low_power=True, int_pin=None):
+    raise RuntimeError("No touch sensor found at 0x6A or 0x5A+0x5B")
 
 hid = HIDService()
 kbd = Keyboard(hid.devices)
@@ -185,7 +195,7 @@ while True:
     # Python API calling it "level" -- which is what the TS20 needs, since
     # its INT is a ~1 ms active-low pulse rather than a held level.
     woke = alarm.light_sleep_until_alarms(
-        alarm.pin.PinAlarm(PIN_TS20_INT, value=False, pull=False),  # R1 pulls up
+        alarm.pin.PinAlarm(PIN_TOUCH_INT, value=False, pull=False),  # R1 pulls up
         alarm.pin.PinAlarm(PIN_BUTTON, value=False, pull=True),  # SW1 to GND
         alarm.time.TimeAlarm(
             monotonic_time=time.monotonic()
@@ -207,13 +217,13 @@ while True:
     # The INT line only says "something changed", never what, so every wake
     # needs a read.  Reading unconditionally also covers the tick, which
     # catches a state change whose pulse we somehow missed.
-    touches = touch.touched()
+    touches = touch.read()
 
     if touches != last_touches:
         # Rebuild the whole report from current pad state so chords and
         # roll-offs are not dropped.  The boot keyboard report holds six
         # keycodes; a seventh simultaneous pad has nowhere to go.
-        pressed = [pad_to_key[p] for p in range(20) if (touches >> p) & 1][:6]
+        pressed = [led_to_key[n] for n in range(NUM_LEDS) if (touches >> n) & 1][:6]
         if radio.connected:
             kbd.release_all()
             if pressed:
