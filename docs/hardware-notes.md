@@ -7,25 +7,19 @@ the MIDI pad map and everything firmware-side are in
 are in `low-power-notes.md`.
 
 
-## Board changes this firmware assumes
+## Board features the firmware assumes
 
-All three are present on `sketchingpad_stripproto1` and
-`sketchingpad_proto2`, and are no longer "next rev" items. Sketches
-will still build without them, but the matching power tier (see
-`arduino/README.md`) degrades.
+All three below are present on `sketchingpad1` and `sketchingpad1_mpr`.
+If bench testing and don't have these wired, sketches still work, but can't
+do true low-power.
 
-1. **P-FET high-side load switch on the LED rail** -- Q1 (AO3415A),
-   source on `+3.3V`, drain feeding `3V3_LED`, gate on `LED_POWER` (D7)
-   with R4 100k pulling up to the source so the rail is **off** by
-   default. Highest-value change on the board; see
-   `low-power-notes.md` for why that polarity and that part.
-2. **SW1 pin 1 wired to D10/MOSI.** It used to float, so there was no
-   button input at all. Now a wake source, and a press forces DEEP sleep.
-3. **TS20 INT (U1 pin 19) brought to D3/A3.** Previously it only
-   reached its 10k pull-up R1 and dead-ended. This is what makes
-   interrupt-driven scanning and touch-to-wake possible; without it the
-   firmware had to poll, and `SYSTEM_OFF` was unreachable because
-   nothing could wake it.
+1. **LED power rail on D7** A PFET high-side load switching LED power rail 
+    with R4 100k pulling up to the source so the rail is **off** by default.
+    See `low-power-notes.md` for more details.
+2. **SW1 pin 1 on D10/MOSI.** Can be used as a wakeup source
+3. **Touch chip INT on to D3/A3**. Makes interrupt-driven scanning and 
+    touch-to-wake possible; without it the irmware had to poll, 
+    and `SYSTEM_OFF` was not possible.
 
 
 ## TS20 capsense touch chip (board `sketchingpad1`)

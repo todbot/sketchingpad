@@ -6,6 +6,7 @@ into a `sketchingpad` board. Touch sensing is via a TS20 chip on `sketchingpad1`
 or MPR121s on `sketchingpad1_mpr` --
 `docs/hardware-notes.md` covers both chips, their pad numbering and their INT lines.
 
+<!--ts-->
 * [Sketches](#sketches)
 * [Board and libraries](#board-and-libraries)
 * [Pinout](#pinout)
@@ -27,13 +28,13 @@ or MPR121s on `sketchingpad1_mpr` --
     * [Stuck notes](#stuck-notes)
   * [sketchingpad_midi_simple: BLE/USB MIDI controller](#sketchingpad_midi_simple-bleusb-midi-controller)
     * [BLE and USB readiness tests](#ble-and-usb-readiness-tests)
-    * [Catching a transport up](#catching-a-transport-up)
+    * [Transport resync](#transport-resync)
     * [usb_midi.setCables(1) is not optional](#usb_midisetcables1-is-not-optional)
     * [Seeed Arduino core has outdated USB libraries](#seeed-arduino-core-has-outdated-usb-libraries)
-    * [Re-enumerating when the host got there first](#re-enumerating-when-the-host-got-there-first)
+    * [Re-enumerating to get updated USB descriptors](#re-enumerating-to-get-updated-usb-descriptors)
 * [Shared headers](#shared-headers)
 * [Host tests](#host-tests)
-
+<!--te-->
 
 ## Sketches
 
@@ -568,7 +569,7 @@ better to ask. A write to an endpoint nobody opened is dropped rather
 than blocking, so the weaker test costs nothing; it just cannot promise
 anyone is listening.
 
-#### Catching a transport up
+#### Transport resync
 
 `ble_midi_simple` handles a reconnect by zeroing `last_touches`, which
 replays every held pad as a fresh note-on. With two transports that
@@ -649,29 +650,14 @@ The proper fix is to update the Seeed Arduino core, but as a workaround,
 `setCables(1)` works. No core patching required and anyone can clone
 this repo and build it as-is.
 
-#### Re-enumerating when the host got there first
+#### Re-enumerating to get updated USB descriptors
 
 `MIDI_USB.begin()` adds an interface, which only edits the configuration
 descriptor in RAM. If the host has already read that descriptor, the new
 interface is invisible -- it does not appear until the device
 re-enumerates.
 
-On this core the host usually *has* already read it. `main()` starts the
-USB stack before `setup()` runs, in a high-priority FreeRTOS task, and
-`usb_hardware_init()` does not wait for a VBUS event when VBUS is already
-live:
-
-```c
-// USB power may already be ready at this time -> no event generated
-// We need to invoke the handler based on the status initially
-if (usb_reg & POWER_USBREGSTATUS_VBUSDETECT_Msk) {
-  tusb_hal_nrf_power_event(NRFX_POWER_USB_EVT_DETECTED);
-}
-```
-
-Plugged in at boot -- the normal case when testing USB MIDI -- the device
-attaches and enumerates with CDC only, before `setup()` gets a turn. So
-`setup()` bounces the connection after adding the interface:
+To force re-enumation, add this to `setup()`:
 
 ```c
 if (TinyUSBDevice.mounted()) {
@@ -680,14 +666,6 @@ if (TinyUSBDevice.mounted()) {
   TinyUSBDevice.attach();
 }
 ```
-
-This is the idiom the newer Adafruit TinyUSB examples use,
-the examples in the Seeed core predates it. 
-The startup banner prints which way the race went, because a missing USB MIDI
-interface otherwise looks identical to a host that never opened it.
-
-TinyUSB's `tud_task()` runs in its own FreeRTOS task here, so `loop()`
-services nothing.
 
 ## Shared headers
 
