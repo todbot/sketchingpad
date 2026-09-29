@@ -26,11 +26,12 @@
 ## Software
 
 `arduino/README.md` is the reference for the firmware: pinouts, the
-two touch chips, the power tiers and the numbers measured on
-hardware. The lists below are an index of what is in the tree.
+touch layer, the power tiers and the numbers measured on hardware.
+The lists below are an index of what is in the tree.
 
-`docs/` holds the touch-chip datasheets, `low-power-notes.md` and
-`touch-layer-plan.md`.
+`docs/hardware-notes.md` is the board side: both touch chips, their pad
+numbering, their INT lines, and the board changes the firmware assumes.
+`docs/` also holds `low-power-notes.md` and the touch-chip datasheets.
 
 ### Arduino
 

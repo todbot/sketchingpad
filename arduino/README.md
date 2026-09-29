@@ -2,9 +2,38 @@
 
 Arduino firmware for the sketchingpad: a 20-pad capacitive touch surface
 with 20 side-view SK6812 LEDs, driven by a Seeed XIAO nRF52840 plugged
-into a `sketchingpad` board. Touch is a TS20 on every board up to
-`sketchingpad1`, and two MPR121s on `sketchingpad1_mpr` -- see the two
-sensor sections below.
+into a `sketchingpad` board. Touch sensing is via a TS20 chip on `sketchingpad1`
+or MPR121s on `sketchingpad1_mpr` --
+`docs/hardware-notes.md` covers both chips, their pad numbering and their INT lines.
+
+* [Sketches](#sketches)
+* [Board and libraries](#board-and-libraries)
+* [Pinout](#pinout)
+* [Build and upload](#build-and-upload)
+* [touch.h: touch abstraction layer](#touchh-touch-abstraction-layer)
+  * [touchArmWake() INT differences](#toucharmwake-int-differences)
+* [device_id_code.h: telling boards apart](#device_id_codeh-telling-boards-apart)
+* [Low power concerns](#low-power-concerns)
+  * [hwtest_lowpower_ts20: the tiers without a radio](#hwtest_lowpower_ts20-the-tiers-without-a-radio)
+    * [Measurements 2026-09-16](#measurements-2026-09-16)
+  * [Power budget](#power-budget)
+* [Sketch details](#sketch-details)
+  * [ble_broadcast_anim: animations over advertising](#ble_broadcast_anim-animations-over-advertising)
+    * [led_anim.h and anim_wire.h: anim layer](#led_animh-and-anim_wireh-anim-layer)
+    * [Anim wire format](#anim-wire-format)
+    * [Three things that shape the code](#three-things-that-shape-the-code)
+  * [ble_midi_simple: MIDI over BLE](#ble_midi_simple-midi-over-ble)
+    * [Pad map](#pad-map)
+    * [Stuck notes](#stuck-notes)
+  * [sketchingpad_midi_simple: BLE/USB MIDI controller](#sketchingpad_midi_simple-bleusb-midi-controller)
+    * [BLE and USB readiness tests](#ble-and-usb-readiness-tests)
+    * [Catching a transport up](#catching-a-transport-up)
+    * [usb_midi.setCables(1) is not optional](#usb_midisetcables1-is-not-optional)
+    * [Seeed Arduino core has outdated USB libraries](#seeed-arduino-core-has-outdated-usb-libraries)
+    * [Re-enumerating when the host got there first](#re-enumerating-when-the-host-got-there-first)
+* [Shared headers](#shared-headers)
+* [Host tests](#host-tests)
+
 
 ## Sketches
 
@@ -115,7 +144,7 @@ Note that even `ble_keyboard_simple` has to drive `LED_POWER` (D7) low in
 `hwtest_ts20` has two modes, selected by `USE_INT_PIN` at the top of the
 sketch: `0` polls the TS20 every loop, `1` reads it only when the INT
 line fires and reports `INT MISSED` if a change slips past. See the
-TS20 INT section above.
+TS20 INT section in `docs/hardware-notes.md`.
 
 To upload, double-tap reset to get the UF2 bootloader, then:
 
@@ -208,9 +237,9 @@ boards. Because five is not a power of two, the code is read out as
 base-5 digits of the hash rather than as bit slices.
 
 
-## Low power
+## Low power concerns
 
-Two sketches implement the power tiers. 
+The "lowpower" sketches implement the power tiers. 
 `ble_keyboard_lowpower_ts20` uses BLE SoftDevice `sd_power_system_off()`
 The simpler `hwtest_lowpower_ts20` uses `NRF_POWER->SYSTEM_OFF=1` 
 and is simpler to put a power meter on, since BLE can dominate power consumption.
@@ -252,7 +281,9 @@ The rest, roughly in order of payoff:
    parameters used at connection setup, so calling it on a live
    connection compiles, runs, and saves nothing. The central may refuse,
    so nothing downstream assumes it took.
-3. **LED rail gated at the P-FET**, not merely blanked. See below.
+3. **LED rail gated at the P-FET**, not merely blanked. The rail is off
+   until `LED_POWER` (D7) is driven low; the circuit is in
+   `docs/hardware-notes.md`.
 4. **TS20 auto mode** rather than fast mode, for lower continuous
    current on the sensor. Set once before `begin()`: changing it later
    soft-resets the chip and restarts calibration, which would swallow a
@@ -293,7 +324,7 @@ block time follows what is on screen. `hwtest_ts20` runs a flat
 is not running. Here 100 Hz applies only while a pixel is actually lit,
 and a dark board wakes 4x/sec for the tier timers alone.
 
-#### Measured, 2026-09-16
+#### Measurements 2026-09-16
 
 Confirmed on hardware over USB:
 
@@ -342,26 +373,9 @@ dominating it by roughly 100x -- the savings were real but invisible at
 the battery. With the rail gated, IDLE and DEEP actually reach the
 numbers above.
 
-### Board changes this firmware assumes
+## Sketch details
 
-All three are present on `sketchingpad_stripproto1` and
-`sketchingpad_proto2`, and are no longer "next rev" items. Sketches
-will still build without them, but the matching tier degrades.
-
-1. **P-FET high-side load switch on the LED rail** -- Q1 (AO3415A),
-   source on `+3.3V`, drain feeding `3V3_LED`, gate on `LED_POWER` (D7)
-   with R4 100k pulling up to the source so the rail is **off** by
-   default. Highest-value change on the board; see
-   `docs/low-power-notes.md` for why that polarity and that part.
-2. **SW1 pin 1 wired to D10/MOSI.** It used to float, so there was no
-   button input at all. Now a wake source, and a press forces DEEP sleep.
-3. **TS20 INT (U1 pin 19) brought to D3/A3.** Previously it only
-   reached its 10k pull-up R1 and dead-ended. This is what makes
-   interrupt-driven scanning and touch-to-wake possible; without it the
-   firmware had to poll, and `SYSTEM_OFF` was unreachable because
-   nothing could wake it.
-
-## `ble_broadcast_anim`: animations over advertising
+### `ble_broadcast_anim`: animations over advertising
 
 `ble_broadcast_anim` runs on either sensor over the shared touch layer;
 `ts20/ble_broadcast_anim_ts20` is the original, TS20-only, and stays
@@ -377,9 +391,20 @@ silence ends it, and then it plays locally *and* goes out over the air.
 The top row picks the color for everything recorded after it; touching
 the already-selected swatch again reaches its second variant, so four
 pads cover all eight palette entries. Remember the top row is TS20
-channels 4-7, not 16-19; see the pad-numbering section above.
+channels 4-7, not 16-19; see the pad-numbering section in
+`docs/hardware-notes.md`.
 
-### Wire format
+#### `led_anim.h` and `anim_wire.h`: anim layer
+
+`led_anim.h` is the non-blocking player: `load()`, `start()`,
+`update(now_ms)` returning true when the frame changed, `pixel(i)`, and
+`poke()` for live touch feedback. `anim_wire.h` is the packing and the
+reassembler. Both depend on nothing but `<stdint.h>` -- no NeoPixel, no
+BLE -- so they drop into any sketch and run on a host. They are copied
+per sketch, the same convention as `device_id_code.h`; see Shared
+headers below for which copy to edit.
+
+#### Anim wire format
 
 Two bytes per event, nine events per packet:
 
@@ -414,7 +439,7 @@ entire reliability mechanism. `SCAN_WINDOW` is raised to a 100% receive
 duty cycle, unlike `ble_broadcast`: a missed chunk costs a whole
 animation. Halve it to get `ble_broadcast`'s power behaviour back.
 
-### Three things that shape the code
+#### Three things that shape the code
 
 - **`isNewMessage()` from `ble_broadcast` cannot be used here.** It is
   1-deep per peer and treats any differing sequence number as new, so it
@@ -429,17 +454,8 @@ animation. Halve it to get `ble_broadcast`'s power behaviour back.
 - **A sender never sees its own broadcast** (`scan_callback` filters on
   `device_id`), so local playback is kicked off from the send path.
 
-### The two headers
 
-`led_anim.h` is the non-blocking player: `load()`, `start()`,
-`update(now_ms)` returning true when the frame changed, `pixel(i)`, and
-`poke()` for live touch feedback. `anim_wire.h` is the packing and the
-reassembler. Both depend on nothing but `<stdint.h>` -- no NeoPixel, no
-BLE -- so they drop into any sketch and run on a host. They are copied
-per sketch, the same convention as `device_id_code.h`; see Shared
-headers below for which copy to edit.
-
-## `ble_midi_simple`: MIDI over BLE
+### `ble_midi_simple`: MIDI over BLE
 
 The MIDI counterpart to `ble_keyboard_simple`: poll the sensor, send on
 a change, light the LEDs, nothing else. It runs on either sensor through
@@ -469,7 +485,7 @@ Both are why `MIDI_CHANNEL` is 1 and the `BEND_*` constants are signed.
 Not yet run on hardware, on either board rev. It compiles clean under
 `--warnings all`.
 
-### Pad map
+#### Pad map
 
 The 16 pads of the bottom two rows are notes -- C major pentatonic,
 climbing left to right and bottom to top, fixed velocity 100 on channel
@@ -493,11 +509,11 @@ word on every change, so rolling off one pad of a pair lands on what the
 other still asks for instead of springing back.
 
 The top row is *not* sensor channels 16-19 on either board -- see the
-pad-numbering sections above. `led_to_note` and the four `PAD_*`
-constants are indexed by LED, which is TP(n+1), so they read straight
-off the silkscreen.
+pad-numbering sections in `docs/hardware-notes.md`. `led_to_note` and
+the four `PAD_*` constants are indexed by LED, which is TP(n+1), so they
+read straight off the silkscreen.
 
-### Stuck notes
+#### Stuck notes
 
 A disconnect leaves whatever was sounding to ring on the host, and there
 is no link left to silence it over. What the sketch can do it does on
@@ -517,16 +533,14 @@ is the way to provoke it -- is therefore a dropped note-off that shows
 up only as a note that will not stop. Serial still logs every pad
 change, so serial disagreeing with what you hear localises it.
 
-## `sketchingpad_midi_simple`: the same controller over USB as well
+### `sketchingpad_midi_simple`: BLE/USB MIDI controller
 
-`ble_midi_simple` with USB MIDI alongside the radio. The pad map, the
-note table and the control pairs are identical; what is new is that both
-transports run at once and neither is required. Unplugged it is a BLE
-controller, with nothing paired it is a USB controller, and plugged into
-a host that is also paired it plays both at once. Every message goes to
-whichever transports are up at that instant.
+Like `ble_midi_simple` but with USB MIDI. The pad map, the
+note table and the control pairs are identical. Both USB & BLE
+transports run at once and neither is required. 
+Every message goes to whichever transports are up at that instant.
 
-One MIDI library, two transports, so there are two instances --
+Two MIDI library instances: 
 `MIDI_USB` over TinyUSB's `Adafruit_USBD_MIDI` and `MIDI_BLE` over the
 core's `BLEMidi`. `MIDI_CREATE_BLE_INSTANCE()` is not used because it
 hardcodes the instance name to `MIDI`. Four small senders
@@ -545,7 +559,7 @@ Run on a TS20 board, which is the only rev assembled: USB MIDI
 enumerates and sends, and BLE MIDI advertises and pairs. Not yet run on
 `sketchingpad1_mpr`. Compiles clean under `--warnings all`.
 
-### The two readiness tests are not equally strong
+#### BLE and USB readiness tests
 
 BLE knows the host subscribed (`blemidi.notifyEnabled()`). USB only
 knows the host enumerated the device (`TinyUSBDevice.mounted()`) --
@@ -554,7 +568,7 @@ better to ask. A write to an endpoint nobody opened is dropped rather
 than blocking, so the weaker test costs nothing; it just cannot promise
 anyone is listening.
 
-### Catching a transport up
+#### Catching a transport up
 
 `ble_midi_simple` handles a reconnect by zeroing `last_touches`, which
 replays every held pad as a fresh note-on. With two transports that
@@ -563,7 +577,7 @@ so this sketch aims the catch-up at the one that just arrived:
 `resyncHost()` sends it all-notes-off, then the current bend, mod and
 held notes, and leaves `last_touches` alone.
 
-### `usb_midi.setCables(1)` is not optional
+#### `usb_midi.setCables(1)` is not optional
 
 `Adafruit_USBD_MIDI`'s constructor defaults to one cable, but on this core
 `_n_cables` reads back as garbage by the time `setup()` runs -- 206 on the
@@ -598,16 +612,18 @@ usb desc: 167 bytes, 4 interfaces
   itf 3: class 01 sub 03  <- MIDIStreaming
 ```
 
-### Why the field is lost: two TinyUSB layouts in one binary
+#### Seeed Arduino core has outdated USB libraries
 
-It is the Seeed core, not this sketch. The stock `midi_test.ino` from the
-Adafruit TinyUSB library, unmodified, enumerates USB MIDI on
-`adafruit:nrf52:feather52840sense` and does not on
-`Seeeduino:nrf52:xiaonRF52840`. Adding `usb_midi.setCables(1)` as its
-only change makes it enumerate on the Seeed core as well, so the line
-fixes the core's problem rather than papering over one of ours.
+The Seeed Arduino core ships with 1.7.0 of Adafruit_TinyUSB library.
+The current version is 3.7.7.  I submitted a PR on Seeed's core to update it.
 
-Seeed's `platform.txt` adds
+The stock `midi_test.ino` from the Adafruit TinyUSB library, 
+unmodified, enumerates USB MIDI on `adafruit:nrf52:feather52840sense` 
+but does not on `Seeeduino:nrf52:xiaonRF52840`. 
+Adding `usb_midi.setCables(1)` as its only change makes it enumerate on the 
+Seeed core as well.
+
+Like the upstream Adafruit core, Seeed's `platform.txt` adds
 
 ```
 -I{runtime.platform.path}/libraries/Adafruit_TinyUSB_Arduino/src/arduino
@@ -629,20 +645,11 @@ in that unit, and the two definitions disagree:
 bytes smaller on one side than the other. The Adafruit core escapes it
 only because the copy it bundles happens to agree.
 
-**No core patching is required.** `setCables(1)` is the whole fix: the
-store goes through a library method after the damage, so it does not
-depend on anything in the user's Arduino installation. Anyone can clone
+The proper fix is to update the Seeed Arduino core, but as a workaround, 
+`setCables(1)` works. No core patching required and anyone can clone
 this repo and build it as-is.
 
-Two layouts in one binary is a property of that core's build rather than
-of this sketch, and this fixes the one symptom it produced here. The
-exposure is narrow -- only private members differ, and everything outside
-the library goes through methods compiled in the library's own unit --
-but it is not nil. `setup()` prints the before/after descriptor length and
-flags it when the interface was not added, so a recurrence shows up in a
-serial capture instead of as a missing MIDI port.
-
-### Re-enumerating when the host got there first
+#### Re-enumerating when the host got there first
 
 `MIDI_USB.begin()` adds an interface, which only edits the configuration
 descriptor in RAM. If the host has already read that descriptor, the new
@@ -674,9 +681,9 @@ if (TinyUSBDevice.mounted()) {
 }
 ```
 
-This is the idiom the newer Adafruit TinyUSB examples use, for exactly
-this reason; the example bundled with the Seeed core predates it. The
-startup banner prints which way the race went, because a missing USB MIDI
+This is the idiom the newer Adafruit TinyUSB examples use,
+the examples in the Seeed core predates it. 
+The startup banner prints which way the race went, because a missing USB MIDI
 interface otherwise looks identical to a host that never opened it.
 
 TinyUSB's `tud_task()` runs in its own FreeRTOS task here, so `loop()`
@@ -699,11 +706,10 @@ make -C arduino check    # fail, naming names, if any copy has drifted
 `check` first: suites passing against `shared/` say nothing about a copy
 that has drifted away from it.
 
-Copying at all is deliberate, and `docs/touch-layer-plan.md` adopts it.
-A sketch folder that carries its own headers is self-contained -- it
-opens in the Arduino IDE with those headers as editable tabs, and zips
-up and sends as-is. Nothing in the Arduino toolchain offers that *and* a
-single copy:
+Copying at all is deliberate. A sketch folder that carries its own
+headers is self-contained -- it opens in the Arduino IDE with those
+headers as editable tabs, and zips up and sends as-is. Nothing in the
+Arduino toolchain offers that *and* a single copy:
 
 - **`sketch.yaml` profiles** can name a local library by path (`dir:`,
   arduino-cli 1.3.0 and later), and would pin the platform and every
