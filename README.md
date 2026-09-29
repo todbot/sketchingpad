@@ -8,19 +8,17 @@
 ## Features
 
 * 20-pad capacitive touch surface with 20 side-view SK6812
-  addressable LEDs.
-* Driven by a Seeed XIAO nRF52840 that plugs into the board.
-* The LED rail is switched by a P-FET, so it can be powered down
-  completely rather than just blanked.
-* Two board revisions: `sketchingpad1` uses one TS20 touch chip,
-  `sketchingpad1_mpr` uses two MPR121s.
-* Pad -> LED with fading trails, on either touch chip through a
-  shared touch layer.
-* BLE HID keyboard: touching a pad types a character.
-* Three power tiers, down to ~1-3 uA in SYSTEM_OFF.
-* Connectionless BLE broadcast: a board records a touch animation and
-  every board in range replays it, with no pairing and no connection
-  limit.
+  addressable LEDs backlighting the touchpads
+* Driven by a XIAO/QTPy board, specifically XIAO nRF52840 BLE-capable w/ LiPo charging
+* LiPo batery jack with power switch
+* Tact switch to switch modes, wake up, or go into deep sleep
+* Audio out jack for synth fun
+
+## Uses
+
+* Broadcast animations fun toy
+* BLE/USB HID keyboard macropad
+* BLE/USB MIDI controller
 
 
 ## Software
@@ -35,8 +33,7 @@ numbering, their INT lines, and the board changes the firmware assumes.
 
 ### Arduino
 
-Sensor-agnostic, at the top of `arduino/`. These probe I2C through
-`touch.h` and run on either board; start here.
+Sensor-agnostic, at the top of `arduino/`. 
 
 * `hwtest_leds`           -- chases one pixel around the 20 LEDs
 * `hwtest_touch`          -- pad -> LED with a fading trail
@@ -46,65 +43,28 @@ Sensor-agnostic, at the top of `arduino/`. These probe I2C through
 * `ble_broadcast_anim`    -- record an animation, broadcast it
 * `ble_keyboard_simple`   -- BLE HID keyboard, no power mgmt
 
-TS20-only, in `arduino/ts20/`. The low-power BLE HID keyboard exists
-only here.
-
-* `hwtest_ts20`                -- pad -> LED, poll or INT
-* `hwtest_lowpower_ts20`       -- pad -> LED, three power tiers
-* `ble_keyboard_simple_ts20`   -- BLE HID keyboard, no power mgmt
-* `ble_keyboard_lowpower_ts20` -- BLE HID keyboard, three tiers
-* `ble_broadcast_anim_ts20`    -- record an animation, broadcast it
-
-MPR121-only, in `arduino/mpr/`.
-
-* `hwtest_mpr`       -- pad -> LED on the 2x MPR121 board
-* `hwtest_bench_mpr` -- 1-2 MPR121s, touch to serial, no LEDs
-
-`hwtest_touch`, `hwtest_touch_lowpower`, `ble_broadcast_anim` and
-`ble_keyboard_simple` supersede `hwtest_ts20`, `hwtest_lowpower_ts20`,
-`hwtest_mpr`, `ble_broadcast_anim_ts20` and `ble_keyboard_simple_ts20`,
-which stay until the replacements have run on both boards.
-`hwtest_bench_mpr` is not superseded: one chip, serial only, no LEDs,
-a different instrument.
+more sketches in [arduino/README.md](./arduino/README.md).
 
 `arduino/tests/` holds host-native tests for the dependency-free
 headers: `cd arduino/tests && make run`.
 
 ### CircuitPython
 
-Each program directory holds the file to copy to the CIRCUITPY root as
-`code.py`. The two that go through `touch.py` probe for either sensor,
-the way the Arduino sketches do; the `hwtest` programs are TS20-only.
-`touch.py` is copied per sketch, so copy it alongside `code.py`.
+Each program directory holds the files to copy to the CIRCUITPY root.
 
-* `sketchingpad_midi_simple/code.py` -- USB + BLE MIDI controller, the
-  CircuitPython version of `arduino/sketchingpad_midi_simple`. Either
-  sensor, behind `touch.py`. Copy all three files to the root:
-  `touch.py` is imported, and without `boot.py` `usb_midi.ports` is
-  empty -- boot.py only runs from the root
-* `sketchingpad_midi_simple/touch.py` -- both sensors behind one API,
-  the counterpart of `arduino/shared/touch.h`. Its two pad tables must
-  stay identical to `arduino/shared/touch_map.h`
-* `ble_keyboard_lowpower/code.py` -- low-power BLE HID keyboard, two
-  power tiers rather than the Arduino sketch's three. Either sensor,
-  behind `touch.py`; copy that too
-* `hwtest/code_test_ts20.py` -- lights an LED for each touched pad
-* `hwtest/code_ledtest.py` -- LED chase, no touch
-* `hwtest/code_pwmaudio_test1.py` -- synthio/audiopwmio tone on D0
-* `hwtest-orig/code.py` -- an earlier pass, targeting a nice!nano /
-  nRF52840 supermini rather than this board
+* `sketchingpad_midi_simple` -- USB + BLE MIDI controller
+* `ble_keyboard_lowpower` -- low-power BLE HID keyboard, 
+   two power tiers rather than the Arduino sketch's three. 
 
-`arduino/hwtest_leds` and `arduino/ts20/hwtest_ts20` are Arduino ports
-of `code_ledtest.py` and `code_test_ts20.py`.
+These work on both versions of the board (TS20 & MPR121). 
+Other programs listed in [circuitpython/README.md](./circuitpython/README.md)
 
 Host tests for the touch layer, needing no board and no install:
 `cd circuitpython/tests && make run`. They also pin the pad tables in
 `touch.py` against `arduino/shared/touch_map.h`, which nothing else does.
 
 Libraries come from circup; see `circuitpython/requirements.txt`.
-That includes `ts20.py`, the TS20 driver, although a copy of it also
-sits in `hwtest-orig/`. `circuitpython/notes-lowpower.md` covers why
-there are two power tiers and not three.
+`circuitpython/notes-lowpower.md` covers why there are two power tiers and not three.
 
 
 ## Enclosure
