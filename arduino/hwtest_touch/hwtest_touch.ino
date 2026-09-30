@@ -105,7 +105,8 @@ uint32_t colorwheel(uint8_t pos) {
 
 void setup() {
   Serial.begin(115200);
-
+  while (!Serial && millis() < 3000) { delay(10); } // bounded: may be on battery
+  
   pinMode(PIN_BUTTON, INPUT_PULLUP);  // little physical button up top
 
   // The LED power rail hangs off a P-FET whose gate is pulled up to its
