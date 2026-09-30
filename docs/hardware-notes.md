@@ -104,30 +104,25 @@ release before arming `SENSE_LOW`, or it would wake the instant it slept.
 
 The TS20 went out of stock at LCSC, so `sketchingpad1_mpr` replaces it
 with two 12-channel MPR121s. Same 20 pads, same 20 LEDs, same pins --
-`TS20_INT` is just renamed `TOUCH_INT` and is still D3/A3.
-`hwtest_mpr` is the bring-up sketch. `hwtest_bench_mpr` is the smaller
-one: no LEDs, printing each touch and release as chip, electrode, `TPn`
-and LED index. It probes both addresses and uses whichever answer, so a
-pair of breakouts on jumpers, a single chip, and a half-populated board
-are all ordinary cases -- which is also what makes it the sketch that
-says which of the two chips is at fault when `hwtest_mpr` cannot.
+`TS20_INT` renamed `TOUCH_INT` and is still D3/A3.
+`hwtest_mpr` is the bring-up sketch. 
+`hwtest_bench_mpr` is to test while the boards get fabbed: 
+no LEDs, printing each touch and release as (chip, electrode, `TPn`, and LED index). 
 
-Both sketches carry the same `led_to_pad` table -- the bench one inverts
-it at startup rather than keeping a second copy -- and it prints the
-whole map per chip in its banner, so a wrong table shows up before you
-touch anything.
+Both sketches have the same `led_to_pad` table, which has
+to be verified with an ordered sweep, as below.
 
-One deliberate difference: `hwtest_mpr` masks U4's four J2 electrodes and
-parks their thresholds at 0xFF so they cannot chatter the shared IRQ
-line. The bench sketch leaves them live and prints them as `no pad`,
-because there you want to find out whether they would. Untouched `no pad`
-lines appearing on their own is the answer.
+`hwtest_mpr` masks U4's four J2 electrodes and parks their thresholds at 0xFF 
+so they cannot chatter the shared IRQ line. 
+The bench sketch leaves them live and prints them as `no pad`,
+because there you want to find out whether they would. 
+Untouched `no pad` lines appearing on their own show if there's chatter.
 
 - **U3 is 0x5A** (ADDR to GND), **U4 is 0x5B** (ADDR to VDD).
 - **Both /IRQ pins share one net**, pulled up by R1 10k. They are open
-  collector, so this is wired-OR and intended -- but the line says only
-  that *something* changed, never which chip. Every edge reads both.
-- **REXT (R8, R9) must be 75k 1%.** A wrong value here trips OVCF
+  collector, wired-OR. /IRQ going low says *something* changed, not which chip.
+  Every edge reads both.
+- **REXT (R8, R9) must be 75k 1%.** wrong values trips OVCF
   (status register 0x01 bit 7), on which the chip drops to Stop Mode and
   *discards* subsequent ECR writes. `Adafruit_MPR121::begin()` returns
   true anyway, so the symptom is a chip that answers on I2C, answers
@@ -151,6 +146,37 @@ physical layout, TP refdes        the same pads, by combined bit
 TP and LED footprint positions are byte-identical to `sketchingpad1`, so
 LED*n* still sits at TP*n*; only the sensor side of the table moved.
 
+### Confirmed on the assembled board, 2026-09-30
+
+The first assembled `sketchingpad1_mpr`, running `arduino/hwtest_touch`,
+read over USB serial. The banner, identical across four resets:
+
+```
+i2c scan: 0x5a 0x5b
+sensor: 2x MPR121
+config2=20 touch/release=12/6 autoconfig=1
+U3 @0x5a: ECR=8c OVCF=0 OOR=000 ACFF=0 ARFF=0
+U4 @0x5b: ECR=8c OVCF=0 OOR=000 ACFF=0 ARFF=0
+mode: INT on D3 (idle level 1), watchdog 500 ms
+```
+
+TP1 to TP20 was then swept in silkscreen order. 
+All 20 pads reported, each from exactly one electrode, 
+entry for entry identical to `touch_led_to_mpr`:
+
+```
+LED   0  1  2  3   4  5  6  7   8  9 10 11  12 13 14 15  16 17 18 19
+TP    1  2  3  4   5  6  7  8   9 10 11 12  13 14 15 16  17 18 19 20
+chip U3 U3 U3 U3  U3 U3 U3 U3  U4 U4 U4 U4  U4 U4 U4 U4  U3 U3 U3 U3
+ELE   6  7  8  9   2  3  4  5   8  9 10 11   0  1  2  3  10 11  0  1
+bit   6  7  8  9   2  3  4  5  20 21 22 23  12 13 14 15  10 11  0  1
+```
+
+Two things this quick test did **not** settle. 
+- No read needed a second pass (`passes=1` throughout), so the wired-OR 
+re-read below is unexercised rather than confirmed. 
+- No current was measured, so the `CONFIG2` table further down is still datasheet-at-1.8V.
+
 ### Four electrodes you cannot turn off
 
 U4's ELE4-7 are TOUCH21-24, brought out to the J2 header rather than to
@@ -173,13 +199,16 @@ have mattered: `ARE` (auto-reconfiguration) retries an OOR channel on
 *every sampling interval*, indefinitely. **They do not.** Measured
 2026-09-17 on two MPR121 breakouts, both chips came up
 `OOR=000 ACFF=0 ARFF=0` -- autoconfig found working charge settings for
-all 24 electrodes. Recheck on the assembled board, where those four are
-short traces to an unpopulated J2 rather than breakout pads, but there is
-no reason to expect a small capacitance to defeat the search.
+all 24 electrodes. Confirmed 2026-09-30 on the assembled board, where
+those four are short traces to an unpopulated J2 rather than breakout
+pads: both chips still come up `OOR=000 ACFF=0 ARFF=0`.
 
-Whether they *chatter* is a separate question and still unmeasured. A
-finger on them registers, as `no pad` lines, so they do work as
-electrodes -- what has not been observed is them toggling on their own.
+Whether they *chatter* is a separate question, and still open. A finger
+on them registers, as `no pad` lines, so they do work as electrodes;
+what has not been observed is them toggling on their own. The 2026-09-30
+capture is weak evidence at best -- no ELE4-7 touch and no `chatter:`
+line in 150 s -- because the board was being swiped throughout, and the
+question is what an idle one does.
 
 ### CONFIG2 is the power knob
 
