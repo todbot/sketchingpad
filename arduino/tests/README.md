@@ -1,6 +1,6 @@
 # Host tests
 
-`led_anim.h` and `anim_wire.h` (in `../ts20/ble_broadcast_anim_ts20/`) depend only on
+`led_anim.h` and `anim_wire.h` (in `../shared/`) depend only on
 `<stdint.h>` -- no Arduino, no NeoPixel, no BLE -- so they compile and run
 natively. That is deliberate: a chunk-reassembly bug is miserable to
 diagnose over the air and trivial to catch here.

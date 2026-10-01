@@ -56,7 +56,6 @@ with either through the shared touch layer.
 | `ts20/hwtest_lowpower_ts20`       | Pad -> LED, three power tiers       |
 | `ts20/ble_keyboard_simple_ts20`   | BLE HID keyboard, no power mgmt     |
 | `ts20/ble_keyboard_lowpower_ts20` | BLE HID keyboard, three power tiers |
-| `ts20/ble_broadcast_anim_ts20`    | Record an LED animation, broadcast  |
 | `mpr/hwtest_mpr`                  | Pad -> LED, on the 2x MPR121 board  |
 | `mpr/hwtest_bench_mpr`            | 1-2 MPR121s, touch to serial        |
 
@@ -66,9 +65,9 @@ with either through the shared touch layer.
 `hwtest_touch`, `hwtest_touch_lowpower`, `ble_broadcast_anim` and
 `ble_keyboard_simple` are the sensor-agnostic versions of their `ts20/`
 and `mpr/` counterparts, over the shared touch layer -- see that section.
-They supersede `hwtest_ts20`, `hwtest_mpr`, `hwtest_lowpower_ts20`,
-`ble_broadcast_anim_ts20` and `ble_keyboard_simple_ts20`, which stay
-until the replacements have run on both boards.
+They supersede `hwtest_ts20`, `hwtest_mpr`, `hwtest_lowpower_ts20` and
+`ble_keyboard_simple_ts20`, which stay until the replacements have run
+on both boards.
 `hwtest_bench_mpr` is not superseded: one chip, serial only, no LEDs, it
 is a different instrument.
 
@@ -127,7 +126,6 @@ arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/hwtest_lowpower
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_midi_simple
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/sketchingpad_midi_simple
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_broadcast
-arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/ble_broadcast_anim_ts20
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_broadcast_anim
 ```
 
@@ -378,9 +376,7 @@ numbers above.
 
 ### `ble_broadcast_anim`: animations over advertising
 
-`ble_broadcast_anim` runs on either sensor over the shared touch layer;
-`ts20/ble_broadcast_anim_ts20` is the original, TS20-only, and stays
-until the port has run on hardware. Everything below describes both.
+`ble_broadcast_anim` runs on either sensor over the shared touch layer.
 
 One board records a short LED animation by touch and broadcasts it;
 every other board in range plays it. No pairing, no connections, any
@@ -690,7 +686,7 @@ if (TinyUSBDevice.mounted()) {
 
 Five headers are copied into the sketches that use them --
 `device_id_code.h`, `touch.h`, `touch_map.h`, `led_anim.h` and
-`anim_wire.h`, 24 copies in all. **The copies must stay identical.**
+`anim_wire.h`, 21 copies in all. **The copies must stay identical.**
 `arduino/shared/` holds the only ones edited by hand; every copy in a
 sketch folder is generated from it.
 
