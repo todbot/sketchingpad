@@ -24,6 +24,10 @@
 //
 // Board: Seeeduino:nrf52:xiaonRF52840
 
+// 1 = narrate everything to Serial.  0 = silent and no 3 s wait for USB at
+// boot, which is what a battery-powered board wants.
+#define DEBUG (1)
+
 #include <Adafruit_NeoPixel.h>
 #include <Wire.h>
 #include <bluefruit.h>
@@ -62,6 +66,16 @@ const uint16_t ADV_INTERVAL = 160;
 // ble_broadcast's power behaviour back.
 const uint16_t SCAN_INTERVAL = 160;
 const uint16_t SCAN_WINDOW = 160;
+
+// if, not #if: the arguments still compile with DEBUG 0, so that build
+// cannot grow unused-variable warnings nobody sees.
+#define dbg(...)                                       \
+  do {                                                 \
+    if (DEBUG) {                                       \
+      Serial.printf("%7lu ", (unsigned long)millis()); \
+      Serial.printf(__VA_ARGS__);                      \
+    }                                                  \
+  } while (0)
 
 #define MAX_PEERS (16)
 #define PEER_TIMEOUT_MS (60000)
@@ -135,6 +149,7 @@ void ledPower(bool on) {
     digitalWrite(PIN_LED_POWER, HIGH);
     rail_on = false;
   }
+  dbg("rail %s\n", on ? "on" : "off");
 }
 
 void blit() {
@@ -155,7 +170,9 @@ void advertise(const AnimMsg &m) {
   Bluefruit.Advertising.addFlags(BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE);
   Bluefruit.Advertising.addData(BLE_GAP_AD_TYPE_MANUFACTURER_SPECIFIC_DATA, &m,
                                 ANIM_MSG_LEN);
-  Bluefruit.Advertising.start(0); // 0 = advertise forever
+  if (!Bluefruit.Advertising.start(0)) { // 0 = advertise forever
+    dbg("advertise failed: anim %u chunk %u\n", m.anim_id, m.chunk_idx);
+  }
 }
 
 void advertiseIdle() {
@@ -213,8 +230,8 @@ void startSend(const AnimEvent *ev, uint8_t n) {
   send_pass = 0;
   send_next_ms = millis();
   sending = true;
-  Serial.printf("sending anim %u: %u events, %u chunks x %u passes\n",
-                send_anim_id, send_n, animChunkCount(send_n), SEND_PASSES);
+  dbg("sending anim %u: %u events, %u chunks x %u passes\n", send_anim_id,
+      send_n, animChunkCount(send_n), SEND_PASSES);
 }
 
 void pumpSender(uint32_t now) {
@@ -224,6 +241,7 @@ void pumpSender(uint32_t now) {
   animFillChunk(&m, COMPANY_ID, my_id, send_anim_id, send_chunk, send_ev,
                 send_n);
   advertise(m);
+  dbg("send anim %u chunk %u pass %u\n", send_anim_id, send_chunk, send_pass);
   send_next_ms = now + CHUNK_AIRTIME_MS;
 
   send_chunk++;
@@ -233,7 +251,7 @@ void pumpSender(uint32_t now) {
     if (send_pass >= SEND_PASSES) {
       sending = false;
       advertiseIdle();
-      Serial.println("send done");
+      dbg("send done\n");
     }
   }
 }
@@ -252,27 +270,41 @@ void recLed(uint8_t led, uint32_t now) {
   if (!recording) {
     recording = true;
     rec_n = 0;
-    Serial.println("recording...");
+    dbg("recording...\n");
   }
   rec_ev[rec_n++] = animEventMake((uint8_t)gap, led, cur_color);
+  dbg("rec #%u: dt %u led %u color %u\n", rec_n - 1, (unsigned)gap, led,
+      cur_color);
   rec_last_ms = now;
 }
 
 void recFinish() {
   recording = false;
-  Serial.printf("recorded %u events\n", rec_n);
+  uint32_t span = 0;
+  for (uint8_t i = 0; i < rec_n; i++) { span += rec_ev[i].dt * ANIM_DT_MS; }
+  dbg("recorded %u events, %lu ms\n", rec_n, (unsigned long)span);
+  for (uint8_t i = 0; i < rec_n; i++) {
+    dbg("  #%u: dt %u led %u color %u\n", i, rec_ev[i].dt,
+        animEventLed(rec_ev[i]), animEventColor(rec_ev[i]));
+  }
   startSend(rec_ev, rec_n);
   // We never see our own advertisement -- scan_callback filters on
   // device_id -- so local playback has to be kicked off from here.
   anim.load(rec_ev, rec_n);
   anim.start(millis());
+  dbg("local play: playing %d rail %d LED_POWER pin %d sending %d\n",
+      anim.playing(), rail_on, digitalRead(PIN_LED_POWER), sending);
 }
 
 // ------------------------------------------------------------------ setup
 
 void setup() {
   Serial.begin(115200);
-  while (!Serial && millis() < 3000) { delay(10); }
+  if (DEBUG) {
+    while (!Serial && millis() < 3000) { delay(10); }
+  }
+  uint32_t reset_reason = NRF_POWER->RESETREAS;
+  NRF_POWER->RESETREAS = reset_reason; // write-1-to-clear, else it accumulates
 
   pinMode(PIN_LED_POWER, OUTPUT);
   digitalWrite(PIN_LED_POWER, HIGH); // rail off until ledPower() says so
@@ -303,10 +335,13 @@ void setup() {
 
   char code[DEVICE_ID_CODE_LEN + 1];
   deviceIdCode(code);
-  Serial.printf("ble_broadcast_anim: device %04x (%s), sensor %s,"
-                " %u byte packets\n",
-                my_id, code, touchName(), ANIM_MSG_LEN);
-  Serial.println("touch pads to record; the top row picks a color");
+  dbg("ble_broadcast_anim: device %04x (%s), sensor %s, %u byte packets\n",
+      my_id, code, touchName(), ANIM_MSG_LEN);
+  // 0 = power-on, 1 = reset pin, 2 = watchdog, 4 = soft reset (a crash
+  // handler or upload), 8 = CPU lockup, 0x10000 = woke from System OFF.
+  dbg("reset reason %08lx\n", (unsigned long)reset_reason);
+  if (DEBUG) { touchReport(); }
+  dbg("touch pads to record; the top row picks a color\n");
 
   last_activity_ms = millis();
 }
@@ -314,6 +349,14 @@ void setup() {
 // ------------------------------------------------------------------- loop
 
 uint32_t last_touches = 0;
+bool last_fault = false;
+
+// Debug-only playback stats, so a dark board says whether frames were
+// computed at all or computed and lost on the way to the strip.
+bool was_playing = false;
+uint32_t play_start_ms = 0;
+uint32_t play_frames = 0;
+uint8_t play_max_lit = 0;
 
 void loop() {
   uint32_t now = millis();
@@ -326,11 +369,16 @@ void loop() {
   uint32_t touches = touchRead();
   uint32_t newly = touches & ~last_touches;
   last_touches = touches;
+  if (touchFault() != last_fault) {
+    last_fault = touchFault();
+    dbg("touch fault %d\n", last_fault);
+  }
 
   bool dirty = false;
   for (uint8_t led = 0; led < NUM_LEDS; led++) {
     if (!((newly >> led) & 1)) { continue; }
     last_activity_ms = now;
+    dbg("touch led %u (%s)\n", led, touchSource(led));
     if (led >= SWATCH_FIRST_LED && led < SWATCH_FIRST_LED + SWATCH_COUNT) {
       // Touching the selected swatch again reaches its second variant, so
       // four pads cover all eight palette entries.
@@ -339,7 +387,7 @@ void loop() {
       // Swatches record nothing, but they do keep a recording alive, so
       // changing color mid-animation cannot end it.
       if (recording) { rec_last_ms = now; }
-      Serial.printf("color %u\n", cur_color);
+      dbg("color %u\n", cur_color);
     } else {
       recLed(led, now);
     }
@@ -355,23 +403,48 @@ void loop() {
     AnimMsg m;
     memcpy(&m, (const void *)&rx_ring[rx_tail], ANIM_MSG_LEN);
     rx_tail = (rx_tail + 1) % RX_RING;
+    dbg("rx [%04x] anim %u chunk %u total %u\n", m.device_id, m.anim_id,
+        m.chunk_idx, m.total_events);
 
     if (reasm.feed(m, now)) {
       if (!alreadyPlayed(reasm.from(), reasm.animId())) {
-        Serial.printf("[%04x] anim %u complete, %u events\n", reasm.from(),
-                      reasm.animId(), reasm.count());
+        dbg("[%04x] anim %u complete, %u events\n", reasm.from(),
+            reasm.animId(), reasm.count());
         anim.load(reasm.events(), reasm.count());
         anim.start(now);
         last_activity_ms = now;
+      } else {
+        dbg("[%04x] anim %u already played\n", reasm.from(), reasm.animId());
       }
     }
   }
   reasm.expire(now);
 
   // ---- playback and housekeeping
-  if (anim.update(now)) {
+  bool frame = anim.update(now);
+  if (frame) {
     blit();
     last_activity_ms = now;
+  }
+  if (DEBUG) {
+    if (anim.playing() && !was_playing) {
+      play_start_ms = now;
+      play_frames = 0;
+      play_max_lit = 0;
+      dbg("play start\n");
+    }
+    if (anim.playing() && frame) {
+      play_frames++;
+      uint8_t lit = 0;
+      for (uint8_t i = 0; i < NUM_LEDS; i++) { lit += (anim.pixel(i) != 0); }
+      if (lit > play_max_lit) { play_max_lit = lit; }
+    }
+    if (!anim.playing() && was_playing) {
+      dbg("play end: %lu ms, %lu frames, max %u lit\n",
+          (unsigned long)(now - play_start_ms), (unsigned long)play_frames,
+          play_max_lit);
+    }
+    was_playing = anim.playing();
   }
   pumpSender(now);
 

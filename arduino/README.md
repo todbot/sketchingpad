@@ -395,6 +395,18 @@ pads cover all eight palette entries. Remember the top row is TS20
 channels 4-7, not 16-19; see the pad-numbering section in
 `docs/hardware-notes.md`.
 
+`#define DEBUG (1)` at the top of the sketch narrates everything to
+Serial, each line stamped with `millis()`:
+- touches and recorded events;
+- each send step;
+- received chunks;
+- rail on/off;
+- playback start and end, with frame and lit-pixel counts;
+- the reset reason at boot.
+
+`DEBUG (0)` prints nothing and skips the 3 s wait for USB at boot. The
+one exception is the fatal "No touch sensor" line.
+
 #### `led_anim.h` and `anim_wire.h`: anim layer
 
 `led_anim.h` is the non-blocking player: `load()`, `start()`,

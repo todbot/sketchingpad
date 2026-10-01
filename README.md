@@ -9,14 +9,14 @@
 
 * 20-pad capacitive touch surface with 20 side-view SK6812
   addressable LEDs backlighting the touchpads
-* Driven by a XIAO/QTPy board, specifically XIAO nRF52840 BLE-capable w/ LiPo charging
 * LiPo batery jack with power switch
 * Tact switch to switch modes, wake up, or go into deep sleep
 * Audio out jack for synth fun
+* Driven by any XIAO/QTPy board, but designed for XIAO nRF52840 BLE-capable w/ LiPo charging
 
 ## Uses
 
-* Broadcast animations fun toy
+* BLE Broadcast Party
 * BLE/USB HID keyboard macropad
 * BLE/USB MIDI controller
 
