@@ -22,7 +22,7 @@ or MPR121s on `sketchingpad1_mpr` --
   * [ble_broadcast_anim: animations over advertising](#ble_broadcast_anim-animations-over-advertising)
     * [led_anim.h and anim_wire.h: anim layer](#led_animh-and-anim_wireh-anim-layer)
     * [Anim wire format](#anim-wire-format)
-    * [Three things that shape the code](#three-things-that-shape-the-code)
+    * [Notes about anim code](#notes-about-anim-code)
   * [ble_midi_simple: MIDI over BLE](#ble_midi_simple-midi-over-ble)
     * [Pad map](#pad-map)
     * [Stuck notes](#stuck-notes)
@@ -172,22 +172,22 @@ Copied per sketch.
 | `touchSource(led)`    | `"ch3"` / `"U3 ELE6"`, for diagnostic prints   |
 | `touchReport()`       | Whatever this sensor says about its own health |
 
-**The boards identify themselves at runtime.** The TS20 is at I2C addr `0x6A` 
+**Boards identify themselves at runtime based on touch chip.** The TS20 is at I2C addr `0x6A` 
 and the MPR121s at `0x5A`/`0x5B`, so `touchBegin()` probes and picks. One
 binary runs on both and nothing needs reflashing to swap boards on the
 bench. `touchName()` prints `TS20` or `2x MPR121` in the banner.
 
-**Everything is in LED-index space.** Bit *n* of `touchRead()` is LED
+**We think in LED-index space.** Bit *n* of `touchRead()` is LED
 *n*, which is TP*(n+1)* on the silkscreen, on both boards. Sketches
 write `(touches >> n) & 1` and carry no `led_to_pad` of their own -- both
 tables live in `touch_map.h`, one per board type (ts20 vs mpr). 
 Selecting a range of pads by index becomes correct by construction.
 
 `touchRead()` hides the MPR121's two transactions and the bounded
-re-read-while-low loop, so callers cannot get that wrong.
+re-read-while-low loop.
 
-`touchReadPasses()` retur value:  greater than 1 means a chip
-re-asserted mid-read, and it is always 1 on the TS20.
+`touchReadPasses()` return value: > 1 means a chip re-asserted mid-read, 
+and it is always 1 on the TS20.
 
 `touchSetLowPower()` is a set-once call, not a per-tier toggle. Both
 backends soft-reset on that write, which restarts calibration and would
@@ -378,18 +378,16 @@ numbers above.
 
 `ble_broadcast_anim` runs on either sensor over the shared touch layer.
 
-One board records a short LED animation by touch and broadcasts it;
-every other board in range plays it. No pairing, no connections, any
-number of participants, all running this same firmware. The transport is
-`ble_broadcast`; what is new is the animation layer.
+Records a short LED animation by touch and broadcasts it.
+Every other board in range plays it. 
+No pairing, no connections, any number of participants, all running this same firmware. 
+The transport is `ble_broadcast`. The led_anim.h animation layer is new.
 
-Touch pads 1-16 to record -- the first touch starts it, ~1.5 s of
-silence ends it, and then it plays locally *and* goes out over the air.
+Touch pads 1-16 to record (the bottom row)-- the first touch starts it, 
+~1.5 s of silence ends it, and then it plays locally *and* goes out over the air.
 The top row picks the color for everything recorded after it; touching
 the already-selected swatch again reaches its second variant, so four
-pads cover all eight palette entries. Remember the top row is TS20
-channels 4-7, not 16-19; see the pad-numbering section in
-`docs/hardware-notes.md`.
+pads cover all eight palette entries. 
 
 `#define DEBUG (1)` at the top of the sketch narrates everything to
 Serial, each line stamped with `millis()`:
@@ -455,7 +453,7 @@ time. `SCAN_WINDOW` is raised to a 100% receive
 duty cycle, unlike `ble_broadcast`: a missed chunk costs a whole
 animation. Halve it to get `ble_broadcast`'s power behaviour back.
 
-#### Three things that shape the code
+#### Notes about anim code:
 
 - **`isNewMessage()` from `ble_broadcast` cannot be used here.** It is
   1-deep per peer and treats any differing sequence number as new, so it
