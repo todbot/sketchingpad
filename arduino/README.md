@@ -448,7 +448,14 @@ old packets are ignored by construction.
 
 The sender advertises each chunk for 200 ms and repeats the whole cycle
 three times -- advertising is unacknowledged, so repetition is the
-entire reliability mechanism. `SCAN_WINDOW` is raised to a 100% receive
+entire reliability mechanism. Chunks go out at a 20 ms advertising
+interval, about 10 events per chunk, and idle adverts at 100 ms.
+
+The sender stops scanning for the length of a send. A 100% scan duty
+cycle takes the radio from the board's own advertiser: on two
+sketchingpad1_mpr boards, each chunk reached the other board only in
+the first ~70 ms of its 200 ms, and idle adverts only 20-45% of the
+time. `SCAN_WINDOW` is raised to a 100% receive
 duty cycle, unlike `ble_broadcast`: a missed chunk costs a whole
 animation. Halve it to get `ble_broadcast`'s power behaviour back.
 

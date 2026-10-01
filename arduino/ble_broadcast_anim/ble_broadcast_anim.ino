@@ -55,11 +55,14 @@ const uint8_t SWATCH_COUNT = 4;
 
 const uint32_t REC_SILENCE_MS = 1500;  // quiet this long ends a recording
 const uint32_t LED_IDLE_MS = 30000;    // blank the rail after this
-const uint32_t CHUNK_AIRTIME_MS = 200; // ~2 advertising events per chunk
+const uint32_t CHUNK_AIRTIME_MS = 200; // ~10 advertising events per chunk
 const uint8_t SEND_PASSES = 3;         // whole cycle repeated this often
 
-// Advertising interval, units of 0.625 ms. 160 = 100 ms.
+// Advertising intervals, units of 0.625 ms.  Idle is 100 ms.  Chunks go
+// out at 20 ms, the minimum: a receiver measured hearing only ~40% of
+// adverts, so a chunk needs many events in its airtime to land.
 const uint16_t ADV_INTERVAL = 160;
+const uint16_t ADV_INTERVAL_SEND = 32;
 // Scan interval / window, units of 0.625 ms.  Unlike ble_broadcast this
 // runs a 100% receive duty cycle: a missed chunk costs a whole animation,
 // and reliability matters more than power here.  Halve the window to get
@@ -164,8 +167,9 @@ void blit() {
 // ble_gap_adv_data_t as a *static* local, so .len is captured on the first
 // call and never updated; the data pointer is stable but a changed length
 // would be ignored.
-void advertise(const AnimMsg &m) {
+void advertise(const AnimMsg &m, uint16_t interval) {
   if (Bluefruit.Advertising.isRunning()) { Bluefruit.Advertising.stop(); }
+  Bluefruit.Advertising.setInterval(interval, interval);
   Bluefruit.Advertising.clearData();
   Bluefruit.Advertising.addFlags(BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE);
   Bluefruit.Advertising.addData(BLE_GAP_AD_TYPE_MANUFACTURER_SPECIFIC_DATA, &m,
@@ -178,7 +182,7 @@ void advertise(const AnimMsg &m) {
 void advertiseIdle() {
   AnimMsg m;
   animFillChunk(&m, COMPANY_ID, my_id, 0, 0, NULL, 0); // total_events = 0
-  advertise(m);
+  advertise(m, ADV_INTERVAL);
 }
 
 // scan_callback runs on the SoftDevice event task, not in loop().  It must
@@ -188,6 +192,17 @@ void advertiseIdle() {
 #define RX_RING 4
 volatile AnimMsg rx_ring[RX_RING];
 volatile uint8_t rx_head = 0, rx_tail = 0;
+
+// The scanner is stopped while we send: at a 100% scan duty cycle it
+// takes the radio from our own advertiser, and two boards measured
+// getting each chunk out for only ~70 ms of its 200 ms.
+volatile bool sending = false;
+
+// Debug link stats: every packet heard from another board, idle adverts
+// included, so link quality shows up without anyone touching a pad.
+volatile uint16_t heard_n = 0;
+volatile int32_t heard_rssi_sum = 0;
+volatile int8_t heard_rssi_min = 0, heard_rssi_max = -128;
 
 void scan_callback(ble_gap_evt_adv_report_t *report) {
   uint8_t buf[BLE_GAP_ADV_SET_DATA_SIZE_MAX];
@@ -199,6 +214,12 @@ void scan_callback(ble_gap_evt_adv_report_t *report) {
   if (len == ANIM_MSG_LEN) {
     AnimMsg m;
     memcpy(&m, buf, ANIM_MSG_LEN);
+    if (DEBUG && m.device_id != my_id) {
+      heard_n++;
+      heard_rssi_sum += report->rssi;
+      if (report->rssi < heard_rssi_min) { heard_rssi_min = report->rssi; }
+      if (report->rssi > heard_rssi_max) { heard_rssi_max = report->rssi; }
+    }
     if (m.device_id != my_id && m.total_events > 0) {
       uint8_t next = (rx_head + 1) % RX_RING;
       if (next != rx_tail) { // full: drop, a repeat pass will bring it back
@@ -208,7 +229,9 @@ void scan_callback(ble_gap_evt_adv_report_t *report) {
     }
   }
 
-  Bluefruit.Scanner.resume(); // required, the scanner stops on each report
+  // Required, the scanner stops on each report.  Not while sending, or a
+  // report already queued when the send began would restart it.
+  if (!sending) { Bluefruit.Scanner.resume(); }
 }
 
 // ----------------------------------------------------------------- sender
@@ -219,7 +242,6 @@ uint8_t send_anim_id = 0;
 uint8_t send_chunk = 0;
 uint8_t send_pass = 0;
 uint32_t send_next_ms = 0;
-bool sending = false;
 
 void startSend(const AnimEvent *ev, uint8_t n) {
   if (n == 0) { return; }
@@ -230,6 +252,7 @@ void startSend(const AnimEvent *ev, uint8_t n) {
   send_pass = 0;
   send_next_ms = millis();
   sending = true;
+  Bluefruit.Scanner.stop();
   dbg("sending anim %u: %u events, %u chunks x %u passes\n", send_anim_id,
       send_n, animChunkCount(send_n), SEND_PASSES);
 }
@@ -237,10 +260,20 @@ void startSend(const AnimEvent *ev, uint8_t n) {
 void pumpSender(uint32_t now) {
   if (!sending || (int32_t)(now - send_next_ms) < 0) { return; }
 
+  // Checked here rather than after the last advertise(), so the final
+  // chunk gets its airtime before the idle advert replaces it.
+  if (send_pass >= SEND_PASSES) {
+    sending = false;
+    advertiseIdle();
+    if (!Bluefruit.Scanner.start(0)) { dbg("scanner restart failed\n"); }
+    dbg("send done\n");
+    return;
+  }
+
   AnimMsg m;
   animFillChunk(&m, COMPANY_ID, my_id, send_anim_id, send_chunk, send_ev,
                 send_n);
-  advertise(m);
+  advertise(m, ADV_INTERVAL_SEND);
   dbg("send anim %u chunk %u pass %u\n", send_anim_id, send_chunk, send_pass);
   send_next_ms = now + CHUNK_AIRTIME_MS;
 
@@ -248,11 +281,6 @@ void pumpSender(uint32_t now) {
   if (send_chunk >= animChunkCount(send_n)) {
     send_chunk = 0;
     send_pass++;
-    if (send_pass >= SEND_PASSES) {
-      sending = false;
-      advertiseIdle();
-      dbg("send done\n");
-    }
   }
 }
 
@@ -323,7 +351,6 @@ void setup() {
   Bluefruit.begin(1, 1); // 1 peripheral (advertise) + 1 central (scan)
   Bluefruit.setTxPower(0);
   Bluefruit.autoConnLed(false);
-  Bluefruit.Advertising.setInterval(ADV_INTERVAL, ADV_INTERVAL);
   Bluefruit.Advertising.restartOnDisconnect(true);
   advertiseIdle();
 
@@ -357,6 +384,7 @@ bool was_playing = false;
 uint32_t play_start_ms = 0;
 uint32_t play_frames = 0;
 uint8_t play_max_lit = 0;
+uint32_t heard_report_ms = 0;
 
 void loop() {
   uint32_t now = millis();
@@ -397,6 +425,23 @@ void loop() {
   if (dirty) { blit(); } // once per pass: show() is ~600 us for 20 pixels
 
   if (recording && (now - rec_last_ms) > REC_SILENCE_MS) { recFinish(); }
+
+  // Another board's idle adverts arrive ~10/s, the advertising interval.
+  if (DEBUG && (now - heard_report_ms) >= 5000) {
+    uint16_t n = heard_n;
+    if (n) {
+      dbg("heard %u adv in %lu ms, rssi %d/%ld/%d min/avg/max\n", n,
+          (unsigned long)(now - heard_report_ms), heard_rssi_min,
+          (long)(heard_rssi_sum / n), heard_rssi_max);
+    } else {
+      dbg("heard 0 adv in %lu ms\n", (unsigned long)(now - heard_report_ms));
+    }
+    heard_n = 0;
+    heard_rssi_sum = 0;
+    heard_rssi_min = 0;
+    heard_rssi_max = -128;
+    heard_report_ms = now;
+  }
 
   // ---- received chunks
   while (rx_tail != rx_head) {
