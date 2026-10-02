@@ -15,15 +15,15 @@ See `docs/hardware-notes.md` for detailed info about both chips.
   * [Installing prerequisites with arduino-cli](#installing-prerequisites-with-arduino-cli)
   * [Build and upload](#build-and-upload)
 * [Building firmware releases](#building-firmware-releases)
-* [touch.h: touch abstraction layer](#touchh-touch-abstraction-layer)
-  * [touchArmWake() INT differences](#toucharmwake-int-differences)
-* [device_id_code.h: telling boards apart](#device_id_codeh-telling-boards-apart)
-* [Low power concerns](#low-power-concerns)
-* [Sketch details](#sketch-details)
-  * [ble_broadcast_anim: animations over advertising](#ble_broadcast_anim-animations-over-advertising)
-    * [led_anim.h and anim_wire.h: anim layer](#led_animh-and-anim_wireh-anim-layer)
+* [Sketchingpad libraries](#sketchingpad-libraries)
+  * [touch.h: touch abstraction layer](#touchh-touch-abstraction-layer)
+    * [touchArmWake() INT differences](#toucharmwake-int-differences)
+  * [device_id_code.h: telling boards apart](#device_id_codeh-telling-boards-apart)
+  * [led_anim.h and anim_wire.h: anim layer](#led_animh-and-anim_wireh-anim-layer)
     * [Anim wire format](#anim-wire-format)
     * [Notes about anim code:](#notes-about-anim-code)
+* [Sketch details](#sketch-details)
+  * [ble_broadcast_anim: animations over advertising](#ble_broadcast_anim-animations-over-advertising)
   * [ble_broadcast_anim_lp: the same, with power tiers](#ble_broadcast_anim_lp-the-same-with-power-tiers)
   * [ble_keyboard_lowpower: the keyboard, with power tiers](#ble_keyboard_lowpower-the-keyboard-with-power-tiers)
   * [ble_midi_simple: MIDI over BLE](#ble_midi_simple-midi-over-ble)
@@ -181,7 +181,10 @@ does, no double-tap reset needed.
   with.
 - Sketches build as committed, `DEBUG` settings included.
 
-## `touch.h`: touch abstraction layer
+
+## Sketchingpad libraries
+
+### `touch.h`: touch abstraction layer
 
 The `touch.h` and `touch_map.h` files are one driver abstracting away
 for both sensors, so a sketch does not care which board it is on. 
@@ -221,7 +224,7 @@ and it is always 1 on the TS20.
 backends soft-reset on that write, which restarts calibration and would
 swallow a touch in progress.
 
-### `touchArmWake()` INT differences
+#### `touchArmWake()` INT differences
 
 The two orderings are opposite, which is why this cannot be a flag the
 sketch branches on:
@@ -239,7 +242,7 @@ side of the call. This is what makes `touch.h` nRF52-specific
 (`nrf_gpio_cfg_sense_input`), and why the tables live in the other
 header, which is portable and host-tested.
 
-## `device_id_code.h`: telling boards apart
+### `device_id_code.h`: telling boards apart
 
 API for helping to identify a board both on BLE advertisements and LED colors.
 Copied per board. 
@@ -264,42 +267,7 @@ boards. Because five is not a power of two, the code is read out as
 base-5 digits of the hash rather than as bit slices.
 
 
-## Low power concerns
-
-The power tiers, the techniques behind them, the 2026-09-16
-measurements and the power budget are in `docs/hardware-notes.md`,
-under Low power concerns.
-
-## Sketch details
-
-### `ble_broadcast_anim`: animations over advertising
-
-`ble_broadcast_anim` runs on either sensor over the shared touch layer.
-
-Records a short LED animation by touch and broadcasts it.
-Every other board in range plays it. 
-No pairing, no connections, any number of participants, all running this same firmware. 
-The transport is `ble_broadcast`. The led_anim.h animation layer is new.
-
-Touch pads 1-16 to record (the bottom row)-- the first touch starts it, 
-~1.5 s of silence ends it, and then it plays locally *and* goes out over the air.
-The top row picks the color for everything recorded after it; touching
-the already-selected swatch again reaches its second variant, so four
-pads cover all eight palette entries. 
-
-`#define DEBUG (1)` at the top of the sketch narrates everything to
-Serial, each line stamped with `millis()`:
-- touches and recorded events;
-- each send step;
-- received chunks;
-- rail on/off;
-- playback start and end, with frame and lit-pixel counts;
-- the reset reason at boot.
-
-`DEBUG (0)` prints nothing and skips the 3 s wait for USB at boot. The
-one exception is the fatal "No touch sensor" line.
-
-#### `led_anim.h` and `anim_wire.h`: anim layer
+### `led_anim.h` and `anim_wire.h`: anim layer
 
 `led_anim.h` is the non-blocking player: `load()`, `start()`,
 `update(now_ms)` returning true when the frame changed, `pixel(i)`, and
@@ -372,6 +340,36 @@ animation. Halve it to get `ble_broadcast`'s power behaviour back.
 - **A sender never sees its own broadcast** (`scan_callback` filters on
   `device_id`), so local playback is kicked off from the send path.
 
+
+
+## Sketch details
+
+### `ble_broadcast_anim`: animations over advertising
+
+`ble_broadcast_anim` runs on either sensor over the shared touch layer.
+
+Records a short LED animation by touch and broadcasts it.
+Every other board in range plays it. 
+No pairing, no connections, any number of participants, all running this same firmware. 
+The transport is `ble_broadcast`. The led_anim.h animation layer is new.
+
+Touch pads 1-16 to record (the bottom row)-- the first touch starts it, 
+~1.5 s of silence ends it, and then it plays locally *and* goes out over the air.
+The top row picks the color for everything recorded after it; touching
+the already-selected swatch again reaches its second variant, so four
+pads cover all eight palette entries. 
+
+`#define DEBUG (1)` at the top of the sketch narrates everything to
+Serial, each line stamped with `millis()`:
+- touches and recorded events;
+- each send step;
+- received chunks;
+- rail on/off;
+- playback start and end, with frame and lit-pixel counts;
+- the reset reason at boot.
+
+`DEBUG (0)` prints nothing and skips the 3 s wait for USB at boot. The
+one exception is the fatal "No touch sensor" line.
 
 ### `ble_broadcast_anim_lp`: the same, with power tiers
 

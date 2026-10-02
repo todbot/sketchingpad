@@ -27,7 +27,7 @@ Unless otherwise noted, software runs on both sketchingpad boards.
 
 Most of the apps are Arduino sketches, see [`arduino/README.md`](./arduino/README.md) 
 for details on Arduino firmware options including: how to flash, how to build, 
-pinouts, the touch layer, the BLE LED animation packet layer, 
+the touch layer, the BLE LED animation packet layer, 
 the power tiers, etc. Examples of what's available:
 
 * `hwtest_leds`           -- chases one pixel around the 20 LEDs
