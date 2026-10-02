@@ -9,10 +9,13 @@ See `docs/hardware-notes.md` for detailed info about both chips.
 
 <!--ts-->
 * [Sketches](#sketches)
-* [Arduino Board and libraries](#arduino-board-and-libraries)
+  * [Installing pre-built sketches](#installing-pre-built-sketches)
+* [Building sketches](#building-sketches)
+  * [Arduino core and libraries needed](#arduino-core-and-libraries-needed)
   * [Installing prerequisites with arduino-cli](#installing-prerequisites-with-arduino-cli)
+  * [Build and upload](#build-and-upload)
 * [Pinout](#pinout)
-* [Build and upload](#build-and-upload)
+* [Building firmware releases](#building-firmware-releases)
 * [touch.h: touch abstraction layer](#touchh-touch-abstraction-layer)
   * [touchArmWake() INT differences](#toucharmwake-int-differences)
 * [device_id_code.h: telling boards apart](#device_id_codeh-telling-boards-apart)
@@ -21,7 +24,7 @@ See `docs/hardware-notes.md` for detailed info about both chips.
   * [ble_broadcast_anim: animations over advertising](#ble_broadcast_anim-animations-over-advertising)
     * [led_anim.h and anim_wire.h: anim layer](#led_animh-and-anim_wireh-anim-layer)
     * [Anim wire format](#anim-wire-format)
-    * [Notes about anim code](#notes-about-anim-code)
+    * [Notes about anim code:](#notes-about-anim-code)
   * [ble_broadcast_anim_lp: the same, with power tiers](#ble_broadcast_anim_lp-the-same-with-power-tiers)
   * [ble_midi_simple: MIDI over BLE](#ble_midi_simple-midi-over-ble)
     * [Pad map](#pad-map)
@@ -57,7 +60,29 @@ They are older and shouldn't be used.
 `arduino/tests/` holds host-side tests for the dependency-free headers;
 see the last section.
 
-## Arduino Board and libraries
+### Installing pre-built sketches
+
+There are [pre-built .zip files for released sketches](https://github.com/todbot/sketchingpad/releases).
+You can use the CLI tool `adafruit-nrfutil` or the 
+[nrfutil-web](https://takkao.github.io/nrfutil-web/) site to install. 
+
+If using `adafruit-nrfutil`:
+
+```sh
+pip3 install adafruit-nrfutil
+adafruit-nrfutil dfu serial --touch 1200 -pkg hwtest_touch.zip \
+  -p /dev/cu.usbmodemXXXX -b 115200 --singlebank
+```
+where `/dev/cu.usbmodemXXXX` is the name of your computer's  serial port with 
+an awake (not deep sleep) sketchingpad board is plugged in. 
+Flashing takes about 12 seconds.
+
+
+## Building sketches
+
+If you want to compile the sketches yourself, here's what you need. 
+
+### Arduino core and libraries needed
 
 Sketches are designed for the **Seeed XIAO nRF52840**, 
 but the PCB can  work with any XIAO/QTpy-format board. 
@@ -104,26 +129,7 @@ In the Arduino IDE: add the same URL under *Settings > Additional boards
 manager URLs*, install "Seeed nRF52 Boards" from the Boards Manager, and
 the libraries above from the Library Manager.
 
-## Pinout
-
-For both the `sketchingpad1` and `sketchingpad1_mpr1` boards:
-
-| Signal      | XIAO pin | Notes                         |
-|-------------|----------|-------------------------------|
-| `PWM_AUDIO` | D0 / A0  | to audio jack via RC filter   |
-| `BUTTON`    | D10/MOSI | SW1 to GND, internal pull-up  |
-| `TS20_INT`  | D3 / A3  | open collector, R1 pulls up   |
-| `SDA`       | D4       | `Wire` default                |
-| `SCL`       | D5       | `Wire` default                |
-| `LED_DAT`   | D6 / TX  | also `PIN_SERIAL1_TX`         |
-| `LED_POWER` | D7 / RX  | P-FET gate, LOW = rail on     |
-
-Still spare: D1/A1, D8 and D9.
-
-The pin numbers are `#define`s at the top of each sketch.
-
-
-## Build and upload
+### Build and upload
 
 ```sh
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/hwtest_leds
@@ -139,24 +145,61 @@ Fall back to `hwtest_leds` to just see if LEDs work.
 
 Then try `ble_keyboard_simple` when bringing up a board or changing the
 key map: it polls the touch chip(s), sends a report on change, lights the LEDs,
-and does nothing else. `ble_keyboard_lowpower_ts20` is the same keyboard with
-interrupt-driven scanning, connection-parameter management and sleep for TS20 boards.
+and does nothing else.
 
-Note that even `ble_keyboard_simple` has to drive `LED_POWER` (D7) low in
-`setup()` to enable the power rail (through a PFET) to the LEDs.
-
-`hwtest_ts20` has two modes, selected by `USE_INT_PIN` at the top of the
-sketch: `0` polls the TS20 every loop, `1` reads it only when the INT
-line fires and reports `INT MISSED` if a change slips past. See the
-TS20 INT section in `docs/hardware-notes.md`.
-
-To upload, double-tap reset to get the UF2 bootloader, then:
+To upload a sketch:
 
 ```sh
 arduino-cli board list           # find the port
 arduino-cli upload -b Seeeduino:nrf52:xiaonRF52840 \
   -p /dev/cu.usbmodemXXXX arduino/hwtest_leds
 ```
+
+## Pinout
+
+The `sketchingpad1` and `sketchingpad1_mpr1` boards have the same pinout:
+
+| Signal      | XIAO pin | Notes                         |
+|-------------|----------|-------------------------------|
+| `PWM_AUDIO` | D0 / A0  | to audio jack via RC filter   |
+| `BUTTON`    | D10/MOSI | SW1 to GND, internal pull-up  |
+| `TS20_INT`  | D3 / A3  | open collector, R1 pulls up   |
+| `SDA`       | D4       | `Wire` default                |
+| `SCL`       | D5       | `Wire` default                |
+| `LED_DAT`   | D6 / TX  | also `PIN_SERIAL1_TX`         |
+| `LED_POWER` | D7 / RX  | P-FET gate, LOW = rail on     |
+
+Still spare: D1/A1, D8 and D9.
+
+The pin numbers are `#define`s at the top of each sketch.
+
+Note for battery power, you need to solder the BAT+/BAT- pins on the bottom
+of the XIAO to the corresponding pads on the PCB. 
+
+
+## Building firmware releases
+
+`make -C arduino release` builds every sketch into `arduino/release/<sketch>.zip`, 
+a DFU package. Flashing one needs `adafruit-nrfutil` and a 
+[release zip](https://github.com/todbot/sketchingpad/releases).
+No core or libraries need to be installed. 
+
+```sh
+pip3 install adafruit-nrfutil
+adafruit-nrfutil dfu serial --touch 1200 -pkg ble_broadcast_anim_lp.zip \
+  -p /dev/cu.usbmodemXXXX -b 115200 --singlebank
+```
+
+`--touch 1200` puts XIAO into DFU bootloader the same way `arduino-cli upload`
+does, no double-tap reset needed. 
+
+- One package per sketch covers both board revs: `touch.h` picks the
+  sensor at runtime.
+- The board has to be awake. In DEEP (`SYSTEM_OFF`) there is no USB to
+  touch, so wake it with a pad or the button first.
+- Packages require the S140 7.3.0 SoftDevice, which stock XIAOs ship
+  with.
+- Sketches build as committed, `DEBUG` settings included.
 
 ## `touch.h`: touch abstraction layer
 

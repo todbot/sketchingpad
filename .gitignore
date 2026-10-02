@@ -45,3 +45,6 @@ schematics/*/*zip
 # Python-specific files
 __pycache__
 *.pyc
+
+# Arduino release builds (make -C arduino release)
+arduino/release

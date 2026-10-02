@@ -11,6 +11,7 @@
 #
 #   make sync     shared/ -> every sketch copy
 #   make check    fail, naming names, if any copy has drifted
+#   make release  every sketch -> release/<sketch>.zip, for adafruit-nrfutil
 #
 # The sketch copies are found rather than listed: a hand-written list is
 # one more thing that can drift.
@@ -21,7 +22,7 @@ HEADERS := $(notdir $(wildcard $(SHARED)/*.h))
 # tests/ reads shared/ directly and tests/build holds generated files.
 FIND := find . -not -path './$(SHARED)/*' -not -path './tests/*' -name
 
-.PHONY: all sync check
+.PHONY: all sync check release
 
 all: check
 
@@ -42,3 +43,19 @@ check:
 	  echo "edit $(SHARED)/ and run 'make -C arduino sync'"; exit 1; \
 	fi; \
 	echo "all copies match $(SHARED)/"
+
+# DFU packages for adafruit-nrfutil, so a board can be flashed without the
+# core, the libraries or a build.  Install steps are in README.md.
+FQBN := Seeeduino:nrf52:xiaonRF52840
+RELEASE := release
+SKETCHES := $(patsubst %/,%,$(dir $(shell find . -name '*.ino' -not -path './tests/*')))
+
+release: check
+	@mkdir -p $(RELEASE)
+	@for d in $(SKETCHES); do \
+	  n=`basename $$d`; \
+	  arduino-cli compile -b $(FQBN) --output-dir $(RELEASE)/build/$$n $$d \
+	    > /dev/null || exit 1; \
+	  cp $(RELEASE)/build/$$n/$$n.ino.zip $(RELEASE)/$$n.zip; \
+	  echo "$(RELEASE)/$$n.zip"; \
+	done
