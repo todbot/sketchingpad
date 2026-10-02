@@ -2,14 +2,15 @@
 
 Arduino firmware for the sketchingpad: a 20-pad capacitive touch surface
 with 20 side-view SK6812 LEDs, driven by a Seeed XIAO nRF52840 plugged
-into a `sketchingpad` board. Touch sensing is via a TS20 chip on `sketchingpad1`
-or MPR121s on `sketchingpad1_mpr` --
-`docs/hardware-notes.md` covers both chips, their pad numbering and their INT lines.
+into a `sketchingpad` board. There are two board variants: 
+`sketchingpad1` has one TS20 touch chip, `sketchingpad1_mpr` has two MPR121 touch chips.
+The Arduino sketches work with either board.
+See `docs/hardware-notes.md` for detailed info about both chips. 
 
 <!--ts-->
 * [Sketches](#sketches)
-* [Board and libraries](#board-and-libraries)
-  * [Installing with arduino-cli](#installing-with-arduino-cli)
+* [Arduino Board and libraries](#arduino-board-and-libraries)
+  * [Installing prerequisites with arduino-cli](#installing-prerequisites-with-arduino-cli)
 * [Pinout](#pinout)
 * [Build and upload](#build-and-upload)
 * [touch.h: touch abstraction layer](#touchh-touch-abstraction-layer)
@@ -37,51 +38,36 @@ or MPR121s on `sketchingpad1_mpr` --
 
 ## Sketches
 
-Sensor-specific sketches live under `ts20/` and `mpr/` and carry the
-sensor as a suffix; the ones at the top level need no sensor, or work
-with either through the shared touch layer.
 
 | Sketch                            | What it does                        |
 |-----------------------------------|-------------------------------------|
 | `hwtest_leds`                     | Chases one pixel around the 20 LEDs |
-| `hwtest_touch`                    | Pad -> LED, fading. Either sensor   |
-| `hwtest_touch_lowpower`           | Pad -> LED, tiers. Either sensor    |
+| `hwtest_touch`                    | Pad->LED, fading, either sensor     |
+| `hwtest_touch_lowpower`           | Pad->LED, fading, power tiers, either sensor |
 | `ble_broadcast`                   | Symmetric BLE broadcast, no pairing |
 | `ble_broadcast_anim`              | Record an LED animation, broadcast  |
-| `ble_broadcast_anim_lp`           | Same, with the power tiers          |
-| `ble_keyboard_simple`             | BLE HID keyboard. Either sensor     |
-| `ble_midi_simple`                 | BLE MIDI controller. Either sensor  |
-| `sketchingpad_midi_simple`        | USB + BLE MIDI. Either sensor       |
-| `ts20/hwtest_ts20`                | Pad -> LED, fading. Poll or INT     |
-| `ts20/hwtest_lowpower_ts20`       | Pad -> LED, three power tiers       |
-| `ts20/ble_keyboard_simple_ts20`   | BLE HID keyboard, no power mgmt     |
-| `ts20/ble_keyboard_lowpower_ts20` | BLE HID keyboard, three power tiers |
-| `mpr/hwtest_mpr`                  | Pad -> LED, on the 2x MPR121 board  |
-| `mpr/hwtest_bench_mpr`            | 1-2 MPR121s, touch to serial        |
+| `ble_broadcast_anim_lp`           | Record an LED animation, with the power tiers |
+| `ble_keyboard_simple`             | BLE HID keyboard, no power tiers    |
+| `ble_midi_simple`                 | BLE MIDI controller, no power tiers |
+| `sketchingpad_midi_simple`        | USB + BLE MIDI                      |
 
-`hwtest_leds` and `hwtest_ts20` are Arduino ports of
-`circuitpython/hwtest/code_ledtest.py` and `code_test_ts20.py`.
-
-`hwtest_touch`, `hwtest_touch_lowpower`, `ble_broadcast_anim` and
-`ble_keyboard_simple` are the sensor-agnostic versions of their `ts20/`
-and `mpr/` counterparts, over the shared touch layer -- see that section.
-They supersede `hwtest_ts20`, `hwtest_mpr`, `hwtest_lowpower_ts20` and
-`ble_keyboard_simple_ts20`, which stay until the replacements have run
-on both boards.
-`hwtest_bench_mpr` is not superseded: one chip, serial only, no LEDs, it
-is a different instrument.
+Sensor-specific sketches live in `ts20/` and `mpr/`. 
+They are older and shouldn't be used.
 
 `arduino/tests/` holds host-side tests for the dependency-free headers;
 see the last section.
 
-## Board and libraries
+## Arduino Board and libraries
 
-Board: **Seeed XIAO nRF52840**, FQBN `Seeeduino:nrf52:xiaonRF52840`.
+Sketches are designed for the **Seeed XIAO nRF52840**, 
+but the PCB can  work with any XIAO/QTpy-format board. 
 
-Libraries used:
+Arduino Board FQBN `Seeeduino:nrf52:xiaonRF52840`.
 
-- `TS20` -- todbot's TS20 Arduino library
-- `Adafruit MPR121` -- Adafruit MPR121 library
+Libraries needed:
+
+- `TS20` -- todbot's TS20 touch library
+- `Adafruit MPR121` -- Adafruit MPR121 touch library
 - `Adafruit NeoPixel` -- Adafruit easy neopixel library
 - `Adafruit TinyUSB` -- Adafruit Arduino wrapper on TinyUSB
 - `MIDI Library` -- FortySevenEffects MIDI library, for the two MIDI sketches only
@@ -89,21 +75,21 @@ Libraries used:
 `Adafruit NeoPixel` takes the nRF52 PWM + EasyDMA path, thus `show()` does 
 not disable interrupts and will not disturb BLE radio events)
 
-The Seeed nRF52 core is derived from Adafruit's nRF52 core, 
+The Seeed nRF52 core is a fork of Adafruit's nRF52 core, 
 so it ships with the S140 SoftDevice, FreeRTOS, TinyUSB, and the Bluefruit library
-(`bluefruit.h`, `BLEHidAdafruit`, `BLEDis`).
-(No BLE library needs to be installed).  
+(`bluefruit.h`, `BLEHidAdafruit`, `BLEDis`). (No BLE library needs to be installed).
 The `Adafruit TinyUSB` library shipped with Seeed's core is very old 
 (1.7.0 vs 3.7.7), so newer `Adafruit TinyUSB` added. 
 
-### Installing with arduino-cli
+### Installing prerequisites with arduino-cli
 
 [`arduino-cli`](https://docs.arduino.cc/arduino-cli/installation/)
-is very cool and highly recommended. 
+is very cool and highly recommended.  You can use it to install the core, all
+needed libraries, and compile & upload the sketch.
 
 ```sh
 arduino-cli config add board_manager.additional_urls \
-  https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
+     https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
 arduino-cli core update-index
 arduino-cli core install Seeeduino:nrf52
 
@@ -141,21 +127,15 @@ The pin numbers are `#define`s at the top of each sketch.
 
 ```sh
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/hwtest_leds
-arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/hwtest_ts20
-arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/mpr/hwtest_mpr
-arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/mpr/hwtest_bench_mpr
-arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/ble_keyboard_simple_ts20
-arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/ble_keyboard_lowpower_ts20
-arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ts20/hwtest_lowpower_ts20
-arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_midi_simple
+arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/hwtest_touch
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/sketchingpad_midi_simple
-arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_broadcast
+arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_keyboard_simple
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_broadcast_anim
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_broadcast_anim_lp
 ```
 
-Start with `hwtest_touch` to see if board works. Fall back to `hwtest_leds` to
-just see if LEDs work.
+Start with `hwtest_touch` to see if board works. 
+Fall back to `hwtest_leds` to just see if LEDs work.
 
 Then try `ble_keyboard_simple` when bringing up a board or changing the
 key map: it polls the touch chip(s), sends a report on change, lights the LEDs,
