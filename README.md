@@ -1,5 +1,5 @@
 
-# SketchingPad
+# SketchingPad - 20-key BLE touch pad
 
 
 <img src="./docs/sketchingpad1-render.jpg" width=350>
@@ -7,41 +7,36 @@
 
 ## Features
 
-* 20-pad capacitive touch surface with 20 side-view SK6812
-  addressable LEDs backlighting the touchpads
-* LiPo batery jack with power switch
+* 20-pad capacitive touch surface with 20 SK6812 addressable LEDs backlighting the touchpads
+* LiPo battery jack with power switch
 * Tact switch to switch modes, wake up, or go into deep sleep
-* Audio out jack for synth fun
+* Audio out jack for audio fun
 * Driven by any XIAO/QTPy board, but designed for XIAO nRF52840 BLE-capable w/ LiPo charging
 
-## Uses
+Two Board variations because of supply chain madness:
 
-* BLE Broadcast Party
-* BLE/USB HID keyboard macropad
-* BLE/USB MIDI controller
+- `sketchingpad1` -- TS20 touch chip
+- `sketchingpad1_mpr` -- 2x MPR121 touch chips
+
+Unless otherwise noted, software runs on both sketchingpad boards.
 
 
 ## Software
 
-`arduino/README.md` is the reference for the firmware: pinouts, the
-touch layer, the power tiers and the numbers measured on hardware.
-The lists below are an index of what is in the tree.
-
-`docs/hardware-notes.md` is the board side: both touch chips, their pad
-numbering, their INT lines, and the board changes the firmware assumes.
-`docs/` also holds `low-power-notes.md` and the touch-chip datasheets.
-
 ### Arduino
 
-Sensor-agnostic, at the top of `arduino/`. 
+Most of the apps are Arduino sketches, see [`arduino/README.md`](./arduino/README.md) 
+for details on Arduino firmware options including: how to flash, how to build, 
+pinouts, the touch layer, the BLE LED animation packet layer, 
+the power tiers, etc. Examples of what's available:
 
 * `hwtest_leds`           -- chases one pixel around the 20 LEDs
-* `hwtest_touch`          -- pad -> LED with a fading trail
-* `hwtest_touch_lowpower` -- same, plus three power tiers, no BLE
-* `ble_broadcast`         -- symmetric BLE broadcast, no pairing
-* `ble_broadcast_auto`    -- `ble_broadcast`, auto-sending a counter
+* `hwtest_touch`          -- pad -> LED with a fading trail, no BLE
+* `hwtest_touch_lowpower` -- pad -> LED, fading, plus three power tiers, no BLE
 * `ble_broadcast_anim`    -- record an animation, broadcast it
+* `ble_broadcast_anim_lp`  -- record an animation, broadcast it, with power tiers
 * `ble_keyboard_simple`   -- BLE HID keyboard, no power mgmt
+* `ble_keyboard_lowpower` -- BLE HID keyboard, with power tiers
 
 more sketches in [arduino/README.md](./arduino/README.md).
 
@@ -49,6 +44,9 @@ more sketches in [arduino/README.md](./arduino/README.md).
 headers: `cd arduino/tests && make run`.
 
 ### CircuitPython
+
+CircuitPython is much easier to work with, but can't get the same low-power
+modes available in Arduino. 
 
 Each program directory holds the files to copy to the CIRCUITPY root.
 
@@ -64,7 +62,14 @@ Host tests for the touch layer, needing no board and no install:
 `touch.py` against `arduino/shared/touch_map.h`, which nothing else does.
 
 Libraries come from circup; see `circuitpython/requirements.txt`.
-`circuitpython/notes-lowpower.md` covers why there are two power tiers and not three.
+See `circuitpython/notes-lowpower.md` for why only two power tiers and not three.
+
+### Other
+
+`docs/hardware-notes.md` is the board side: both touch chips, their pad
+numbering, their INT lines, and the board changes the firmware assumes.
+`docs/` also holds `low-power-notes.md` and the touch-chip datasheets.
+
 
 
 ## Enclosure
