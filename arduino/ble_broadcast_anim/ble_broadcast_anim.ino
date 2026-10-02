@@ -58,10 +58,9 @@ const uint32_t LED_IDLE_MS = 30000;    // blank the rail after this
 const uint32_t CHUNK_AIRTIME_MS = 200; // ~10 advertising events per chunk
 const uint8_t SEND_PASSES = 3;         // whole cycle repeated this often
 
-// Advertising intervals, units of 0.625 ms.  Idle is 100 ms.  Chunks go
-// out at 20 ms, the minimum: a receiver measured hearing only ~40% of
-// adverts, so a chunk needs many events in its airtime to land.
-const uint16_t ADV_INTERVAL = 160;
+// Units of 0.625 ms; 32 = 20 ms, the SoftDevice minimum.  Ten events per
+// chunk, because advertising is unacknowledged and copies are the only
+// reliability there is.
 const uint16_t ADV_INTERVAL_SEND = 32;
 // Scan interval / window, units of 0.625 ms.  Unlike ble_broadcast this
 // runs a 100% receive duty cycle: a missed chunk costs a whole animation,
@@ -80,7 +79,7 @@ const uint16_t SCAN_WINDOW = 160;
     }                                                  \
   } while (0)
 
-#define MAX_PEERS (16)
+#define MAX_PEERS (64)
 #define PEER_TIMEOUT_MS (60000)
 
 Adafruit_NeoPixel leds(NUM_LEDS, PIN_LED_DATA, NEO_GRB + NEO_KHZ800);
@@ -163,13 +162,16 @@ void blit() {
 
 // ------------------------------------------------------------------ radio
 
+// Advertising runs only while sending: every advert a peer hears pauses
+// its scanner until scan_callback resumes it, so idle ones cost every
+// receiver listening time for no data.
+//
 // Every packet is the same length.  BLEAdvertising::_start() builds its
 // ble_gap_adv_data_t as a *static* local, so .len is captured on the first
 // call and never updated; the data pointer is stable but a changed length
 // would be ignored.
-void advertise(const AnimMsg &m, uint16_t interval) {
+void advertise(const AnimMsg &m) {
   if (Bluefruit.Advertising.isRunning()) { Bluefruit.Advertising.stop(); }
-  Bluefruit.Advertising.setInterval(interval, interval);
   Bluefruit.Advertising.clearData();
   Bluefruit.Advertising.addFlags(BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE);
   Bluefruit.Advertising.addData(BLE_GAP_AD_TYPE_MANUFACTURER_SPECIFIC_DATA, &m,
@@ -179,17 +181,11 @@ void advertise(const AnimMsg &m, uint16_t interval) {
   }
 }
 
-void advertiseIdle() {
-  AnimMsg m;
-  animFillChunk(&m, COMPANY_ID, my_id, 0, 0, NULL, 0); // total_events = 0
-  advertise(m, ADV_INTERVAL);
-}
-
 // scan_callback runs on the SoftDevice event task, not in loop().  It must
 // not touch the LEDs: NeoPixel show() blocks with interrupts disabled for
 // over a millisecond across 20 pixels, which would make us miss the very
 // advertisements we are trying to collect.  So it only parks the packet.
-#define RX_RING 4
+#define RX_RING 16
 volatile AnimMsg rx_ring[RX_RING];
 volatile uint8_t rx_head = 0, rx_tail = 0;
 
@@ -198,8 +194,7 @@ volatile uint8_t rx_head = 0, rx_tail = 0;
 // getting each chunk out for only ~70 ms of its 200 ms.
 volatile bool sending = false;
 
-// Debug link stats: every packet heard from another board, idle adverts
-// included, so link quality shows up without anyone touching a pad.
+// Debug link stats: every packet heard from another board.
 volatile uint16_t heard_n = 0;
 volatile int32_t heard_rssi_sum = 0;
 volatile int8_t heard_rssi_min = 0, heard_rssi_max = -128;
@@ -261,10 +256,10 @@ void pumpSender(uint32_t now) {
   if (!sending || (int32_t)(now - send_next_ms) < 0) { return; }
 
   // Checked here rather than after the last advertise(), so the final
-  // chunk gets its airtime before the idle advert replaces it.
+  // chunk gets its airtime before advertising stops.
   if (send_pass >= SEND_PASSES) {
     sending = false;
-    advertiseIdle();
+    Bluefruit.Advertising.stop();
     if (!Bluefruit.Scanner.start(0)) { dbg("scanner restart failed\n"); }
     dbg("send done\n");
     return;
@@ -273,7 +268,7 @@ void pumpSender(uint32_t now) {
   AnimMsg m;
   animFillChunk(&m, COMPANY_ID, my_id, send_anim_id, send_chunk, send_ev,
                 send_n);
-  advertise(m, ADV_INTERVAL_SEND);
+  advertise(m);
   dbg("send anim %u chunk %u pass %u\n", send_anim_id, send_chunk, send_pass);
   send_next_ms = now + CHUNK_AIRTIME_MS;
 
@@ -351,8 +346,11 @@ void setup() {
   Bluefruit.begin(1, 1); // 1 peripheral (advertise) + 1 central (scan)
   Bluefruit.setTxPower(0);
   Bluefruit.autoConnLed(false);
-  Bluefruit.Advertising.restartOnDisconnect(true);
-  advertiseIdle();
+  // Nothing ever connects, and a connectable advert listens for a request
+  // after every packet: airtime spent on nothing.
+  Bluefruit.Advertising.setType(
+      BLE_GAP_ADV_TYPE_NONCONNECTABLE_NONSCANNABLE_UNDIRECTED);
+  Bluefruit.Advertising.setInterval(ADV_INTERVAL_SEND, ADV_INTERVAL_SEND);
 
   Bluefruit.Scanner.setRxCallback(scan_callback);
   Bluefruit.Scanner.filterMSD(COMPANY_ID);
@@ -426,15 +424,13 @@ void loop() {
 
   if (recording && (now - rec_last_ms) > REC_SILENCE_MS) { recFinish(); }
 
-  // Another board's idle adverts arrive ~10/s, the advertising interval.
+  // A sender puts out ~50 adverts/s; silence between sends is normal.
   if (DEBUG && (now - heard_report_ms) >= 5000) {
     uint16_t n = heard_n;
     if (n) {
       dbg("heard %u adv in %lu ms, rssi %d/%ld/%d min/avg/max\n", n,
           (unsigned long)(now - heard_report_ms), heard_rssi_min,
           (long)(heard_rssi_sum / n), heard_rssi_max);
-    } else {
-      dbg("heard 0 adv in %lu ms\n", (unsigned long)(now - heard_report_ms));
     }
     heard_n = 0;
     heard_rssi_sum = 0;

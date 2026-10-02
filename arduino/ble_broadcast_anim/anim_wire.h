@@ -26,7 +26,7 @@
 
 #define ANIM_EVENTS_PER_CHUNK 9
 #define ANIM_MAX_CHUNKS 8 // ANIM_MAX_EVENTS / ANIM_EVENTS_PER_CHUNK
-#define ANIM_RX_SLOTS 2
+#define ANIM_RX_SLOTS 8 // concurrent senders being reassembled
 #define ANIM_RX_TIMEOUT_MS 6000
 
 struct __attribute__((packed)) AnimMsg {

@@ -135,23 +135,26 @@ int main() {
     CHECK(done_a == 1 && done_b == 1, "two interleaved senders both complete");
   }
 
-  // --- a third sender evicts the oldest partial rather than being dropped
+  // --- one sender more than there are slots evicts the oldest partial
+  // rather than being dropped
   {
     AnimReassembler rx;
-    AnimMsg a, b, c;
-    animFillChunk(&a, 0xFFFF, 0x1111, 6, 0, anim, N);
-    animFillChunk(&b, 0xFFFF, 0x2222, 6, 0, anim, N);
-    animFillChunk(&c, 0xFFFF, 0x3333, 6, 0, anim, N);
-    rx.feed(a, 1000);
-    rx.feed(b, 2000);
-    rx.feed(c, 3000); // evicts 0x1111
+    for (uint16_t s = 0; s < ANIM_RX_SLOTS; s++) {
+      AnimMsg m;
+      animFillChunk(&m, 0xFFFF, (uint16_t)(0x1000 + s), 6, 0, anim, N);
+      rx.feed(m, 1000 + s);
+    }
+    const uint16_t late = 0x3333;
+    AnimMsg c;
+    animFillChunk(&c, 0xFFFF, late, 6, 0, anim, N);
+    rx.feed(c, 3000); // evicts 0x1000
     int done = 0;
     for (int i = 1; i < chunks; i++) {
       AnimMsg m;
-      animFillChunk(&m, 0xFFFF, 0x3333, 6, (uint8_t)i, anim, N);
+      animFillChunk(&m, 0xFFFF, late, 6, (uint8_t)i, anim, N);
       if (rx.feed(m, 3000)) { done++; }
     }
-    CHECK(done == 1, "a third sender is not locked out by two stalled partials");
+    CHECK(done == 1, "a late sender is not locked out by stalled partials");
   }
 
   // --- a partial expires and does not wedge the slot

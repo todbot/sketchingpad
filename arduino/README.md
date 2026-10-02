@@ -443,7 +443,13 @@ old packets are ignored by construction.
 The sender advertises each chunk for 200 ms and repeats the whole cycle
 three times -- advertising is unacknowledged, so repetition is the
 entire reliability mechanism. Chunks go out at a 20 ms advertising
-interval, about 10 events per chunk, and idle adverts at 100 ms.
+interval, about 10 events per chunk, as non-connectable non-scannable
+adverts, so no airtime goes on listening for requests nobody sends.
+
+A board advertises only while sending. Every advert a peer hears pauses
+that peer's scanner until `scan_callback` calls `resume()`
+(`BLEScanner.cpp` defers the callback to a task), so with tens of boards
+idle adverts would cost each receiver listening time and carry nothing.
 
 The sender stops scanning for the length of a send. A 100% scan duty
 cycle takes the radio from the board's own advertiser: on two
@@ -463,7 +469,7 @@ animation. Halve it to get `ble_broadcast`'s power behaviour back.
   SoftDevice event task, and NeoPixel `show()` blocks with interrupts
   disabled for over a millisecond across 20 pixels -- which would make
   us miss the advertisements we are collecting. It parks packets in a
-  4-deep ring; `loop()` drains and renders. Getting this wrong looks
+  16-deep ring; `loop()` drains and renders. Getting this wrong looks
   like a flaky radio, not a timing bug.
 - **A sender never sees its own broadcast** (`scan_callback` filters on
   `device_id`), so local playback is kicked off from the send path.
