@@ -20,6 +20,7 @@ P-FET part choice and the LED rail's gotchas are in
   * [The MPR121 IRQ line](#the-mpr121-irq-line)
     * [Two chips on one INT line](#two-chips-on-one-int-line)
 * [Low power concerns](#low-power-concerns)
+  * [DC/DC versus the LDO](#dcdc-versus-the-ldo)
   * [hwtest_lowpower_ts20: the tiers without a radio](#hwtest_lowpower_ts20-the-tiers-without-a-radio)
     * [Measurements 2026-09-16](#measurements-2026-09-16)
   * [Power budget](#power-budget)
@@ -368,6 +369,47 @@ The rest, roughly in order of payoff:
 The core's `initVariant()` already turns off the XIAO's onboard RGB LEDs
 and disables the battery-sense divider, so the sketches do not repeat
 that.
+
+### DC/DC versus the LDO
+
+[summary from claude] 
+
+Neither core turns DC/DC on. The Seeed core (1.1.13), its XIAO variants
+and `Bluefruit52Lib` never write `DCDCEN` or call
+`sd_power_dcdc_mode_set`, and neither does the Adafruit core (1.7.0).
+So the sketch has to. Whether the bootloader leaves it on when it jumps
+to the app is unknown, since it ships only as a `.hex`.
+
+The nRF52840's core runs at about 1.3 V, made from the 3.3 V on VDD by
+the main regulator (REG1). REG1 has two modes:
+
+- **LDO** (linear) -- supply current equals load current, and the
+  2 V difference is burnt as heat. About 40% efficient (1.3 / 3.3).
+- **DC/DC** (buck) -- trades voltage for current at about 85-90%
+  efficiency, so the supply current is roughly half the load current.
+
+Everything on the core rail (CPU, flash, and above all the radio) costs
+about half as much supply current on DC/DC. Nordic's product spec lists
+LDO and DC/DC figures side by side; from memory, RX and 0 dBm TX are
+each roughly 6 mA on DC/DC against 11-13 mA on LDO. That datasheet is
+not in `docs/`, so check it there before quoting exact numbers.
+
+What that means here:
+
+- **Radio-heavy states gain the most**: ACTIVE in the BLE sketches, and
+  scanning above all. The ~5-6 mA figure for a 100% scan duty cycle is
+  the DC/DC number; on the LDO it would be about double.
+- **Sleep barely changes.** At light loads the chip falls back to the
+  LDO by itself, because the buck's switching overhead would cost more
+  than it saves. System ON idle and `SYSTEM_OFF` are about the same
+  either way, so enabling DC/DC has no sleep penalty.
+- **The other big loads are unaffected.** The LED rail and the MPR121s
+  run straight from 3.3 V, not from REG1.
+- **The one requirement is the external inductor on the DCDC pin.**
+  Without it the core rail collapses when the buck starts, which is
+  what the `USE_DCDC` guard hedged against. Every XIAO nRF52840 has
+  the inductor, and the 2026-09-16 measurements below confirm the
+  write holds.
 
 ### `hwtest_lowpower_ts20`: the tiers without a radio
 

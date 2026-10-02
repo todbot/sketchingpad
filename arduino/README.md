@@ -81,13 +81,13 @@ Flashing takes about 12 seconds.
 ## Building sketches
 
 If you want to compile the sketches yourself, here's what you need. 
+Many sketches have a DEBUG flag that, if enabled, print a bunch of useful
+stuff to serial.
 
 ### Arduino core and libraries needed
 
-Sketches are designed for the **Seeed XIAO nRF52840**, 
+Sketches are designed for the **Seeed XIAO nRF52840** (FQBN `Seeeduino:nrf52:xiaonRF52840`), 
 but the PCB can  work with any XIAO/QTpy-format board. 
-
-Arduino Board FQBN `Seeeduino:nrf52:xiaonRF52840`.
 
 Libraries needed:
 
@@ -100,11 +100,12 @@ Libraries needed:
 `Adafruit NeoPixel` takes the nRF52 PWM + EasyDMA path, thus `show()` does 
 not disable interrupts and will not disturb BLE radio events)
 
-The Seeed nRF52 core is a fork of Adafruit's nRF52 core, 
-so it ships with the S140 SoftDevice, FreeRTOS, TinyUSB, and the Bluefruit library
-(`bluefruit.h`, `BLEHidAdafruit`, `BLEDis`). (No BLE library needs to be installed).
-The `Adafruit TinyUSB` library shipped with Seeed's core is very old 
-(1.7.0 vs 3.7.7), so newer `Adafruit TinyUSB` added. 
+`Adafruit TinyUSB` overrides ([mostly](#usb_midisetcables1-is-not-optional)) 
+the very old one shipped in the Seeed nRF52 core (1.7.0 vs 3.7.7).
+
+The Seeed nRF52 core is a fork of Adafruit's nRF52 core: 
+ships with S140 SoftDevice, FreeRTOS, TinyUSB, and the Bluefruit library
+(`bluefruit.h`, `BLEHidAdafruit`, `BLEDis`). No extra BLE library needed.
 
 ### Installing prerequisites with arduino-cli
 
@@ -152,7 +153,7 @@ To upload a sketch:
 ```sh
 arduino-cli board list           # find the port
 arduino-cli upload -b Seeeduino:nrf52:xiaonRF52840 \
-  -p /dev/cu.usbmodemXXXX arduino/hwtest_leds
+  -p /dev/cu.usbmodemXXXX arduino/hwtest_touch
 ```
 
 ## Pinout
@@ -163,13 +164,13 @@ The `sketchingpad1` and `sketchingpad1_mpr1` boards have the same pinout:
 |-------------|----------|-------------------------------|
 | `PWM_AUDIO` | D0 / A0  | to audio jack via RC filter   |
 | `BUTTON`    | D10/MOSI | SW1 to GND, internal pull-up  |
-| `TS20_INT`  | D3 / A3  | open collector, R1 pulls up   |
+| `TOUCH_INT` | D3 / A3  | open collector, R1 pulls up   |
 | `SDA`       | D4       | `Wire` default                |
 | `SCL`       | D5       | `Wire` default                |
-| `LED_DAT`   | D6 / TX  | also `PIN_SERIAL1_TX`         |
-| `LED_POWER` | D7 / RX  | P-FET gate, LOW = rail on     |
+| `LED_DAT`   | D6 / TX  | Neopixel data                 |
+| `LED_POWER` | D7 / RX  | PFET gate, LOW = LED rail on  |
 
-Still spare: D1/A1, D8 and D9.
+Still spare: D1/A1, D8, D9.
 
 The pin numbers are `#define`s at the top of each sketch.
 
