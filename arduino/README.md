@@ -14,7 +14,6 @@ See `docs/hardware-notes.md` for detailed info about both chips.
   * [Arduino core and libraries needed](#arduino-core-and-libraries-needed)
   * [Installing prerequisites with arduino-cli](#installing-prerequisites-with-arduino-cli)
   * [Build and upload](#build-and-upload)
-* [Pinout](#pinout)
 * [Building firmware releases](#building-firmware-releases)
 * [touch.h: touch abstraction layer](#touchh-touch-abstraction-layer)
   * [touchArmWake() INT differences](#toucharmwake-int-differences)
@@ -157,28 +156,6 @@ arduino-cli board list           # find the port
 arduino-cli upload -b Seeeduino:nrf52:xiaonRF52840 \
   -p /dev/cu.usbmodemXXXX arduino/hwtest_touch
 ```
-
-## Pinout
-
-The `sketchingpad1` and `sketchingpad1_mpr1` boards have the same pinout:
-
-| Signal      | XIAO pin | Notes                         |
-|-------------|----------|-------------------------------|
-| `PWM_AUDIO` | D0 / A0  | to audio jack via RC filter   |
-| `BUTTON`    | D10/MOSI | SW1 to GND, internal pull-up  |
-| `TOUCH_INT` | D3 / A3  | open collector, R1 pulls up   |
-| `SDA`       | D4       | `Wire` default                |
-| `SCL`       | D5       | `Wire` default                |
-| `LED_DAT`   | D6 / TX  | Neopixel data                 |
-| `LED_POWER` | D7 / RX  | PFET gate, LOW = LED rail on  |
-
-Still spare: D1/A1, D8, D9.
-
-The pin numbers are `#define`s at the top of each sketch.
-
-Note for battery power, you need to solder the BAT+/BAT- pins on the bottom
-of the XIAO to the corresponding pads on the PCB. 
-
 
 ## Building firmware releases
 

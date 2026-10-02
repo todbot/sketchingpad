@@ -11,7 +11,7 @@
 * LiPo battery jack with power switch
 * Tact switch to switch modes, wake up, or go into deep sleep
 * Audio out jack for audio fun
-* Driven by any XIAO/QTPy board, but designed for XIAO nRF52840 BLE-capable w/ LiPo charging
+* Driven by any XIAO/QTPy board, but designed for [XIAO nRF52840](https://wiki.seeedstudio.com/XIAO_BLE/) BLE-capable w/ LiPo charging
 
 Two Board variations because of supply chain madness:
 
@@ -37,6 +37,7 @@ the power tiers, etc. Examples of what's available:
 * `ble_broadcast_anim_lp`  -- record an animation, broadcast it, with power tiers
 * `ble_keyboard_simple`   -- BLE HID keyboard, no power mgmt
 * `ble_keyboard_lowpower` -- BLE HID keyboard, with power tiers
+* `sketchingpad_midi_simple` -- USB + BLE MIDI controller
 
 more sketches in [arduino/README.md](./arduino/README.md).
 
@@ -79,14 +80,24 @@ It's fast to print and you can snap the PCB in to quickly get started,
 or use M2.5 screws and nuts to secure the PCB more permanently.
 
 
-## Pins used
+## Pinout
 
-* BUTTON     - D10/MOSI (SW1 to GND, needs internal pull-up)
-* TOUCH_INT  - D3 / A3  (open collector, R1 pulls up)
-* SDA        - D4       (Arduino Wire default)
-* SCL        - D5       (Arduino Wire default)
-* LED_DAT    - D6 / TX
-* LED_POWER  - D7 / RX  (P-FET gate: LOW = rail on)
+The `sketchingpad1` and `sketchingpad1_mpr1` boards have the same pinout:
+
+| Signal      | XIAO pin | Notes                         |
+|-------------|----------|-------------------------------|
+| `PWM_AUDIO` | D0 / A0  | to audio jack via RC filter   |
+| `BUTTON`    | D10/MOSI | SW1 to GND, internal pull-up  |
+| `TOUCH_INT` | D3 / A3  | open collector, R1 pulls up   |
+| `SDA`       | D4       | `Wire` default                |
+| `SCL`       | D5       | `Wire` default                |
+| `LED_DAT`   | D6 / TX  | Neopixel data                 |
+| `LED_POWER` | D7 / RX  | PFET gate, LOW = LED rail on  |
+
+Unused pins: D1 / A1, D8 / SCK, D9 / MISO.
+
+Note for battery power, you need to solder the BAT+ / BAT- pins on the bottom
+of the XIAO to the corresponding pads on the PCB. 
 
 
 ## Schematics
