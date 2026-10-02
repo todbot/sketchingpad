@@ -1,8 +1,4 @@
-# Notes: simple BLE multi-user messaging on nRF52840
-
-Question: a few bytes plus a device ID, shared between several units.
-Are there Bluefruit examples? Is BLE Mesh an option?
-
+# Simple BLE multi-user messaging on nRF52840
 
 ## Connectionless advertising broadcast
 
@@ -10,31 +6,14 @@ Every node advertises a small payload and simultaneously scans for
 everyone else's. No pairing, no connections, no connection-slot limit,
 unlimited participants, symmetric in both directions.
 
-## API is present in both installed cores
-
-Checked `BLEScanner.h` in `Seeeduino:nrf52` 1.1.13 (what this project
-builds against) and `adafruit:nrf52` 1.7.0. Identical signatures at the
-same line numbers:
-
-- `void filterMSD(uint16_t manuf_id)` (line 62)
-- `void filterUuid(BLEUuid ...)` (lines 65-69)
-- `void filterRssi(int8_t min_rssi)` (line 61)
-- `uint8_t parseReportByType(const ble_gap_evt_adv_report_t* report,
-  uint8_t type, uint8_t* buf, uint8_t bufsize = 0)` (line 86)
-
-So anything below works on the XIAO nRF52840 target as-is. (This matters
-only because the Seeed core forks an older Adafruit core; for the
-scanner API it has not drifted.)
-
 ## Examples to crib from
 
-Paths relative to `libraries/Bluefruit52Lib/examples/` in either core:
+Paths relative to `libraries/Bluefruit52Lib/examples/` in either 
+the Seeed or the Adafruit nRF52 core:
 
 - `Projects/rssi_proximity/` -- the right mechanism: custom advertising
-  payload plus scanner filtering for network isolation. Caveat: it is
-  one central and many peripherals, so it is asymmetric, one-way, and
-  split across two sketches. Both halves need merging into one sketch
-  where each node advertises *and* scans.
+  payload plus scanner filtering for network isolation. Caveat: asymmetric w/
+   one central and many peripherals. 
 - `DualRoles/dual_bleuart/` -- proves the dual role works:
   `Bluefruit.begin(1, 1)` (peripheral count, central count) at line 43,
   then `Bluefruit.Scanner.start(0)` and `Bluefruit.Advertising.start(0)`
@@ -47,19 +26,21 @@ Paths relative to `libraries/Bluefruit52Lib/examples/` in either core:
 ## Payload budget
 
 The advertising packet is 31 bytes total.
-`rssi_proximity_peripheral` spends it as: flags 3 + TX power 3 +
-128-bit UUID 18 = 24, leaving 7. That is why the example puts the device
-name in the scan response instead -- its own comment says "Not enough
-room in the advertising packet for name".
+The `Projects/rssi_proximity_peripheral` example spends it as: 
 
-The 18 bytes of UUID buy nothing but a network ID. Manufacturer Specific
+    flags 3 + TX power 3 + 128-bit UUID 18 = 24, leaving 7. 
+
+That is why the example puts the device name in the scan response instead. 
+Its own comment says "Not enough room in the advertising packet for name".
+
+The 18 bytes of UUID is just a network ID. Manufacturer Specific
 Data does the same job far cheaper, and `filterMSD(cid)` gives identical
 isolation:
 
     31 - 3 (flags) - 2 (MSD len+type) - 2 (company ID) = 24 bytes user data
 
-(21 if TX power is kept.) Plenty for a device ID, a sequence number and
-a few payload bytes.
+(21 if TX power is kept.) 
+Plenty for a device ID, a sequence number and a few payload bytes.
 
 The example already contains this as a commented-out alternative, along
 with the caveat, quoting the SIG on company ID `0xFFFF`:
@@ -70,7 +51,7 @@ with the caveat, quoting the SIG on company ID `0xFFFF`:
 
 Fine for our own devices; needs a real CID for anything shipped.
 
-### Note: Advertising is unacknowledged
+### Note: Advertising is unacknowledged, think UDP
 
 No retries, no delivery guarantee. Include a per-device sequence number
 and repeat each message over several advertising intervals, so receivers
@@ -89,18 +70,3 @@ The 16-bit on-air device ID comes from `deviceIdShort()` in
 That is the same hash behind the color code `ble_keyboard_simple_ts20` shows,
 so a peer logged as `a3f1` can be matched to the board on the bench
 lighting `RMGGB`. The startup banner prints both.
-
-
-## BLE Mesh: no
-
-`Bluefruit52Lib/src/` is GAP/GATT only -- `BLEAdvertising`, `BLEScanner`,
-`BLECentral`, `BLEPeriph`, `BLEService`, and so on. The only occurrences
-of "mesh" anywhere in the library are SIG UUID *constants* in
-`BLEUuid.h` (`UUID16_SVC_MESH_PROVISIONING` 0x1827, `..._MESH_PROXY`
-0x1828 and their characteristics) -- assigned numbers, not a stack.
-
-SIG BLE Mesh needs a separate stack (nRF5 SDK for Mesh, or
-Zephyr/nRF Connect SDK); it is not reachable from the Arduino core on
-top of SoftDevice S140. It also solves a problem we do not have --
-multi-hop relay across a building, paid for with provisioning,
-addressing and key management.

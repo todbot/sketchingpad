@@ -19,7 +19,7 @@
 // instead of off the TS20's channel order.
 //
 // Start here when bringing up a board or changing the key map.  See
-// ble_keyboard_lowpower_ts20 for the same thing with interrupt-driven
+// ble_keyboard_lowpower for the same thing with interrupt-driven
 // scanning, connection-parameter management and SYSTEM_OFF sleep.
 //
 // Board: Seeeduino:nrf52:xiaonRF52840

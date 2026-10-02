@@ -418,9 +418,9 @@ and fades -- with the power techniques underneath and no BLE at all.
 ACTIVE and IDLE differ only by the LED rail here; DEEP is still
 `SYSTEM_OFF` woken by the INT line or the button.
 
-Dropping BLE makes two things *simpler*, not harder. The SoftDevice is
-enabled only inside `Bluefruit.begin()`, so without it POWER is not a
-restricted peripheral:
+Dropping BLE makes doing low power simpler. 
+The SoftDevice is enabled only inside `Bluefruit.begin()`, 
+so without it POWER is not a restricted peripheral:
 
 ```c
 NRF_POWER->DCDCEN = 1;      // plain write; an SVC call with BLE up

@@ -26,6 +26,7 @@ See `docs/hardware-notes.md` for detailed info about both chips.
     * [Anim wire format](#anim-wire-format)
     * [Notes about anim code:](#notes-about-anim-code)
   * [ble_broadcast_anim_lp: the same, with power tiers](#ble_broadcast_anim_lp-the-same-with-power-tiers)
+  * [ble_keyboard_lowpower: the keyboard, with power tiers](#ble_keyboard_lowpower-the-keyboard-with-power-tiers)
   * [ble_midi_simple: MIDI over BLE](#ble_midi_simple-midi-over-ble)
     * [Pad map](#pad-map)
     * [Stuck notes](#stuck-notes)
@@ -51,6 +52,7 @@ See `docs/hardware-notes.md` for detailed info about both chips.
 | `ble_broadcast_anim`              | Record an LED animation, broadcast  |
 | `ble_broadcast_anim_lp`           | Record an LED animation, with the power tiers |
 | `ble_keyboard_simple`             | BLE HID keyboard, no power tiers    |
+| `ble_keyboard_lowpower`           | BLE HID keyboard, with power tiers  |
 | `ble_midi_simple`                 | BLE MIDI controller, no power tiers |
 | `sketchingpad_midi_simple`        | USB + BLE MIDI                      |
 
@@ -433,6 +435,23 @@ CONFIG2 0x24 updates touch status every ~64 ms, not ~4 ms, so fast rolls
 record coarser than the 10 ms `dt` can carry. Staying at 0x20 costs
 ~0.7 mA for the two chips, more than the whole IDLE sniff budget.
 
+### `ble_keyboard_lowpower`: the keyboard, with power tiers
+
+`ble_keyboard_simple`'s key map and ID code, with the tiers of
+`ble_keyboard_lowpower_ts20`, on either sensor. Same techniques as
+`ble_broadcast_anim_lp`, but a keyboard keeps its connection, so IDLE
+saves power with peripheral latency instead of a sniffing scanner.
+
+| Tier   | Entered                  | Connection           | LED rail |
+|--------|--------------------------|----------------------|----------|
+| ACTIVE | touch                    | latency 0            | on       |
+| IDLE   | 10 s untouched           | latency 20 (~630 ms) | off      |
+| DEEP   | 5 min untouched; button  | dropped, SYSTEM_OFF  | off      |
+
+The latency request goes through `BLEConnection`, and the central may
+refuse it. Waking from DEEP resets the board and it has to reconnect,
+so the waking touch types nothing.
+
 ### `ble_midi_simple`: MIDI over BLE
 
 The MIDI counterpart to `ble_keyboard_simple`: poll the sensor, send on
@@ -648,7 +667,7 @@ if (TinyUSBDevice.mounted()) {
 
 Five headers are copied into the sketches that use them --
 `device_id_code.h`, `touch.h`, `touch_map.h`, `led_anim.h` and
-`anim_wire.h`, 26 copies in all. **The copies must stay identical.**
+`anim_wire.h`, 29 copies in all. **The copies must stay identical.**
 `arduino/shared/` holds the only ones edited by hand; every copy in a
 sketch folder is generated from it.
 
