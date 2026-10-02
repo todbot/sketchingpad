@@ -1,10 +1,29 @@
 # sketchingpad hardware notes
 
 Board-side facts the firmware leans on: what each touch chip does, how
-its INT line behaves, and the board changes the sketches assume. Pinout,
-the MIDI pad map and everything firmware-side are in
-`arduino/README.md`; the P-FET part choice and the LED rail's gotchas
-are in `low-power-notes.md`.
+its INT line behaves, and the board changes the sketches assume. The
+power tiers and budget are here too, at the end. Pinout, the MIDI pad
+map and the rest of the firmware side are in `arduino/README.md`; the
+P-FET part choice and the LED rail's gotchas are in
+`low-power-notes.md`.
+
+<!--ts-->
+* [Board features the firmware assumes](#board-features-the-firmware-assumes)
+* [TS20 capsense touch chip (board sketchingpad1)](#ts20-capsense-touch-chip-board-sketchingpad1)
+  * [Pad numbering is not TS20 channel order](#pad-numbering-is-not-ts20-channel-order)
+  * [The TS20 INT line](#the-ts20-int-line)
+* [MPR121 capsense touch chip (board sketchingpad1_mpr)](#mpr121-capsense-touch-chip-board-sketchingpad1_mpr)
+  * [Pad numbering is not MPR121 electrode order either](#pad-numbering-is-not-mpr121-electrode-order-either)
+  * [Confirmed on the assembled board, 2026-09-30](#confirmed-on-the-assembled-board-2026-09-30)
+  * [Four electrodes you cannot turn off](#four-electrodes-you-cannot-turn-off)
+  * [CONFIG2 is the power knob](#config2-is-the-power-knob)
+  * [The MPR121 IRQ line](#the-mpr121-irq-line)
+    * [Two chips on one INT line](#two-chips-on-one-int-line)
+* [Low power concerns](#low-power-concerns)
+  * [hwtest_lowpower_ts20: the tiers without a radio](#hwtest_lowpower_ts20-the-tiers-without-a-radio)
+    * [Measurements 2026-09-16](#measurements-2026-09-16)
+  * [Power budget](#power-budget)
+<!--te-->
 
 
 ## Board features the firmware assumes
@@ -289,3 +308,138 @@ rather than reading once, bounded to `MAX_INT_PASSES` because a chip
 stuck low would otherwise hang `loop()`.
 
 
+## Low power concerns
+
+The "lowpower" sketches implement the power tiers. 
+`ble_keyboard_lowpower_ts20` uses BLE SoftDevice `sd_power_system_off()`
+The simpler `hwtest_lowpower_ts20` uses `NRF_POWER->SYSTEM_OFF=1` 
+and is simpler to put a power meter on, since BLE can dominate power consumption.
+
+`ble_keyboard_lowpower_ts20` runs three tiers:
+
+| Tier | Entered | BLE | LED rail | Cost |
+|------|---------|-----|----------|------|
+| ACTIVE | any touch | connected, latency 0 | on | ~150-400 uA |
+| IDLE | 10 s untouched | connected, latency 20 | **off** | ~30-60 uA |
+| DEEP | 5 min untouched, or button | SYSTEM_OFF | off | ~1-3 uA |
+
+**Neither connected tier polls the TS20.** Its INT line drives a GPIO
+interrupt that releases a FreeRTOS semaphore, so `loop()` blocks in
+`xSemaphoreTake()` and the CPU sleeps between touches instead of waking
+15-100 times a second to ask over I2C. The 250 ms semaphore timeout only
+services the tier timers and does no bus traffic.
+
+**DEEP is a one-way door.** Waking from `SYSTEM_OFF` resets the chip, so
+the SoftDevice restarts and BLE has to reconnect, roughly 1-3 s. The
+touch that woke the board is long gone by then, so it is a wake gesture
+and not a keystroke. That is why DEEP sits behind a minutes-long timer
+while IDLE, which keeps the link up, does the routine saving.
+
+The rest, roughly in order of payoff:
+
+1. **Sleep between events.** `delay()` on this core is `vTaskDelay()`
+   (`cores/nRF5/delay.c:48`), so idling drops to the FreeRTOS idle task
+   and WFE -- SYSTEM_ON sleep, ~2-3 uA for the MCU. The core builds with
+   `configUSE_TICKLESS_IDLE 1`, so the 1024 Hz tick is suppressed while
+   idle rather than waking the CPU every millisecond. Nothing in
+   `loop()` busy-waits.
+2. **Peripheral latency** (`slave_latency` in `ble_gap.h`). On the
+   ACTIVE -> IDLE transition the sketch asks
+   the central to let it skip 20 connection events (~630 ms effective,
+   well inside the 4 s supervision timeout). This goes through
+   `BLEConnection::requestConnectionParameter()`, *not*
+   `Bluefruit.Periph.setConn*()` -- the latter only writes the preferred
+   parameters used at connection setup, so calling it on a live
+   connection compiles, runs, and saves nothing. The central may refuse,
+   so nothing downstream assumes it took.
+3. **LED rail gated at the P-FET**, not merely blanked. The rail is off
+   until `LED_POWER` (D7) is driven low; the circuit is under
+   Board features the firmware assumes, above.
+4. **TS20 auto mode** rather than fast mode, for lower continuous
+   current on the sensor. Set once before `begin()`: changing it later
+   soft-resets the chip and restarts calibration, which would swallow a
+   touch in progress.
+5. **DC/DC regulator** enabled, TX power at -4 dBm, the Bluefruit
+   advertising LED off, and `Serial` untouched unless USB is actually
+   attached (checked via `NRF_POWER->USBREGSTATUS` *before*
+   `Bluefruit.begin()` enables the SoftDevice, since POWER becomes a
+   restricted peripheral after that).
+
+The core's `initVariant()` already turns off the XIAO's onboard RGB LEDs
+and disables the battery-sense divider, so the sketches do not repeat
+that.
+
+### `hwtest_lowpower_ts20`: the tiers without a radio
+
+Same visible behaviour as `hwtest_ts20` -- touch a pad, its LED lights
+and fades -- with the power techniques underneath and no BLE at all.
+ACTIVE and IDLE differ only by the LED rail here; DEEP is still
+`SYSTEM_OFF` woken by the INT line or the button.
+
+Dropping BLE makes two things *simpler*, not harder. The SoftDevice is
+enabled only inside `Bluefruit.begin()`, so without it POWER is not a
+restricted peripheral:
+
+```c
+NRF_POWER->DCDCEN = 1;      // plain write; an SVC call with BLE up
+NRF_POWER->SYSTEMOFF = 1;   // was sd_power_system_off()
+```
+
+It also means `DCDCEN` reads back reliably, so the banner prints it. The
+BLE sketch can only report the SVC return code, because the readback is
+unreliable once the SoftDevice owns POWER.
+
+One thing this sketch does better than `ble_keyboard_lowpower_ts20`: the
+block time follows what is on screen. `hwtest_ts20` runs a flat
+`delay(10)` -- 100 Hz forever -- purely to animate a fade that usually
+is not running. Here 100 Hz applies only while a pixel is actually lit,
+and a dark board wakes 4x/sec for the tier timers alone.
+
+#### Measurements 2026-09-16
+
+Confirmed on hardware over USB:
+
+- **`DCDCEN=1` holds**, so the DC/DC inductors are populated on this
+  XIAO. That was the open risk behind the `USE_DCDC` guard.
+- **Tier timers are exact.** With `DEEP_TIMEOUT_MS` set to 1 minute,
+  IDLE to DEEP measured 50.023 s. 50 s is correct: both timers run from
+  `last_touch_ms`, not from each other, so DEEP fires at T+60 s when
+  IDLE already fired at T+10 s.
+- **Wake from DEEP measured 2.42 s -- but that number is mostly the
+  serial guard, not the wake.** `setup()` has
+  `while (!Serial && millis() < 2000)`, and `millis()` runs from reset,
+  so after waking it blocks until USB CDC finishes re-enumerating. The
+  rest is ~50 ms button debounce plus the ~100 ms TS20 power-up delay.
+  The real wake is likely ~300-400 ms, and on battery the 2 s
+  disappears entirely because `Serial` is never touched.
+
+To measure the wake properly, drive a spare pin (D1/A1, D8, D9 are
+free) high at the top of `setup()` and low before `SYSTEMOFF`, and scope
+the gap. `NRF_POWER->RESETREAS & POWER_RESETREAS_OFF_Msk` is also worth
+reading at boot: that bit is set only on a System-OFF wake via GPIO
+DETECT, and it is the only way to *confirm* `SYSTEM_OFF` was entered
+rather than inferring it from the reset. It needs clearing by writing
+1s back, or the bits accumulate.
+
+Note that with USB attached the DEEP tier's **current** is meaningless
+-- you are powered from the host and the USB peripheral is live. Timing
+is fine to measure this way; microamps need a battery run with USB
+detached.
+
+### Power budget
+
+| Source                                 | Draw                     |
+|----------------------------------------|--------------------------|
+| nRF52840 + SoftDevice, SYSTEM_OFF      | ~1-3 uA                  |
+| nRF52840 + SoftDevice, SYSTEM_ON idle  | ~2-3 uA                  |
+| BLE connected, 30 ms, latency 0        | ~150-400 uA              |
+| BLE connected, 30 ms, latency 20       | ~30-60 uA (if accepted)  |
+| TS20 scanning, auto mode               | ~0.1-1 mA                |
+| 20x SK6812 quiescent, rail on          | ~10-20 mA                |
+| 20x SK6812, **rail switched off**      | **0**                    |
+
+That last line is the whole point of the P-FET. Before it, 20 ungated
+SK6812s put ~10-20 mA on top of everything the firmware could do,
+dominating it by roughly 100x -- the savings were real but invisible at
+the battery. With the rail gated, IDLE and DEEP actually reach the
+numbers above.

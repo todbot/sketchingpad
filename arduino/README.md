@@ -9,20 +9,19 @@ or MPR121s on `sketchingpad1_mpr` --
 <!--ts-->
 * [Sketches](#sketches)
 * [Board and libraries](#board-and-libraries)
+  * [Installing with arduino-cli](#installing-with-arduino-cli)
 * [Pinout](#pinout)
 * [Build and upload](#build-and-upload)
 * [touch.h: touch abstraction layer](#touchh-touch-abstraction-layer)
   * [touchArmWake() INT differences](#toucharmwake-int-differences)
 * [device_id_code.h: telling boards apart](#device_id_codeh-telling-boards-apart)
 * [Low power concerns](#low-power-concerns)
-  * [hwtest_lowpower_ts20: the tiers without a radio](#hwtest_lowpower_ts20-the-tiers-without-a-radio)
-    * [Measurements 2026-09-16](#measurements-2026-09-16)
-  * [Power budget](#power-budget)
 * [Sketch details](#sketch-details)
   * [ble_broadcast_anim: animations over advertising](#ble_broadcast_anim-animations-over-advertising)
     * [led_anim.h and anim_wire.h: anim layer](#led_animh-and-anim_wireh-anim-layer)
     * [Anim wire format](#anim-wire-format)
     * [Notes about anim code](#notes-about-anim-code)
+  * [ble_broadcast_anim_lp: the same, with power tiers](#ble_broadcast_anim_lp-the-same-with-power-tiers)
   * [ble_midi_simple: MIDI over BLE](#ble_midi_simple-midi-over-ble)
     * [Pad map](#pad-map)
     * [Stuck notes](#stuck-notes)
@@ -49,6 +48,7 @@ with either through the shared touch layer.
 | `hwtest_touch_lowpower`           | Pad -> LED, tiers. Either sensor    |
 | `ble_broadcast`                   | Symmetric BLE broadcast, no pairing |
 | `ble_broadcast_anim`              | Record an LED animation, broadcast  |
+| `ble_broadcast_anim_lp`           | Same, with the power tiers          |
 | `ble_keyboard_simple`             | BLE HID keyboard. Either sensor     |
 | `ble_midi_simple`                 | BLE MIDI controller. Either sensor  |
 | `sketchingpad_midi_simple`        | USB + BLE MIDI. Either sensor       |
@@ -81,18 +81,42 @@ Board: **Seeed XIAO nRF52840**, FQBN `Seeeduino:nrf52:xiaonRF52840`.
 Libraries used:
 
 - `TS20` -- todbot's TS20 Arduino library
-- `Adafruit MPR121` -- for `sketchingpad1_mpr` only; pulls in
-  `Adafruit BusIO`
+- `Adafruit MPR121` -- Adafruit MPR121 library
 - `Adafruit NeoPixel` -- Adafruit easy neopixel library
-- `MIDI Library` -- FortySevenEffects, for the two MIDI sketches only
+- `Adafruit TinyUSB` -- Adafruit Arduino wrapper on TinyUSB
+- `MIDI Library` -- FortySevenEffects MIDI library, for the two MIDI sketches only
 
-Adafruit_NeoPixel takes the nRF52 PWM + EasyDMA path, thus`show()` does 
+`Adafruit NeoPixel` takes the nRF52 PWM + EasyDMA path, thus `show()` does 
 not disable interrupts and will not disturb BLE radio events)
 
-The Seeed core is derived from Adafruit's nRF52 core, so it ships with the
-S140 SoftDevice, FreeRTOS, TinyUSB, and the Bluefruit library
-(`bluefruit.h`, `BLEHidAdafruit`, `BLEDis`). **No BLE library needs to
-be installed.**
+The Seeed nRF52 core is derived from Adafruit's nRF52 core, 
+so it ships with the S140 SoftDevice, FreeRTOS, TinyUSB, and the Bluefruit library
+(`bluefruit.h`, `BLEHidAdafruit`, `BLEDis`).
+(No BLE library needs to be installed).  
+The `Adafruit TinyUSB` library shipped with Seeed's core is very old 
+(1.7.0 vs 3.7.7), so newer `Adafruit TinyUSB` added. 
+
+### Installing with arduino-cli
+
+[`arduino-cli`](https://docs.arduino.cc/arduino-cli/installation/)
+is very cool and highly recommended. 
+
+```sh
+arduino-cli config add board_manager.additional_urls \
+  https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
+arduino-cli core update-index
+arduino-cli core install Seeeduino:nrf52
+
+arduino-cli lib install "TS20" \
+                        "Adafruit MPR121" \
+                        "Adafruit NeoPixel" \
+                        "Adafruit TinyUSB Library" \
+                        "MIDI Library" 
+```
+
+In the Arduino IDE: add the same URL under *Settings > Additional boards
+manager URLs*, install "Seeed nRF52 Boards" from the Boards Manager, and
+the libraries above from the Library Manager.
 
 ## Pinout
 
@@ -127,6 +151,7 @@ arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_midi_simple
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/sketchingpad_midi_simple
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_broadcast
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_broadcast_anim
+arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_broadcast_anim_lp
 ```
 
 Start with `hwtest_touch` to see if board works. Fall back to `hwtest_leds` to
@@ -238,139 +263,9 @@ base-5 digits of the hash rather than as bit slices.
 
 ## Low power concerns
 
-The "lowpower" sketches implement the power tiers. 
-`ble_keyboard_lowpower_ts20` uses BLE SoftDevice `sd_power_system_off()`
-The simpler `hwtest_lowpower_ts20` uses `NRF_POWER->SYSTEM_OFF=1` 
-and is simpler to put a power meter on, since BLE can dominate power consumption.
-
-`ble_keyboard_lowpower_ts20` runs three tiers:
-
-| Tier | Entered | BLE | LED rail | Cost |
-|------|---------|-----|----------|------|
-| ACTIVE | any touch | connected, latency 0 | on | ~150-400 uA |
-| IDLE | 10 s untouched | connected, latency 20 | **off** | ~30-60 uA |
-| DEEP | 5 min untouched, or button | SYSTEM_OFF | off | ~1-3 uA |
-
-**Neither connected tier polls the TS20.** Its INT line drives a GPIO
-interrupt that releases a FreeRTOS semaphore, so `loop()` blocks in
-`xSemaphoreTake()` and the CPU sleeps between touches instead of waking
-15-100 times a second to ask over I2C. The 250 ms semaphore timeout only
-services the tier timers and does no bus traffic.
-
-**DEEP is a one-way door.** Waking from `SYSTEM_OFF` resets the chip, so
-the SoftDevice restarts and BLE has to reconnect, roughly 1-3 s. The
-touch that woke the board is long gone by then, so it is a wake gesture
-and not a keystroke. That is why DEEP sits behind a minutes-long timer
-while IDLE, which keeps the link up, does the routine saving.
-
-The rest, roughly in order of payoff:
-
-1. **Sleep between events.** `delay()` on this core is `vTaskDelay()`
-   (`cores/nRF5/delay.c:48`), so idling drops to the FreeRTOS idle task
-   and WFE -- SYSTEM_ON sleep, ~2-3 uA for the MCU. The core builds with
-   `configUSE_TICKLESS_IDLE 1`, so the 1024 Hz tick is suppressed while
-   idle rather than waking the CPU every millisecond. Nothing in
-   `loop()` busy-waits.
-2. **Peripheral latency** (`slave_latency` in `ble_gap.h`). On the
-   ACTIVE -> IDLE transition the sketch asks
-   the central to let it skip 20 connection events (~630 ms effective,
-   well inside the 4 s supervision timeout). This goes through
-   `BLEConnection::requestConnectionParameter()`, *not*
-   `Bluefruit.Periph.setConn*()` -- the latter only writes the preferred
-   parameters used at connection setup, so calling it on a live
-   connection compiles, runs, and saves nothing. The central may refuse,
-   so nothing downstream assumes it took.
-3. **LED rail gated at the P-FET**, not merely blanked. The rail is off
-   until `LED_POWER` (D7) is driven low; the circuit is in
-   `docs/hardware-notes.md`.
-4. **TS20 auto mode** rather than fast mode, for lower continuous
-   current on the sensor. Set once before `begin()`: changing it later
-   soft-resets the chip and restarts calibration, which would swallow a
-   touch in progress.
-5. **DC/DC regulator** enabled, TX power at -4 dBm, the Bluefruit
-   advertising LED off, and `Serial` untouched unless USB is actually
-   attached (checked via `NRF_POWER->USBREGSTATUS` *before*
-   `Bluefruit.begin()` enables the SoftDevice, since POWER becomes a
-   restricted peripheral after that).
-
-The core's `initVariant()` already turns off the XIAO's onboard RGB LEDs
-and disables the battery-sense divider, so the sketches do not repeat
-that.
-
-### `hwtest_lowpower_ts20`: the tiers without a radio
-
-Same visible behaviour as `hwtest_ts20` -- touch a pad, its LED lights
-and fades -- with the power techniques underneath and no BLE at all.
-ACTIVE and IDLE differ only by the LED rail here; DEEP is still
-`SYSTEM_OFF` woken by the INT line or the button.
-
-Dropping BLE makes two things *simpler*, not harder. The SoftDevice is
-enabled only inside `Bluefruit.begin()`, so without it POWER is not a
-restricted peripheral:
-
-```c
-NRF_POWER->DCDCEN = 1;      // plain write; an SVC call with BLE up
-NRF_POWER->SYSTEMOFF = 1;   // was sd_power_system_off()
-```
-
-It also means `DCDCEN` reads back reliably, so the banner prints it. The
-BLE sketch can only report the SVC return code, because the readback is
-unreliable once the SoftDevice owns POWER.
-
-One thing this sketch does better than `ble_keyboard_lowpower_ts20`: the
-block time follows what is on screen. `hwtest_ts20` runs a flat
-`delay(10)` -- 100 Hz forever -- purely to animate a fade that usually
-is not running. Here 100 Hz applies only while a pixel is actually lit,
-and a dark board wakes 4x/sec for the tier timers alone.
-
-#### Measurements 2026-09-16
-
-Confirmed on hardware over USB:
-
-- **`DCDCEN=1` holds**, so the DC/DC inductors are populated on this
-  XIAO. That was the open risk behind the `USE_DCDC` guard.
-- **Tier timers are exact.** With `DEEP_TIMEOUT_MS` set to 1 minute,
-  IDLE to DEEP measured 50.023 s. 50 s is correct: both timers run from
-  `last_touch_ms`, not from each other, so DEEP fires at T+60 s when
-  IDLE already fired at T+10 s.
-- **Wake from DEEP measured 2.42 s -- but that number is mostly the
-  serial guard, not the wake.** `setup()` has
-  `while (!Serial && millis() < 2000)`, and `millis()` runs from reset,
-  so after waking it blocks until USB CDC finishes re-enumerating. The
-  rest is ~50 ms button debounce plus the ~100 ms TS20 power-up delay.
-  The real wake is likely ~300-400 ms, and on battery the 2 s
-  disappears entirely because `Serial` is never touched.
-
-To measure the wake properly, drive a spare pin (D1/A1, D8, D9 are
-free) high at the top of `setup()` and low before `SYSTEMOFF`, and scope
-the gap. `NRF_POWER->RESETREAS & POWER_RESETREAS_OFF_Msk` is also worth
-reading at boot: that bit is set only on a System-OFF wake via GPIO
-DETECT, and it is the only way to *confirm* `SYSTEM_OFF` was entered
-rather than inferring it from the reset. It needs clearing by writing
-1s back, or the bits accumulate.
-
-Note that with USB attached the DEEP tier's **current** is meaningless
--- you are powered from the host and the USB peripheral is live. Timing
-is fine to measure this way; microamps need a battery run with USB
-detached.
-
-### Power budget
-
-| Source                                 | Draw                     |
-|----------------------------------------|--------------------------|
-| nRF52840 + SoftDevice, SYSTEM_OFF      | ~1-3 uA                  |
-| nRF52840 + SoftDevice, SYSTEM_ON idle  | ~2-3 uA                  |
-| BLE connected, 30 ms, latency 0        | ~150-400 uA              |
-| BLE connected, 30 ms, latency 20       | ~30-60 uA (if accepted)  |
-| TS20 scanning, auto mode               | ~0.1-1 mA                |
-| 20x SK6812 quiescent, rail on          | ~10-20 mA                |
-| 20x SK6812, **rail switched off**      | **0**                    |
-
-That last line is the whole point of the P-FET. Before it, 20 ungated
-SK6812s put ~10-20 mA on top of everything the firmware could do,
-dominating it by roughly 100x -- the savings were real but invisible at
-the battery. With the rail gated, IDLE and DEEP actually reach the
-numbers above.
+The power tiers, the techniques behind them, the 2026-09-16
+measurements and the power budget are in `docs/hardware-notes.md`,
+under Low power concerns.
 
 ## Sketch details
 
@@ -474,6 +369,45 @@ animation. Halve it to get `ble_broadcast`'s power behaviour back.
 - **A sender never sees its own broadcast** (`scan_callback` filters on
   `device_id`), so local playback is kicked off from the send path.
 
+
+### `ble_broadcast_anim_lp`: the same, with power tiers
+
+Same game and same packets as `ble_broadcast_anim`, plus the techniques
+from `hwtest_touch_lowpower`:
+- touch INT and a semaphore instead of polling;
+- the LED rail gated off in IDLE;
+- frames only while something moves;
+- `touchSetLowPower()` and DC/DC;
+- Serial only with USB attached;
+- `SYSTEM_OFF` woken by touch or the button.
+
+| Tier   | Entered                                  | Scan          | LED rail |
+|--------|------------------------------------------|---------------|----------|
+| ACTIVE | touch, or an animation played            | 100%          | on       |
+| IDLE   | 10 s with neither                        | 30 ms per 1 s | off      |
+| DEEP   | 5 min no touch, none received; or button | none          | off      |
+
+The scanner is the new problem. Unlike the keyboard, a broadcast
+receiver cannot park on a latency-20 connection: it has to listen, and
+100% scanning is ~5-6 mA (datasheet, 1M PHY). IDLE sniffs instead, at a
+3% duty cycle, so roughly 0.2 mA by the same figure. Not measured yet.
+
+Sniffing only works because a sender holds chunk 0 for `PREAMBLE_MS`
+(1.2 s) before its normal passes, longer than the 1 s sniff interval.
+Any sniff window lands in it, hearing a chunk switches the scanner to
+100% for `RX_HOLD_MS`, and the passes that follow complete the
+animation. The packet format is unchanged, so `_lp` and plain boards
+play together. The one gap: a plain `ble_broadcast_anim` sender has no
+preamble, so an IDLE `_lp` board can miss it. An ACTIVE one will not.
+
+DEEP waits on received animations as well as touches, so a board in a
+busy group stays awake to hear it. Once in DEEP it hears nothing until
+touched.
+
+`touchSetLowPower(true)` costs recording resolution on the MPR121:
+CONFIG2 0x24 updates touch status every ~64 ms, not ~4 ms, so fast rolls
+record coarser than the 10 ms `dt` can carry. Staying at 0x20 costs
+~0.7 mA for the two chips, more than the whole IDLE sniff budget.
 
 ### `ble_midi_simple`: MIDI over BLE
 
@@ -690,7 +624,7 @@ if (TinyUSBDevice.mounted()) {
 
 Five headers are copied into the sketches that use them --
 `device_id_code.h`, `touch.h`, `touch_map.h`, `led_anim.h` and
-`anim_wire.h`, 21 copies in all. **The copies must stay identical.**
+`anim_wire.h`, 26 copies in all. **The copies must stay identical.**
 `arduino/shared/` holds the only ones edited by hand; every copy in a
 sketch folder is generated from it.
 
