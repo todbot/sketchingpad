@@ -191,11 +191,10 @@ does, no double-tap reset needed.
 The sketchingpad flasher page in `web/index.html` is built on
 [nrfutil-web](https://github.com/takkaO/nrfutil-web). Publishing a
 github release runs `.github/workflows/pages.yml`. This copies the release's
-zips onto the site; the page cannot fetch them from the release itself
-(no CORS). 
+zips onto the site. (due to CORS)
 
 To try it locally: `make release web` in `arduino/`, then
-`python3 -m http.server -d ../web` and open `localhost:8000`.
+`python3 -m http.server -d ../web` and open `http://localhost:8000`.
 
 
 ## Sketchingpad libraries

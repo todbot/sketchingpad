@@ -23,6 +23,9 @@ Unless otherwise noted, software runs on both sketchingpad boards.
 
 ## Software
 
+Install pre-built apps using the 
+**-| [sketchingpad web flasher](https://todbot.github.io/sketchingpad/) |-**
+
 ### Arduino
 
 Most of the apps are Arduino sketches, see [`arduino/README.md`](./arduino/README.md) 
