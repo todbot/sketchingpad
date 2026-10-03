@@ -12,6 +12,7 @@
 #   make sync     shared/ -> every sketch copy
 #   make check    fail, naming names, if any copy has drifted
 #   make release  every sketch -> release/<sketch>.zip, for adafruit-nrfutil
+#   make web      release/ zips -> ../web/firmware, to test the flasher
 #
 # The sketch copies are found rather than listed: a hand-written list is
 # one more thing that can drift.
@@ -22,7 +23,7 @@ HEADERS := $(notdir $(wildcard $(SHARED)/*.h))
 # tests/ reads shared/ directly and tests/build holds generated files.
 FIND := find . -not -path './$(SHARED)/*' -not -path './tests/*' -name
 
-.PHONY: all sync check release
+.PHONY: all sync check release web
 
 all: check
 
@@ -59,3 +60,16 @@ release: check
 	  cp $(RELEASE)/build/$$n/$$n.ino.zip $(RELEASE)/$$n.zip; \
 	  echo "$(RELEASE)/$$n.zip"; \
 	done
+
+# Same layout the pages workflow builds from a GitHub release.  Serve with
+# python3 -m http.server -d ../web; localhost counts as a secure context,
+# which Web Serial requires.
+WEB_FW := ../web/firmware
+
+web:
+	@mkdir -p $(WEB_FW)
+	@rm -f $(WEB_FW)/*.zip
+	@cp $(RELEASE)/*.zip $(WEB_FW)/
+	@cd $(WEB_FW) && ls *.zip | sed 's/.*/"&"/' | paste -sd, - \
+	  | sed 's/^/{"tag": "local build", "files": [/; s/$$/]}/' > index.json
+	@echo "$(WEB_FW): `ls $(WEB_FW)/*.zip | wc -l | tr -d ' '` zips"

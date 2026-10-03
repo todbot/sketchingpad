@@ -15,6 +15,7 @@ See `docs/hardware-notes.md` for detailed info about both chips.
   * [Installing prerequisites with arduino-cli](#installing-prerequisites-with-arduino-cli)
   * [Build and upload](#build-and-upload)
 * [Building firmware releases](#building-firmware-releases)
+  * [Building web flasher releases](#building-web-flasher-releases)
 * [Sketchingpad libraries](#sketchingpad-libraries)
   * [touch.h: touch abstraction layer](#touchh-touch-abstraction-layer)
     * [touchArmWake() INT differences](#toucharmwake-int-differences)
@@ -64,10 +65,14 @@ see the last section.
 ### Installing pre-built sketches
 
 There are [pre-built .zip files for released sketches](https://github.com/todbot/sketchingpad/releases).
-You can use the CLI tool `adafruit-nrfutil` or the 
-[nrfutil-web](https://takkao.github.io/nrfutil-web/) site to install. 
 
-If using `adafruit-nrfutil`:
+The easiest install is the
+[sketchingpad flasher](https://todbot.github.io/sketchingpad/): pick a
+sketch, click Flash. It needs Web Serial (Chrome, Firefox, Edge). The first
+flash asks for the serial port twice, once for the running sketch and
+once for the bootloader it resets into.
+
+Or use the CLI tool `adafruit-nrfutil`:
 
 ```sh
 pip3 install adafruit-nrfutil
@@ -180,6 +185,17 @@ does, no double-tap reset needed.
 - Packages require the S140 7.3.0 SoftDevice, which stock XIAOs ship
   with.
 - Sketches build as committed, `DEBUG` settings included.
+
+### Building web flasher releases
+
+The sketchingpad flasher page in `web/index.html` is built on
+[nrfutil-web](https://github.com/takkaO/nrfutil-web). Publishing a
+github release runs `.github/workflows/pages.yml`. This copies the release's
+zips onto the site; the page cannot fetch them from the release itself
+(no CORS). 
+
+To try it locally: `make release web` in `arduino/`, then
+`python3 -m http.server -d ../web` and open `localhost:8000`.
 
 
 ## Sketchingpad libraries

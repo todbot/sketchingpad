@@ -48,3 +48,4 @@ __pycache__
 
 # Arduino release builds (make -C arduino release)
 arduino/release
+web/firmware

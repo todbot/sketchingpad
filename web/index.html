@@ -1,0 +1,288 @@
+<!doctype html>
+<!-- SPDX-FileCopyrightText: 2026 Tod Kurt -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sketchingpad flasher</title>
+<style>
+  :root {
+    --bg: #fafaf7; --fg: #1d1d1b; --muted: #6b6b66; --line: #ddddd6;
+    --card: #ffffff; --accent: #b0279a; --accent-fg: #ffffff;
+    --ok: #2e7d32; --err: #c62828;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161615; --fg: #ececea; --muted: #9a9a94; --line: #33332f;
+      --card: #1f1f1d; --accent: #e05cc8; --accent-fg: #161615;
+      --ok: #81c784; --err: #ef9a9a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.45 system-ui, -apple-system, sans-serif;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 1.6rem; margin: 0 0 4px; }
+  .sub { color: var(--muted); margin: 0 0 20px; }
+  .banner {
+    border: 1px solid var(--err); color: var(--err); border-radius: 8px;
+    padding: 12px 14px; margin-bottom: 16px;
+  }
+  .row {
+    display: flex; gap: 12px; align-items: center;
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 8px; padding: 12px 14px; margin-bottom: 8px;
+  }
+  .row .info { flex: 1; min-width: 0; }
+  .row .name { font-family: ui-monospace, monospace; font-weight: 600; }
+  .row .desc { color: var(--muted); font-size: 0.92rem; }
+  button {
+    font: inherit; border: 0; border-radius: 6px; padding: 8px 16px;
+    background: var(--accent); color: var(--accent-fg); cursor: pointer;
+  }
+  button:disabled { opacity: 0.4; cursor: default; }
+  details { margin-top: 16px; }
+  summary { cursor: pointer; color: var(--muted); margin-bottom: 8px; }
+  /* Mid-page: the browser's port picker covers the top. */
+  #status {
+    position: fixed; inset: 0; display: none;
+    align-items: center; justify-content: center; padding: 16px;
+    background: rgb(0 0 0 / 0.35);
+  }
+  #status.show { display: flex; }
+  #status .panel {
+    width: 100%; max-width: 440px; padding: 16px 18px;
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 10px; box-shadow: 0 8px 30px rgb(0 0 0 / 0.25);
+  }
+  #status .msg.ok { color: var(--ok); }
+  #status .msg.err { color: var(--err); }
+  #status button { margin-top: 8px; }
+  progress { width: 100%; height: 8px; accent-color: var(--accent); }
+  footer { color: var(--muted); font-size: 0.88rem; margin-top: 28px; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>sketchingpad flasher</h1>
+  <p class="sub">Plug the sketchingpad's XIAO in over USB, pick a sketch,
+    click Flash. <br/>Chrome, Firefox, or Edge on desktop.</p>
+
+  <div id="nosupport" class="banner" hidden>
+    This browser has no Web Serial, so it cannot flash. Use Chrome, Firefox, or Edge
+    on a desktop, or the <code>adafruit-nrfutil</code> steps linked below.
+  </div>
+
+  <div id="list"></div>
+  <details id="older" hidden>
+    <summary>Older, sensor-specific sketches</summary>
+    <div id="older-list"></div>
+  </details>
+
+  <div id="status">
+    <div class="panel">
+      <div class="msg"></div>
+      <progress max="100" value="0"></progress>
+      <button id="pick" hidden>Select bootloader port</button>
+      <button id="close" hidden>Close</button>
+    </div>
+  </div>
+
+  <footer>
+    <span id="tag"></span>
+    The first flash asks for the serial port twice: once for the running
+    sketch, once for the bootloader it resets into. After that it goes
+    straight through. If a flash stalls, double-tap the XIAO's reset
+    button and flash again.
+    Prefer the command line? See
+    <a href="https://github.com/todbot/sketchingpad/tree/main/arduino#installing-pre-built-sketches">adafruit-nrfutil</a>.
+  </footer>
+</main>
+
+<script type="module">
+import { performDfu, enterDfuMode }
+  from "https://cdn.jsdelivr.net/npm/nrfutil-web@1.0.0/+esm";
+
+// Seeed.  The bootloader's PID varies (a XIAO seen with the Sense
+// bootloader enumerates as 0x0045), so tell the two apart by the
+// Adafruit convention instead: application PIDs have bit 15 set.
+const VID = 0x2886;
+const isBoot = (p) => (p.getInfo().usbProductId & 0x8000) === 0;
+
+// Keep in step with the sketch table in arduino/README.md
+const ABOUT = {
+  hwtest_leds: "Chases one pixel around the 20 LEDs",
+  hwtest_touch: "Pad to LED, fading, either sensor",
+  hwtest_touch_lowpower: "Pad to LED, fading, power tiers, either sensor",
+  ble_broadcast: "Symmetric BLE broadcast, no pairing",
+  ble_broadcast_anim: "Record an LED animation, broadcast",
+  ble_broadcast_anim_lp: "Record an LED animation, with the power tiers",
+  ble_keyboard_simple: "BLE HID keyboard, no power tiers",
+  ble_keyboard_lowpower: "BLE HID keyboard, with power tiers",
+  ble_midi_simple: "BLE MIDI controller, no power tiers",
+  sketchingpad_midi_simple: "USB + BLE MIDI",
+};
+const ORDER = Object.keys(ABOUT);
+const isOlder = (n) => /_(ts20|mpr)$/.test(n);
+
+const $ = (s) => document.querySelector(s);
+const status = $("#status");
+const msg = status.querySelector(".msg");
+const bar = status.querySelector("progress");
+const pickBtn = $("#pick");
+const closeBtn = $("#close");
+closeBtn.onclick = () => status.classList.remove("show");
+let busy = false;
+
+function say(text, cls = "") {
+  status.classList.add("show");
+  msg.textContent = text;
+  msg.className = "msg " + cls;
+}
+
+function setBusy(b) {
+  busy = b;
+  document.querySelectorAll(".row button").forEach((x) => {
+    x.disabled = b || !("serial" in navigator);
+  });
+}
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+async function granted(boot) {
+  const ports = await navigator.serial.getPorts();
+  return ports.find((p) => p.getInfo().usbVendorId === VID &&
+                           isBoot(p) === boot);
+}
+
+// requestPort() needs a fresh click, and the touch's wait outlasts the
+// first one, so fall back to a button when the browser refuses.
+function clickToPick() {
+  return new Promise((resolve, reject) => {
+    pickBtn.hidden = false;
+    pickBtn.onclick = async () => {
+      pickBtn.hidden = true;
+      try {
+        resolve(await navigator.serial.requestPort({
+          filters: [{ usbVendorId: VID }],
+        }));
+      } catch (e) { reject(e); }
+    };
+  });
+}
+
+async function bootloaderPort() {
+  // Re-enumeration takes a moment; a port granted on an earlier visit
+  // shows up here once the bootloader is on the bus.
+  for (let i = 0; i < 10; i++) {
+    const p = await granted(true);
+    if (p) { return p; }
+    await sleep(300);
+  }
+  try {
+    return await navigator.serial.requestPort({
+      filters: [{ usbVendorId: VID }],
+    });
+  } catch (e) {
+    if (e.name !== "SecurityError") { throw e; }
+    say("Board is in its bootloader. Click to select its port.");
+    return clickToPick();
+  }
+}
+
+async function flash(name) {
+  if (busy) { return; }
+  setBusy(true);
+  closeBtn.hidden = true;
+  bar.value = 0;
+  try {
+    say(`Downloading ${name}...`);
+    const resp = await fetch(`firmware/${name}.zip`);
+    if (!resp.ok) { throw new Error(`firmware/${name}.zip: ${resp.status}`); }
+    const zip = await resp.arrayBuffer();
+
+    let port = (await granted(true)) || (await granted(false));
+    if (!port) {
+      say("Select the sketchingpad's serial port.");
+      port = await navigator.serial.requestPort({
+        filters: [{ usbVendorId: VID }],
+      });
+    }
+    if (!isBoot(port)) {
+      say("Resetting into the bootloader...");
+      await enterDfuMode(port);
+      port = await bootloaderPort();
+    }
+
+    await performDfu(port, zip, {
+      onProgress: ({ percent, message }) => {
+        bar.value = percent;
+        say(`${message} ${percent ? percent + "%" : ""}`);
+      },
+    });
+    bar.value = 100;
+    say(`Flashed ${name}. The board restarts into it.`, "ok");
+  } catch (e) {
+    if (e.name === "NotFoundError") {
+      say("No port selected.", "err");
+    } else {
+      say(`${e.message || e}. Double-tap reset on the XIAO and try again.`,
+          "err");
+    }
+    console.error(e);
+  } finally {
+    pickBtn.hidden = true;
+    closeBtn.hidden = false;
+    setBusy(false);
+  }
+}
+
+function row(name) {
+  const d = document.createElement("div");
+  d.className = "row";
+  d.innerHTML = `<div class="info"><div class="name"></div>
+    <div class="desc"></div></div><button>Flash</button>`;
+  d.querySelector(".name").textContent = name;
+  d.querySelector(".desc").textContent = ABOUT[name] || "";
+  d.querySelector("button").onclick = () => flash(name);
+  return d;
+}
+
+async function main() {
+  if (!("serial" in navigator)) { $("#nosupport").hidden = false; }
+  let index;
+  try {
+    index = await (await fetch("firmware/index.json")).json();
+  } catch {
+    say("No firmware list found on this site yet.", "err");
+    closeBtn.hidden = false;
+    return;
+  }
+  const names = index.files.map((f) => f.replace(/\.zip$/, ""));
+  const rank = (n) => (ORDER.includes(n) ? ORDER.indexOf(n) : 999);
+  names.sort((a, b) => rank(a) - rank(b) || a.localeCompare(b));
+  for (const n of names) {
+    if (isOlder(n)) {
+      $("#older").hidden = false;
+      $("#older-list").append(row(n));
+    } else {
+      $("#list").append(row(n));
+    }
+  }
+  if (index.tag) {
+    const a = document.createElement("a");
+    a.href = index.url || "#";
+    a.textContent = index.tag;
+    $("#tag").append("Firmware from release ", a, ". ");
+  }
+  setBusy(false);
+}
+
+main();
+</script>
+</body>
+</html>
