@@ -1,24 +1,34 @@
 [
-  {"name": "ble_broadcast_anim_lp",
-   "about": "Record an LED animation, with the power tiers"},
+  {"name": "sketchingpad_party",
+    "about": "Record an LED animation to share with others, with power save"},
+
+  {"name": "sketchingpad_midi_simple",
+    "about": "USB + BLE MIDI controller"},
+
   {"name": "hwtest_touch",
     "about": "Pad to LED, fading, either sensor"},
+
   {"name": "hwtest_touch_lowpower",
-   "about": "Pad to LED, fading, power tiers, either sensor"},
-  {"name": "hwtest_leds",
-    "about": "Chases one pixel around the 20 LEDs"},
-  {"name": "ble_broadcast",
-    "about": "Symmetric BLE broadcast, no pairing"},
-  {"name": "ble_broadcast_anim",
-    "about": "Record an LED animation, broadcast"},
+    "about": "Pad to LED, fading, either sensor, power tiers"},
+
+  {"name": "ble_keyboard_lowpower",
+    "about": "BLE HID keyboard, with power tiers"},
+
   {"name": "ble_keyboard_simple",
     "about": "BLE HID keyboard, no power tiers"},
-  {"name": "ble_keyboard_lowpower",
-   "about": "BLE HID keyboard, with power tiers"},
+
   {"name": "ble_midi_simple",
     "about": "BLE MIDI controller, no power tiers"},
-  {"name": "sketchingpad_midi_simple",
-    "about": "USB + BLE MIDI"},
+
+
+  {"name": "ble_broadcast",
+    "about": "Symmetric BLE broadcast, no pairing"},
+
+  {"name": "ble_broadcast_anim",
+    "about": "Record an LED animation, broadcast, precursor to sketchingpad_party"},
+  
+  {"name": "hwtest_leds",
+    "about": "Chases one pixel around the 20 LEDs"},
 
   {"name": "hwtest_ts20", "older": true,
    "about": "TS20 only: an LED for each touched pad, with a fading trail"},

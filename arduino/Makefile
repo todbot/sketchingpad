@@ -9,10 +9,12 @@
 # toolchain offers gives that and a single copy at the same time; the
 # alternatives and why each was rejected are in README.md.
 #
-#   make sync     shared/ -> every sketch copy
-#   make check    fail, naming names, if any copy has drifted
-#   make release  every sketch -> release/<sketch>.zip, for adafruit-nrfutil
-#   make web      release/ zips -> ../web/firmware, to test the flasher
+#   make sync          shared/ -> every sketch copy
+#   make check         fail if any copy has drifted, naming names
+#   make release       sketches -> release/<sketch>.zip (not ts20, mpr)
+#   make web           release/ zips -> ../web/firmware, to test the flasher
+#   make release-clean remove release/ and ../web/firmware
+#   make help          this list
 #
 # The sketch copies are found rather than listed: a hand-written list is
 # one more thing that can drift.
@@ -23,9 +25,13 @@ HEADERS := $(notdir $(wildcard $(SHARED)/*.h))
 # tests/ reads shared/ directly and tests/build holds generated files.
 FIND := find . -not -path './$(SHARED)/*' -not -path './tests/*' -name
 
-.PHONY: all sync check release web
+.PHONY: all help sync check release release-clean web
 
 all: check
+
+# Prints the usage lines above, so there is one list to keep current.
+help:
+	@sed -n 's/^#   make /make /p' $(firstword $(MAKEFILE_LIST))
 
 sync:
 	@for h in $(HEADERS); do \
@@ -49,10 +55,13 @@ check:
 # core, the libraries or a build.  Install steps are in README.md.
 FQBN := Seeeduino:nrf52:xiaonRF52840
 RELEASE := release
-SKETCHES := $(patsubst %/,%,$(dir $(shell find . -name '*.ino' -not -path './tests/*')))
+# ts20/ and mpr/ are the older sensor-specific sketches, not released.
+SKETCHES := $(patsubst %/,%,$(dir $(shell find . -name '*.ino' \
+  -not -path './tests/*' -not -path './ts20/*' -not -path './mpr/*')))
 
 release: check
 	@mkdir -p $(RELEASE)
+	@rm -f $(RELEASE)/*.zip # or renamed and excluded sketches linger
 	@for d in $(SKETCHES); do \
 	  n=`basename $$d`; \
 	  arduino-cli compile -b $(FQBN) --output-dir $(RELEASE)/build/$$n $$d \
@@ -73,3 +82,6 @@ web:
 	@cd $(WEB_FW) && ls *.zip | sed 's/.*/"&"/' | paste -sd, - \
 	  | sed 's/^/{"tag": "local build", "files": [/; s/$$/]}/' > index.json
 	@echo "$(WEB_FW): `ls $(WEB_FW)/*.zip | wc -l | tr -d ' '` zips"
+
+release-clean:
+	rm -rf $(RELEASE) $(WEB_FW)

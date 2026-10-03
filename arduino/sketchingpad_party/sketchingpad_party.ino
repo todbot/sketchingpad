@@ -1,7 +1,9 @@
 // SPDX-FileCopyrightText: 2026 Tod Kurt
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// ble_broadcast_anim_lp.ino -- ble_broadcast_anim with the power tiers
+// sketchingpad_party.ino -- ble_broadcast_anim with the power tiers
+//
+// Originally named ble_broadcast_anim_lp.
 //
 // Same game as ble_broadcast_anim: touch pads to record an animation, it
 // plays locally and goes out over BLE advertising, every board in range
@@ -444,7 +446,7 @@ void setup() {
 
   char code[DEVICE_ID_CODE_LEN + 1];
   deviceIdCode(code);
-  dbg("ble_broadcast_anim_lp: device %04x (%s), sensor %s\n", my_id, code,
+  dbg("sketchingpad_party: device %04x (%s), sensor %s\n", my_id, code,
       touchName());
   // 0 = power-on, 1 = reset pin, 4 = soft reset, 8 = lockup,
   // 0x10000 = woke from System OFF.

@@ -25,7 +25,7 @@ See `docs/hardware-notes.md` for detailed info about both chips.
     * [Notes about anim code:](#notes-about-anim-code)
 * [Sketch details](#sketch-details)
   * [ble_broadcast_anim: animations over advertising](#ble_broadcast_anim-animations-over-advertising)
-  * [ble_broadcast_anim_lp: the same, with power tiers](#ble_broadcast_anim_lp-the-same-with-power-tiers)
+  * [sketchingpad_party: ble_broadcast_anim, with power tiers](#sketchingpad_party-ble_broadcast_anim-with-power-tiers)
   * [ble_keyboard_lowpower: the keyboard, with power tiers](#ble_keyboard_lowpower-the-keyboard-with-power-tiers)
   * [ble_midi_simple: MIDI over BLE](#ble_midi_simple-midi-over-ble)
     * [Pad map](#pad-map)
@@ -50,7 +50,7 @@ See `docs/hardware-notes.md` for detailed info about both chips.
 | `hwtest_touch_lowpower`           | Pad->LED, fading, power tiers, either sensor |
 | `ble_broadcast`                   | Symmetric BLE broadcast, no pairing |
 | `ble_broadcast_anim`              | Record an LED animation, broadcast  |
-| `ble_broadcast_anim_lp`           | Record an LED animation, with the power tiers |
+| `sketchingpad_party`              | Record an LED animation, with the power tiers |
 | `ble_keyboard_simple`             | BLE HID keyboard, no power tiers    |
 | `ble_keyboard_lowpower`           | BLE HID keyboard, with power tiers  |
 | `ble_midi_simple`                 | BLE MIDI controller, no power tiers |
@@ -144,7 +144,7 @@ arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/hwtest_touch
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/sketchingpad_midi_simple
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_keyboard_simple
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_broadcast_anim
-arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_broadcast_anim_lp
+arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/sketchingpad_party
 ```
 
 Start with `hwtest_touch` to see if board works. 
@@ -164,14 +164,15 @@ arduino-cli upload -b Seeeduino:nrf52:xiaonRF52840 \
 
 ## Building firmware releases
 
-`make -C arduino release` builds every sketch into `arduino/release/<sketch>.zip`, 
+`make -C arduino release` builds every sketch except the older `ts20/` and
+`mpr/` ones into `arduino/release/<sketch>.zip`, 
 a DFU package. Flashing one needs `adafruit-nrfutil` and a 
 [release zip](https://github.com/todbot/sketchingpad/releases).
 No core or libraries need to be installed. 
 
 ```sh
 pip3 install adafruit-nrfutil
-adafruit-nrfutil dfu serial --touch 1200 -pkg ble_broadcast_anim_lp.zip \
+adafruit-nrfutil dfu serial --touch 1200 -pkg sketchingpad_party.zip \
   -p /dev/cu.usbmodemXXXX -b 115200 --singlebank
 ```
 
@@ -386,7 +387,9 @@ Serial, each line stamped with `millis()`:
 `DEBUG (0)` prints nothing and skips the 3 s wait for USB at boot. The
 one exception is the fatal "No touch sensor" line.
 
-### `ble_broadcast_anim_lp`: the same, with power tiers
+### `sketchingpad_party`: ble_broadcast_anim, with power tiers
+
+Originally named `ble_broadcast_anim_lp`.
 
 Same game and same packets as `ble_broadcast_anim`, plus the techniques
 from `hwtest_touch_lowpower`:
@@ -412,9 +415,9 @@ Sniffing only works because a sender holds chunk 0 for `PREAMBLE_MS`
 (1.2 s) before its normal passes, longer than the 1 s sniff interval.
 Any sniff window lands in it, hearing a chunk switches the scanner to
 100% for `RX_HOLD_MS`, and the passes that follow complete the
-animation. The packet format is unchanged, so `_lp` and plain boards
+animation. The packet format is unchanged, so party and plain boards
 play together. The one gap: a plain `ble_broadcast_anim` sender has no
-preamble, so an IDLE `_lp` board can miss it. An ACTIVE one will not.
+preamble, so an IDLE party board can miss it. An ACTIVE one will not.
 
 DEEP waits on received animations as well as touches, so a board in a
 busy group stays awake to hear it. Once in DEEP it hears nothing until
@@ -429,7 +432,7 @@ record coarser than the 10 ms `dt` can carry. Staying at 0x20 costs
 
 `ble_keyboard_simple`'s key map and ID code, with the tiers of
 `ble_keyboard_lowpower_ts20`, on either sensor. Same techniques as
-`ble_broadcast_anim_lp`, but a keyboard keeps its connection, so IDLE
+`sketchingpad_party`, but a keyboard keeps its connection, so IDLE
 saves power with peripheral latency instead of a sniffing scanner.
 
 | Tier   | Entered                  | Connection           | LED rail |

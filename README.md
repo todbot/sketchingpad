@@ -37,7 +37,7 @@ the power tiers, etc. Examples of what's available:
 * `hwtest_touch`          -- pad -> LED with a fading trail, no BLE
 * `hwtest_touch_lowpower` -- pad -> LED, fading, plus three power tiers, no BLE
 * `ble_broadcast_anim`    -- record an animation, broadcast it
-* `ble_broadcast_anim_lp`  -- record an animation, broadcast it, with power tiers
+* `sketchingpad_party`    -- record an animation, broadcast it, with power tiers
 * `ble_keyboard_simple`   -- BLE HID keyboard, no power mgmt
 * `ble_keyboard_lowpower` -- BLE HID keyboard, with power tiers
 * `sketchingpad_midi_simple` -- USB + BLE MIDI controller
