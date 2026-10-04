@@ -28,6 +28,15 @@
 // scan_callback, so a dark board wakes 4x/sec for the tier timers and
 // does no I2C until something happens.
 //
+// Untested on hardware.  To check, with two or more boards:
+//
+//   - IDLE sniff: let a receiver go dark, record on a sender, and count
+//     how often the receiver catches the animation.  Should be every time.
+//   - DEEP: set DEEP_TIMEOUT_MS to 60000, confirm it sleeps after a
+//     minute idle and that a pad or the button wakes it.
+//   - Interop: plays both ways with a plain ble_broadcast_anim board.  An
+//     IDLE receiver may miss that sender (no preamble); ACTIVE should not.
+//
 // Board: Seeeduino:nrf52:xiaonRF52840
 
 // 1 = narrate to Serial, but only when USB is attached.

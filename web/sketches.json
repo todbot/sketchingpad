@@ -20,7 +20,6 @@
   {"name": "ble_midi_simple",
     "about": "BLE MIDI controller, no power tiers"},
 
-
   {"name": "ble_broadcast",
     "about": "Symmetric BLE broadcast, no pairing"},
 

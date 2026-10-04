@@ -443,7 +443,8 @@ saves power with peripheral latency instead of a sniffing scanner.
 
 The latency request goes through `BLEConnection`, and the central may
 refuse it. Waking from DEEP resets the board and it has to reconnect,
-so the waking touch types nothing.
+so the waking tap types nothing; a pad still held once it reconnects
+does.
 
 ### `ble_midi_simple`: MIDI over BLE
 

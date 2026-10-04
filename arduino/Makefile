@@ -9,6 +9,8 @@
 # toolchain offers gives that and a single copy at the same time; the
 # alternatives and why each was rejected are in README.md.
 #
+# Available targets:
+#
 #   make sync          shared/ -> every sketch copy
 #   make check         fail if any copy has drifted, naming names
 #   make release       sketches -> release/<sketch>.zip (not ts20, mpr)
