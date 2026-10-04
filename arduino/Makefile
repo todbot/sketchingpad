@@ -16,6 +16,7 @@
 #   make release       sketches -> release/<sketch>.zip (not ts20, mpr)
 #   make web           release/ zips -> ../web/firmware, to test the flasher
 #   make release-clean remove release/ and ../web/firmware
+#   make flash <name>  compile and upload one sketch (PORT= to pick)
 #   make help          this list
 #
 # The sketch copies are found rather than listed: a hand-written list is
@@ -27,7 +28,7 @@ HEADERS := $(notdir $(wildcard $(SHARED)/*.h))
 # tests/ reads shared/ directly and tests/build holds generated files.
 FIND := find . -not -path './$(SHARED)/*' -not -path './tests/*' -name
 
-.PHONY: all help sync check release release-clean web
+.PHONY: all help sync check release release-clean web flash
 
 all: check
 
@@ -87,3 +88,21 @@ web:
 
 release-clean:
 	rm -rf $(RELEASE) $(WEB_FW)
+
+
+# The sketch name is a second goal, so give it a do-nothing rule.  Phony
+# too, since most sketch names are also directories here.
+ifeq (flash,$(firstword $(MAKECMDGOALS)))
+  SKETCH := $(word 2,$(MAKECMDGOALS))
+  $(if $(SKETCH),$(eval .PHONY: $(SKETCH))$(eval $(SKETCH):;@:))
+endif
+
+# auto port selection only works on MacOS
+PORT ?= $(firstword $(wildcard /dev/cu.usbmodem*))
+
+flash:
+	@test -n "$(SKETCH)" || { echo "usage: make flash <sketch>"; exit 1; }
+	@test -n "$(PORT)" || { echo "no board found, try PORT="; exit 1; }
+	@d=`find . -name $(SKETCH).ino -not -path './tests/*'`; \
+	test -n "$$d" || { echo "no sketch named $(SKETCH)"; exit 1; }; \
+	arduino-cli compile -b $(FQBN) -u -p $(PORT) `dirname $$d`
