@@ -26,7 +26,7 @@ See `docs/hardware-notes.md` for detailed info about both chips.
 * [Sketch details](#sketch-details)
   * [ble_broadcast_anim: animations over advertising](#ble_broadcast_anim-animations-over-advertising)
   * [sketchingpad_party: ble_broadcast_anim, with power tiers](#sketchingpad_party-ble_broadcast_anim-with-power-tiers)
-  * [ble_keyboard_lowpower: the keyboard, with power tiers](#ble_keyboard_lowpower-the-keyboard-with-power-tiers)
+  * [ble_keyboard: the keyboard, with power tiers](#ble_keyboard-the-keyboard-with-power-tiers)
   * [ble_midi_simple: MIDI over BLE](#ble_midi_simple-midi-over-ble)
     * [Pad map](#pad-map)
     * [Stuck notes](#stuck-notes)
@@ -52,7 +52,7 @@ See `docs/hardware-notes.md` for detailed info about both chips.
 | `ble_broadcast_anim`              | Record an LED animation, broadcast  |
 | `sketchingpad_party`              | Record an LED animation, with the power tiers |
 | `ble_keyboard_simple`             | BLE HID keyboard, no power tiers    |
-| `ble_keyboard_lowpower`           | BLE HID keyboard, with power tiers  |
+| `ble_keyboard`                    | BLE HID keyboard, with power tiers  |
 | `ble_midi_simple`                 | BLE MIDI controller, no power tiers |
 | `sketchingpad_midi_simple`        | USB + BLE MIDI                      |
 
@@ -428,7 +428,9 @@ CONFIG2 0x24 updates touch status every ~64 ms, not ~4 ms, so fast rolls
 record coarser than the 10 ms `dt` can carry. Staying at 0x20 costs
 ~0.7 mA for the two chips, more than the whole IDLE sniff budget.
 
-### `ble_keyboard_lowpower`: the keyboard, with power tiers
+### `ble_keyboard`: the keyboard, with power tiers
+
+Originally named `ble_keyboard_lowpower`.
 
 `ble_keyboard_simple`'s key map and ID code, with the tiers of
 `ble_keyboard_lowpower_ts20`, on either sensor. Same techniques as

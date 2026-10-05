@@ -39,7 +39,7 @@ the power tiers, etc. Examples of what's available:
 * `ble_broadcast_anim`    -- record an animation, broadcast it
 * `sketchingpad_party`    -- record an animation, broadcast it, with power tiers
 * `ble_keyboard_simple`   -- BLE HID keyboard, no power mgmt
-* `ble_keyboard_lowpower` -- BLE HID keyboard, with power tiers
+* `ble_keyboard`          -- BLE HID keyboard, with power tiers
 * `sketchingpad_midi_simple` -- USB + BLE MIDI controller
 
 more sketches in [arduino/README.md](./arduino/README.md).

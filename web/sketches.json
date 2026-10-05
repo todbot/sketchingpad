@@ -11,7 +11,7 @@
   {"name": "hwtest_touch_lowpower",
     "about": "Pad to LED, fading, either sensor, power tiers"},
 
-  {"name": "ble_keyboard_lowpower",
+  {"name": "ble_keyboard",
     "about": "BLE HID keyboard, with power tiers"},
 
   {"name": "ble_keyboard_simple",

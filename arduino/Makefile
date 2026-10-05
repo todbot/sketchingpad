@@ -97,12 +97,13 @@ ifeq (flash,$(firstword $(MAKECMDGOALS)))
   $(if $(SKETCH),$(eval .PHONY: $(SKETCH))$(eval $(SKETCH):;@:))
 endif
 
-# auto port selection only works on MacOS
-PORT ?= $(firstword $(wildcard /dev/cu.usbmodem*))
+# arduino-cli names the board from its USB VID/PID on any OS, Sense too.
+# Recursive, so it only runs when flash expands it.
+PORT ?= $(shell arduino-cli board list | awk '/xiaonRF52840/ {print $$1; exit}')
 
 flash:
 	@test -n "$(SKETCH)" || { echo "usage: make flash <sketch>"; exit 1; }
-	@test -n "$(PORT)" || { echo "no board found, try PORT="; exit 1; }
+	@test -n "$(PORT)" || { echo "no XIAO found, set PORT="; exit 1; }
 	@d=`find . -name $(SKETCH).ino -not -path './tests/*'`; \
 	test -n "$$d" || { echo "no sketch named $(SKETCH)"; exit 1; }; \
 	arduino-cli compile -b $(FQBN) -u -p $(PORT) `dirname $$d`

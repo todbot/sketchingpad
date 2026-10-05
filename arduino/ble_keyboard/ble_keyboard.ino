@@ -1,7 +1,9 @@
 // SPDX-FileCopyrightText: 2026 Tod Kurt
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// ble_keyboard_lowpower.ino -- ble_keyboard_simple with the power tiers
+// ble_keyboard.ino -- ble_keyboard_simple with the power tiers
+//
+// Originally named ble_keyboard_lowpower.
 //
 // Touching a pad types a character over BLE HID and lights its LED, as in
 // ble_keyboard_simple.  Replaces ble_keyboard_lowpower_ts20 and runs on
@@ -297,7 +299,7 @@ void setup() {
 
   showDeviceIdCode();
 
-  dbg("ble_keyboard_lowpower: sensor %s, pair with \"%s\"\n", touchName(),
+  dbg("ble_keyboard: sensor %s, pair with \"%s\"\n", touchName(),
       adv_name);
   // 0 = power-on, 1 = reset pin, 4 = soft reset, 8 = lockup,
   // 0x10000 = woke from System OFF.
