@@ -417,11 +417,12 @@ receiver cannot park on a latency-20 connection: it has to listen, and
 100% scanning is ~5-6 mA (datasheet, 1M PHY). IDLE sniffs instead, at a
 3% duty cycle, so roughly 0.2 mA by the same figure. Not measured yet.
 
-Sniffing only works because a sender holds chunk 0 for `PREAMBLE_MS`
-(1.2 s) before its normal passes, longer than the 1 s sniff interval.
-Any sniff window lands in it, hearing a chunk switches the scanner to
-100% for `RX_HOLD_MS`, and the passes that follow complete the
-animation. The packet format is unchanged, so party and plain boards
+Sniffing only works because a sender cycles its chunks for
+`PREAMBLE_MS` (1.2 s) before its counted passes, longer than the 1 s
+sniff interval. Any sniff window lands in it, hearing a chunk switches
+the scanner to 100% for `RX_HOLD_MS`, and the next cycle completes the
+animation. An ACTIVE receiver doesn't wait out the preamble: it has
+every chunk after one cycle, 200 ms per chunk. The packet format is unchanged, so party and plain boards
 play together. The one gap: a plain `ble_broadcast_anim` sender has no
 preamble, so an IDLE party board can miss it. An ACTIVE one will not.
 

@@ -19,8 +19,10 @@
 //           press.  SYSTEM_OFF, woken by touch INT or the button.  Deaf to
 //           the radio until then.
 //
-// Sniffing only works because senders hold chunk 0 for PREAMBLE_MS before
-// the normal passes: long enough that every sniff window lands in it.
+// Sniffing only works because senders cycle the chunks for PREAMBLE_MS
+// before the counted passes: long enough that every sniff window lands in
+// it.  Cycling rather than holding one chunk means an ACTIVE receiver
+// completes in one cycle instead of waiting out the preamble.
 // An IDLE board can miss a ble_broadcast_anim sender, which has no
 // preamble; an ACTIVE one will not.
 //
@@ -82,9 +84,7 @@ const uint32_t RX_HOLD_MS = 3000;          // full scan after hearing a chunk
 const uint32_t REC_SILENCE_MS = 1500;  // quiet this long ends a recording
 const uint32_t CHUNK_AIRTIME_MS = 200; // ~10 advertising events per chunk
 const uint8_t SEND_PASSES = 3;         // whole cycle repeated this often
-// Must exceed SCAN_SNIFF_INTERVAL + SCAN_SNIFF_WINDOW, with margin.  A
-// 72-event send then takes ~5.8 s, just inside anim_wire.h's
-// ANIM_RX_TIMEOUT_MS (6 s): raise that if this grows.
+// Must exceed SCAN_SNIFF_INTERVAL + SCAN_SNIFF_WINDOW, with margin.
 const uint32_t PREAMBLE_MS = 1200;
 
 // Units of 0.625 ms; 32 = 20 ms, the SoftDevice minimum.
@@ -284,6 +284,7 @@ uint8_t send_n = 0;
 uint8_t send_anim_id = 0;
 uint8_t send_chunk = 0;
 uint8_t send_pass = 0;
+uint32_t send_start_ms = 0;
 uint32_t send_next_ms = 0;
 bool sending = false;
 
@@ -294,7 +295,7 @@ void startSend(const AnimEvent *ev, uint8_t n) {
   send_anim_id++;
   send_chunk = 0;
   send_pass = 0;
-  send_next_ms = millis();
+  send_start_ms = send_next_ms = millis();
   sending = true;
   dbg("sending anim %u: %u events, %u chunks x %u passes\n", send_anim_id,
       send_n, animChunkCount(send_n), SEND_PASSES);
@@ -315,14 +316,13 @@ void pumpSender(uint32_t now) {
   animFillChunk(&m, COMPANY_ID, my_id, send_anim_id, send_chunk, send_ev,
                 send_n);
   advertise(m);
-  bool first = (send_pass == 0 && send_chunk == 0);
-  send_next_ms = now + (first ? PREAMBLE_MS : CHUNK_AIRTIME_MS);
+  send_next_ms = now + CHUNK_AIRTIME_MS;
   dbg("send anim %u chunk %u pass %u\n", send_anim_id, send_chunk, send_pass);
 
   send_chunk++;
   if (send_chunk >= animChunkCount(send_n)) {
     send_chunk = 0;
-    send_pass++;
+    if (now - send_start_ms >= PREAMBLE_MS) { send_pass++; }
   }
 }
 
