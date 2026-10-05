@@ -125,6 +125,7 @@ arduino-cli config add board_manager.additional_urls \
 arduino-cli core update-index
 arduino-cli core install Seeeduino:nrf52
 
+arduino-cli update
 arduino-cli lib install "TS20" \
                         "Adafruit MPR121" \
                         "Adafruit NeoPixel" \
@@ -159,8 +160,13 @@ To upload a sketch:
 ```sh
 arduino-cli board list           # find the port
 arduino-cli upload -b Seeeduino:nrf52:xiaonRF52840 \
-  -p /dev/cu.usbmodemXXXX arduino/hwtest_touch
+  -p /dev/cu.usbmodemXXXX arduino/hwtest_touch \
+  --upload-property upload.wait_for_upload_port=false
 ```
+
+The last line skips a wait of several seconds: the bootloader comes back
+on the same port name (on MacOS), so arduino-cli never sees the new port it waits
+for. Or from `arduino/`, `make flash hwtest_touch` does all of this.
 
 ## Building firmware releases
 

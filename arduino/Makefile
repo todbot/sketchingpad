@@ -101,9 +101,15 @@ endif
 # Recursive, so it only runs when flash expands it.
 PORT ?= $(shell arduino-cli board list | awk '/xiaonRF52840/ {print $$1; exit}')
 
+# The bootloader comes back on the same port name, so arduino-cli's wait
+# for a new one always times out.  compile -u can't take this flag.
+# If uploads fail without the wait: make flash <sketch> NOWAIT=
+NOWAIT := --upload-property upload.wait_for_upload_port=false
+
 flash:
 	@test -n "$(SKETCH)" || { echo "usage: make flash <sketch>"; exit 1; }
 	@test -n "$(PORT)" || { echo "no XIAO found, set PORT="; exit 1; }
 	@d=`find . -name $(SKETCH).ino -not -path './tests/*'`; \
 	test -n "$$d" || { echo "no sketch named $(SKETCH)"; exit 1; }; \
-	arduino-cli compile -b $(FQBN) -u -p $(PORT) `dirname $$d`
+	arduino-cli compile -b $(FQBN) `dirname $$d` && \
+	arduino-cli upload -b $(FQBN) -p $(PORT) $(NOWAIT) `dirname $$d`

@@ -33,14 +33,13 @@ for details on Arduino firmware options including: how to flash, how to build,
 the touch layer, the BLE LED animation packet layer, 
 the power tiers, etc. Examples of what's available:
 
-* `hwtest_leds`           -- chases one pixel around the 20 LEDs
-* `hwtest_touch`          -- pad -> LED with a fading trail, no BLE
-* `hwtest_touch_lowpower` -- pad -> LED, fading, plus three power tiers, no BLE
-* `ble_broadcast_anim`    -- record an animation, broadcast it
 * `sketchingpad_party`    -- record an animation, broadcast it, with power tiers
-* `ble_keyboard_simple`   -- BLE HID keyboard, no power mgmt
-* `ble_keyboard`          -- BLE HID keyboard, with power tiers
 * `sketchingpad_midi_simple` -- USB + BLE MIDI controller
+* `ble_keyboard`          -- BLE HID keyboard, with power tiers
+* `ble_keyboard_simple`   -- BLE HID keyboard, no power mgmt
+* `hwtest_leds`           -- chases one pixel around the 20 LEDs
+* `hwtest_touch_lowpower` -- pad -> LED, fading, plus three power tiers, no BLE
+* `hwtest_touch`          -- pad -> LED with a fading trail, no BLE
 
 more sketches in [arduino/README.md](./arduino/README.md).
 
