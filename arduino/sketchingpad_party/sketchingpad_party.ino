@@ -211,7 +211,7 @@ uint8_t white_last[NUM_LEDS];
 uint32_t rainbowWhite(uint8_t i, uint32_t c, uint32_t now) {
   uint8_t r = c >> 16, g = c >> 8, b = c;
   if (r != g || g != b) { r = 0; } // not white
-  if (r > white_last[i]) { white_hue[i] = now / 2; }
+  if (r > white_last[i]) { white_hue[i] = now / 4; }
   white_last[i] = r;
   if (!r) { return c; }
   uint32_t w = colorwheel(white_hue[i]);
