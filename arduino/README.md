@@ -422,9 +422,14 @@ Sniffing only works because a sender cycles its chunks for
 sniff interval. Any sniff window lands in it, hearing a chunk switches
 the scanner to 100% for `RX_HOLD_MS`, and the next cycle completes the
 animation. An ACTIVE receiver doesn't wait out the preamble: it has
-every chunk after one cycle, 200 ms per chunk. The packet format is unchanged, so party and plain boards
-play together. The one gap: a plain `ble_broadcast_anim` sender has no
-preamble, so an IDLE party board can miss it. An ACTIVE one will not.
+every chunk after one cycle, 200 ms per chunk. The packet format is
+unchanged, so party and plain boards play together. The one gap: a
+plain `ble_broadcast_anim` sender has no preamble, so an IDLE party
+board can miss it. An ACTIVE one will not.
+
+White (the green swatch, touched twice) plays as a rainbow that cycles
+with time, as in `hwtest_touch`. It is still white on the wire, so a
+plain `ble_broadcast_anim` board shows it as white.
 
 DEEP waits on received animations as well as touches, so a board in a
 busy group stays awake to hear it. Once in DEEP it hears nothing until
