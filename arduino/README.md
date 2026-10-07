@@ -427,8 +427,9 @@ unchanged, so party and plain boards play together. The one gap: a
 plain `ble_broadcast_anim` sender has no preamble, so an IDLE party
 board can miss it. An ACTIVE one will not.
 
-White (the green swatch, touched twice) plays as a rainbow that cycles
-with time, as in `hwtest_touch`. It is still white on the wire, so a
+White (the green swatch, touched twice) plays as a rainbow: each LED
+takes the hue of the moment it lights and keeps it as it fades, so a
+stroke leaves a rainbow trail. It is still white on the wire, so a
 plain `ble_broadcast_anim` board shows it as white.
 
 DEEP waits on received animations as well as touches, so a board in a

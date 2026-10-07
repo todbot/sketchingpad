@@ -202,10 +202,19 @@ uint32_t colorwheel(uint8_t pos) {
 // White plays as a rainbow here, done at blit so the wire format and
 // led_anim.h are untouched: plain boards still show white.  White is the
 // only gray palette entry and fades as gray, so gray means white.
-uint32_t rainbowWhite(uint32_t c, uint32_t now) {
+//
+// Each LED keeps the hue it was lit with, so a stroke trails a rainbow.
+// A fade only dims, so a brighter value than last frame means a new hit.
+uint8_t white_hue[NUM_LEDS];
+uint8_t white_last[NUM_LEDS];
+
+uint32_t rainbowWhite(uint8_t i, uint32_t c, uint32_t now) {
   uint8_t r = c >> 16, g = c >> 8, b = c;
-  if (!c || r != g || g != b) { return c; }
-  uint32_t w = colorwheel(now / 5);
+  if (r != g || g != b) { r = 0; } // not white
+  if (r > white_last[i]) { white_hue[i] = now / 2; }
+  white_last[i] = r;
+  if (!r) { return c; }
+  uint32_t w = colorwheel(white_hue[i]);
   return Adafruit_NeoPixel::Color(((w >> 16) & 0xff) * r / 255,
                                   ((w >> 8) & 0xff) * r / 255,
                                   (w & 0xff) * r / 255);
@@ -215,7 +224,7 @@ void blit() {
   if (!rail_on) { ledPower(true); }
   uint32_t now = millis();
   for (int i = 0; i < NUM_LEDS; i++) {
-    leds.setPixelColor(i, rainbowWhite(anim.pixel(i), now));
+    leds.setPixelColor(i, rainbowWhite(i, anim.pixel(i), now));
   }
   leds.show();
 }
