@@ -1,15 +1,18 @@
-# Publishes web/ (the browser flasher) to GitHub Pages, with the latest
-# release's zips copied in.  Release assets send no CORS headers, so the
+# On a published release: builds every sketch's DFU zip and attaches it to
+# the release, then publishes web/ (the browser flasher) to GitHub Pages
+# with those zips copied in.  Release assets send no CORS headers, so the
 # page can only fetch zips served from its own origin.
+#
+# One workflow, not two: deploy must wait for the upload.
 name: pages
 
 on:
   release:
     types: [published]
-  workflow_dispatch:
+  workflow_dispatch: # redeploy the latest release, no build
 
 permissions:
-  contents: read
+  contents: write # gh release upload
   pages: write
   id-token: write
 
@@ -18,7 +21,44 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  build:
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: arduino/setup-arduino-cli@v2
+
+      # Versions match the ones the releases have been built and tested with.
+      - name: Install core and libraries
+        run: |
+          arduino-cli config init
+          arduino-cli config add board_manager.additional_urls \
+            https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
+          arduino-cli core update-index
+          arduino-cli core install Seeeduino:nrf52@1.1.13
+          arduino-cli lib install "TS20@0.6.0" \
+                                  "Adafruit MPR121@1.2.1" \
+                                  "Adafruit NeoPixel@1.15.5" \
+                                  "Adafruit TinyUSB Library@3.7.7" \
+                                  "MIDI Library@5.0.2"
+
+      # Makes the DFU zip; not assumed to come with the core on Linux.
+      - run: pip3 install adafruit-nrfutil
+
+      - run: make -C arduino release
+
+      - name: Attach zips to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "${{ github.event.release.tag_name }}" \
+            arduino/release/*.zip --clobber
+
   deploy:
+    needs: build
+    # build is skipped on workflow_dispatch, which must not skip this too.
+    if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages
