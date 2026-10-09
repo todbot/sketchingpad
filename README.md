@@ -109,7 +109,8 @@ Decisions:
   power, using Neopixel-like LEDs costs power (but these are static 0.25mA/LED). 
   Using Neopixel-like LEDs on a battery-conscious design is foolish, but after
   spending weeks attempting to route an IS31FL3731 RGB design, I punted.
-  
+  The LEDs do at least have a PFET gating the power so we can save 5mA when
+  not actively driving the LEDs.  
 
 
 ## Enclosure
