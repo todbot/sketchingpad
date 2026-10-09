@@ -8,10 +8,10 @@
 ## Features
 
 * 20-pad capacitive touch surface with 20 SK6812 addressable LEDs backlighting the touchpads
+* [XIAO nRF52840](https://wiki.seeedstudio.com/XIAO_BLE/) BLE w/ LiPo charging
 * LiPo battery jack with power switch
 * Tact switch to switch modes, wake up, or go into deep sleep
 * Audio out jack for audio fun
-* Driven by any XIAO/QTPy board, but designed for [XIAO nRF52840](https://wiki.seeedstudio.com/XIAO_BLE/) BLE-capable w/ LiPo charging
 
 Two Board variations because of supply chain madness:
 
