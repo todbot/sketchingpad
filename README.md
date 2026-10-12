@@ -2,7 +2,7 @@
 # SketchingPad - 20-key BLE touch pad
 
 
-<img src="./docs/sketchingpad1-render.jpg" width=350>
+<img src="./docs/sketchingpad1-render.jpg" width=400>
 
 
 ## Features
@@ -13,12 +13,6 @@
 * Tact switch to switch modes, wake up, or go into deep sleep
 * Audio out jack for audio fun
 
-Two Board variations because of supply chain madness:
-
-- `sketchingpad1` -- TS20 touch chip
-- `sketchingpad1_mpr` -- 2x MPR121 touch chips
-
-Unless otherwise noted, software runs on both sketchingpad boards.
 
 <img src="./docs/sketchingpad1_board_descs.png" width=600>
 
