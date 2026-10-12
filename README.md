@@ -161,4 +161,12 @@ KiCad source files available in the "schematics" directory.
 [<img src="./docs/sketchingpad1_mpr-sch.png" width=700>](./schematics/sketchingpad1_mpr/sketchingpad1_mpr-sch.pdf)
 
 
+## Demo
+
+
+https://github.com/user-attachments/assets/d27a3079-bf75-4f49-8079-a613aa76e5e4
+
+
+
+
 
