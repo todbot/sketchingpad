@@ -20,6 +20,8 @@ Two Board variations because of supply chain madness:
 
 Unless otherwise noted, software runs on both sketchingpad boards.
 
+<img src="./docs/sketchingpad1_board_descs.png" width=600>
+
 
 ## Software
 
