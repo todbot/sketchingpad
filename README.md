@@ -13,7 +13,7 @@
 * Audio out jack for audio fun
 
 
-<img src="./docs/sketchingpad1_board_descs.png" width=600>
+<img src="./docs/sketchingpad1_board_descs.png" width=550>
 
 
 ## Software
