@@ -1,7 +1,6 @@
 
 # SketchingPad - 20-key BLE touch pad
 
-
 <img src="./docs/sketchingpad1-render.jpg" width=400>
 
 
@@ -184,6 +183,7 @@ https://github.com/user-attachments/assets/d27a3079-bf75-4f49-8079-a613aa76e5e4
 
 How to install & remove the case. 
 
+https://github.com/user-attachments/assets/99311e4a-093e-42f9-914b-14518b83df6d
 
 
 
