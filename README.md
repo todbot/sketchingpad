@@ -115,6 +115,20 @@ As seen in the photos, there is a simple [3d-printable enclosure](./enclosure).
 It's fast to print and you can snap the PCB in to quickly get started,
 or use M2.5 screws and nuts to secure the PCB more permanently.
 
+**Battery note:** if you have a battery, attach the it with double-sided tape to the PCB 
+and install the combined assembly in the case. 
+
+**Installation into case:** The snaps are on the top and the bottom.  
+To fit the PCB, secure it under the lower snap first, 
+then rotate the PCB down until it snaps with the top snaps.
+
+**Removal of the case:** To remove the PCB from the case, 
+carefully pry the top of the PCB away, working slowly on each side. 
+Use the cutout holes for the button and audio jack as a place to start. 
+
+See the [Demos](#demos) section below for a video of installation & removal.
+
+
 
 ## Pinout
 
@@ -155,11 +169,20 @@ KiCad source files available in the "schematics" directory.
 [<img src="./docs/sketchingpad1_mpr-sch.png" width=700>](./schematics/sketchingpad1_mpr/sketchingpad1_mpr-sch.pdf)
 
 
-## Demo
+## Demos
 
+###  sketchingpad1_party demo
+
+Sketch a color pattern with your fingers on the bottom 16 pads.
+After 1.5s of pause, it transmits that pattern to all other sketchingpad1_party boards.
+Top 4 pads select which colors. Each pad toggles between two colors.
 
 https://github.com/user-attachments/assets/d27a3079-bf75-4f49-8079-a613aa76e5e4
 
+
+### Case install / removal
+
+How to install & remove the case. 
 
 
 
