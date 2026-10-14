@@ -8,7 +8,7 @@
 
 * 20-pad capacitive touch surface with 20 SK6812 addressable LEDs backlighting the touchpads
 * [XIAO nRF52840](https://wiki.seeedstudio.com/XIAO_BLE/) BLE w/ LiPo charging
-* LiPo battery jack with power switch
+* LiPo battery jack with power switch (power switch must be ON to charge)
 * Tact switch to switch modes, wake up, or go into deep sleep
 * Audio out jack for audio fun
 
