@@ -1,7 +1,7 @@
 
 # SketchingPad - 20-key BLE touch pad
 
-<img src="./docs/sketchingpad1-render.jpg" width=400>
+<img src="./docs/sketchingpad1_anim.gif" width=500>
 
 
 ## Features
