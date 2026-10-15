@@ -83,29 +83,34 @@ The design points then:
 - Wireless: NRF52 or ESP32 class board for WiFi/BLE 
 - Low-power: NRF52 (ESP32 has 10x idle power draw and nRF can hit microamp SLEEP)
 - Battery: LiPo charger or 1.5V boost converter. 1.5V boost too inefficient, 
-  so LiPo charger,  built-in to SuperMini and some XIAO-format boards
+  so LiPo charger, built-in to SuperMini and some XIAO-format boards. 
 - Touch sensing: I2C touch sensor chip with 20+ electrodes and INT pin support, 
   and low quiescent current
 - LEDs: backlit touchpads, not cutout
 
 Decisions:
 
-- MCU: XIAO NRF52840 - BLE and built-in LiPo charging in 1" sq package.
+- MCU: **XIAO NRF52840** - BLE and built-in LiPo charging in 1" sq package.
   Runner up: NRF52840 SuperMini (nice!nano clones), but suspect build quality.
   By going with XIAO/QTPy-format boards, other similar boards could be used, 
   at the expense of the battery connections (which are in a non-standard location)
   for USB-only uses. 
 
-- Touch chip: TS20 - cheap on LCSC and was always in stock, except during
-  final production, so a quick switch to 2x MPR121.  Both had 100 uA idle current
+- Touch chip: **TS20** - cheap on LCSC and was always in stock, except during
+  final production, so a quick switch to **2x MPR121**. Both had 100 uA idle current
   and less in sleep mode but don't use sleep mode yet.
   
-- LEDs: SK6812-SIDE-A to backlight the touchpads. Backlight through PCB costs
+- LEDs: **SK6812-SIDE-A** to backlight the touchpads. Backlight through PCB costs
   power, using Neopixel-like LEDs costs power (but these are static 0.25mA/LED). 
   Using Neopixel-like LEDs on a battery-conscious design is foolish, but after
   spending weeks attempting to route an IS31FL3731 RGB design, I punted.
   The LEDs do at least have a PFET gating the power so we can save 5mA when
-  not actively driving the LEDs.  
+  not actively driving the LEDs.
+  
+- Battery: **LiPo 3.7V** w/ JST 2.0 mm connector (RC standard, not adafruit standard),
+  using LiPo charger built-in to XIAO NRF52840. Turns out AAA in a holder is very tall! 
+  I want this project to be flat. A small [3d-printable JST 2mm removal tool](https://makerworld.com/en/models/1473368-disconnect-tool-for-ph2-0-and-sh1-0-connectors#profileId-1537598) 
+  is really handy.
 
 
 ## Enclosure
