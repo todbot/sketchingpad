@@ -1,5 +1,5 @@
 
-# SketchingPad - 20-key BLE touch pad
+# SketchingPad - 20-key BLE touch pad macropad
 
 <img src="./docs/sketchingpad1_anim.gif" width=550>
 
