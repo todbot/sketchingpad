@@ -62,6 +62,12 @@
   #status .msg.err { color: var(--err); }
   #status button { margin-top: 8px; }
   progress { width: 100%; height: 8px; accent-color: var(--accent); }
+  h2 { font-size: 1.15rem; margin: 28px 0 4px; }
+  #log {
+    max-height: 40vh; overflow: auto; margin: 8px 0 0; padding: 8px;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 6px;
+    font: 12px/1.4 ui-monospace, monospace; white-space: pre-wrap;
+  }
   footer { color: var(--muted); font-size: 0.88rem; margin-top: 28px; }
   a { color: var(--accent); }
 </style>
@@ -85,10 +91,19 @@
     <div id="older-list"></div>
   </details>
 
+  <section id="cp" hidden>
+    <h2>CircuitPython</h2>
+    <p class="sub">Flash CircuitPython first, then install a program onto
+      it. Installing replaces <code>code.py</code>, <code>boot.py</code>
+      and <code>lib/</code> on CIRCUITPY; other files stay.</p>
+    <div id="cp-list"></div>
+  </section>
+
   <div id="status">
     <div class="panel">
       <div class="msg"></div>
       <progress max="100" value="0"></progress>
+      <pre id="log" hidden></pre>
       <button id="pick" hidden>Select bootloader port</button>
       <button id="close" hidden>Close</button>
     </div>
@@ -107,12 +122,18 @@
 <script type="module">
 import { performDfu, enterDfuMode }
   from "https://cdn.jsdelivr.net/npm/nrfutil-web@1.0.0/+esm";
+import { unzipSync, strFromU8 }
+  from "https://cdn.jsdelivr.net/npm/fflate@0.8.2/+esm";
 
 // Seeed.  The bootloader's PID varies (a XIAO seen with the Sense
 // bootloader enumerates as 0x0045), so tell the two apart by the
 // Adafruit convention instead: application PIDs have bit 15 set.
 const VID = 0x2886;
 const isBoot = (p) => (p.getInfo().usbProductId & 0x8000) === 0;
+// CircuitPython runs as 0x0045 too, so that PID could be either.  The
+// bootloader ignores the 1200 bps touch, so touching it anyway is safe.
+const SHARED_PID = 0x0045;
+const mayBeApp = (p) => !isBoot(p) || p.getInfo().usbProductId === SHARED_PID;
 
 // Filled from sketches.json, which is kept in step with the sketch
 // table in arduino/README.md
@@ -122,6 +143,7 @@ const $ = (s) => document.querySelector(s);
 const status = $("#status");
 const msg = status.querySelector(".msg");
 const bar = status.querySelector("progress");
+const log = $("#log");
 const pickBtn = $("#pick");
 const closeBtn = $("#close");
 closeBtn.onclick = () => status.classList.remove("show");
@@ -187,6 +209,7 @@ async function flash(name) {
   if (busy) { return; }
   setBusy(true);
   closeBtn.hidden = true;
+  log.hidden = true;
   bar.value = 0;
   try {
     say(`Downloading ${name}...`);
@@ -201,7 +224,7 @@ async function flash(name) {
         filters: [{ usbVendorId: VID }],
       });
     }
-    if (!isBoot(port)) {
+    if (mayBeApp(port)) {
       say("Resetting into the bootloader...");
       await enterDfuMode(port);
       port = await bootloaderPort();
@@ -230,14 +253,261 @@ async function flash(name) {
   }
 }
 
+// ------------------------------------------------- CircuitPython programs
+//
+// CIRCUITPY lives on the QSPI flash, out of DFU's reach, so a program is
+// written file by file over the raw REPL instead, the way
+// circuitpython/tools/repl_write_test.py proved out.
+
+const enc = new TextEncoder();
+const dec = new TextDecoder();
+const CHUNK = 3072; // bytes per exec: 1.8 KB/s at 192, ~17 KB/s at this
+
+function indexOf(hay, needle) {
+  outer: for (let i = 0; i <= hay.length - needle.length; i++) {
+    for (let j = 0; j < needle.length; j++) {
+      if (hay[i + j] !== needle[j]) { continue outer; }
+    }
+    return i;
+  }
+  return -1;
+}
+
+class Repl {
+  constructor(port) { this.port = port; this.buf = new Uint8Array(0); }
+
+  async open() {
+    await this.port.open({ baudRate: 115200 });
+    this.reader = this.port.readable.getReader();
+    this.writer = this.port.writable.getWriter();
+  }
+
+  // Each step on its own: one that throws must not leave the port open.
+  async close() {
+    try { await this.reader.cancel(); } catch {}
+    try { await this.pending; } catch {}
+    try { this.reader.releaseLock(); } catch {}
+    try { this.writer.releaseLock(); } catch {}
+    try { await this.port.close(); } catch (e) { console.error(e); }
+  }
+
+  write(s) { return this.writer.write(enc.encode(s)); }
+
+  // One read stays outstanding across calls: a timed-out read can't be
+  // abandoned without cancel(), which would end the stream.
+  async next(ms) {
+    this.pending ??= this.reader.read();
+    const timer = new Promise((r) => setTimeout(() => r(null), ms));
+    const got = await Promise.race([this.pending, timer]);
+    if (got === null) { return null; }
+    this.pending = null;
+    if (got.done) { throw new Error("serial port closed"); }
+    return got.value;
+  }
+
+  // Up to and including `token`; what came after it is kept for the next
+  // call, or the reply to the next exec goes missing.
+  async readUntil(token, ms = 5000) {
+    const t = enc.encode(token);
+    const end = Date.now() + ms;
+    for (;;) {
+      const i = indexOf(this.buf, t);
+      if (i >= 0) {
+        const out = this.buf.slice(0, i + t.length);
+        this.buf = this.buf.slice(i + t.length);
+        return dec.decode(out);
+      }
+      if (Date.now() >= end) {
+        throw new Error(`timeout waiting for ${JSON.stringify(token)}`);
+      }
+      const c = await this.next(end - Date.now());
+      if (c) {
+        const b = new Uint8Array(this.buf.length + c.length);
+        b.set(this.buf);
+        b.set(c, this.buf.length);
+        this.buf = b;
+      }
+    }
+  }
+
+  async rawRepl() {
+    await this.write("\x03\x03");
+    await sleep(300);
+    // Ctrl-B leaves a raw REPL an earlier run left behind; otherwise it
+    // is the key that "Press any key to enter the REPL" wants.
+    await this.write("\x02");
+    await sleep(300);
+    await this.write("\r");
+    await this.readUntil(">>> ", 3000);
+    await this.write("\x01");
+    await this.readUntil("raw REPL; CTRL-B to exit\r\n>");
+  }
+
+  async exec(code, ms = 10000) {
+    await this.write(code + "\x04");
+    await this.readUntil("OK", ms);
+    const out = (await this.readUntil("\x04", ms)).slice(0, -1);
+    const err = (await this.readUntil("\x04", ms)).slice(0, -1);
+    await this.readUntil(">", ms);
+    if (err) { throw new Error(err.trim().split("\n").pop()); }
+    return out.trim();
+  }
+}
+
+// lib/ goes wholesale so no library from another version lingers, and
+// every file CircuitPython would run instead of code.py goes with it.
+const BOARD_PREP = `
+import os, storage, binascii
+storage.unsafe_disable_usb_drive()
+def rm(p):
+    try:
+        if os.stat(p)[0] & 0x4000:
+            for n in os.listdir(p):
+                rm(p + "/" + n)
+            os.rmdir(p)
+        else:
+            os.remove(p)
+    except OSError:
+        pass
+def mk(p):
+    q = ""
+    for s in p.split("/")[1:-1]:
+        q += "/" + s
+        try:
+            os.mkdir(q)
+        except OSError:
+            pass
+for n in ("lib", "boot.py", "code.txt", "code.py", "main.txt", "main.py"):
+    rm("/" + n)
+`;
+
+function b64(bytes) {
+  let s = "";
+  for (let i = 0; i < bytes.length; i++) { s += String.fromCharCode(bytes[i]); }
+  return btoa(s);
+}
+
+async function anyPort() {
+  const p = (await navigator.serial.getPorts())
+    .find((q) => q.getInfo().usbVendorId === VID);
+  return p || navigator.serial.requestPort({ filters: [{ usbVendorId: VID }] });
+}
+
+// After a reset the old SerialPort is dead; the new one shows up in
+// getPorts() once the board is back on the bus.
+async function watch(ms) {
+  let port;
+  for (let i = 0; i < 30 && !port; i++) {
+    await sleep(300);
+    port = (await navigator.serial.getPorts())
+      .find((q) => q.getInfo().usbVendorId === VID);
+  }
+  if (!port) { return "(board did not come back)"; }
+  const r = new Repl(port);
+  await r.open();
+  // Its first lines went out before the port was open, so run code.py
+  // again with someone listening.  boot.py already ran on the reset.
+  await r.write("\x03");
+  await sleep(300);
+  await r.write("\x04");
+  const end = Date.now() + ms;
+  let text = "";
+  while (Date.now() < end) {
+    const c = await r.next(end - Date.now());
+    if (c) {
+      text += dec.decode(c);
+      log.textContent = text.slice(text.lastIndexOf("soft reboot"));
+      log.scrollTop = log.scrollHeight;
+    }
+  }
+  await r.close();
+  return log.textContent;
+}
+
+async function install(name) {
+  if (busy) { return; }
+  setBusy(true);
+  closeBtn.hidden = true;
+  log.hidden = true;
+  log.textContent = "";
+  bar.value = 0;
+  let repl;
+  try {
+    say(`Downloading ${name}...`);
+    const resp = await fetch(`firmware/${name}.zip`);
+    if (!resp.ok) { throw new Error(`firmware/${name}.zip: ${resp.status}`); }
+    const files = unzipSync(new Uint8Array(await resp.arrayBuffer()));
+    const want = JSON.parse(strFromU8(files["bundle.json"])).circuitpython;
+    const paths = Object.keys(files)
+      .filter((f) => !f.endsWith("/") && f !== "bundle.json");
+    const total = paths.reduce((n, f) => n + files[f].length, 0);
+
+    say("Select the sketchingpad's serial port.");
+    repl = new Repl(await anyPort());
+    await repl.open();
+    say("Talking to CircuitPython...");
+    try {
+      await repl.rawRepl();
+    } catch {
+      throw new Error("No CircuitPython REPL answered. " +
+        "Flash CircuitPython from the list first");
+    }
+    const have = await repl.exec("import os; print(os.uname().release)");
+    if (have.split(".")[0] !== want.split(".")[0]) {
+      throw new Error(`Board runs CircuitPython ${have}, this needs ` +
+        `${want.split(".")[0]}.x. Flash CircuitPython from the list first`);
+    }
+
+    say("Clearing the old program...");
+    await repl.exec(BOARD_PREP);
+    let sent = 0;
+    for (const f of paths) {
+      say(`Writing ${f}`);
+      const data = files[f];
+      await repl.exec(`mk("/${f}"); f = open("/${f}", "wb")\n` +
+        "w = lambda s: f.write(binascii.a2b_base64(s))");
+      for (let i = 0; i < data.length; i += CHUNK) {
+        await repl.exec(`w("${b64(data.subarray(i, i + CHUNK))}")`);
+        sent += Math.min(CHUNK, data.length - i);
+        bar.value = Math.round((100 * sent) / total);
+      }
+      await repl.exec("f.close()");
+    }
+
+    say("Restarting...");
+    // The board drops USB before it can answer.
+    await repl.write("import microcontroller; microcontroller.reset()\x04");
+    await repl.close();
+    repl = null;
+
+    say(`Installed ${name.slice(3)}. It says:`, "ok");
+    log.hidden = false;
+    await watch(8000);
+  } catch (e) {
+    if (e.name === "NotFoundError") {
+      say("No port selected.", "err");
+    } else {
+      say(`${e.message || e}.`, "err");
+    }
+    console.error(e);
+  } finally {
+    if (repl) { await repl.close(); }
+    closeBtn.hidden = false;
+    setBusy(false);
+  }
+}
+
 function row(name) {
+  const program = name.startsWith("cp-");
   const d = document.createElement("div");
   d.className = "row";
   d.innerHTML = `<div class="info"><div class="name"></div>
-    <div class="desc"></div></div><button>Flash</button>`;
-  d.querySelector(".name").textContent = name;
+    <div class="desc"></div></div><button></button>`;
+  d.querySelector(".name").textContent = program ? name.slice(3) : name;
   d.querySelector(".desc").textContent = about[name]?.about || "";
-  d.querySelector("button").onclick = () => flash(name);
+  const b = d.querySelector("button");
+  b.textContent = program ? "Install" : "Flash";
+  b.onclick = () => (program ? install(name) : flash(name));
   return d;
 }
 
@@ -260,7 +530,10 @@ async function main() {
   const rank = (n) => about[n]?.rank ?? Infinity;
   names.sort((a, b) => rank(a) - rank(b) || a.localeCompare(b));
   for (const n of names) {
-    if (about[n]?.older) {
+    if (n.startsWith("cp-") || n.startsWith("circuitpython-")) {
+      $("#cp").hidden = false;
+      $("#cp-list").append(row(n));
+    } else if (about[n]?.older) {
       $("#older").hidden = false;
       $("#older-list").append(row(n));
     } else {

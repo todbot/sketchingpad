@@ -81,7 +81,8 @@ WEB_FW := ../web/firmware
 web:
 	@mkdir -p $(WEB_FW)
 	@rm -f $(WEB_FW)/*.zip
-	@cp $(RELEASE)/*.zip $(WEB_FW)/
+	@cp $(RELEASE)/*.zip $(wildcard ../circuitpython/release/*.zip) \
+	  $(WEB_FW)/
 	@cd $(WEB_FW) && ls *.zip | sed 's/.*/"&"/' | paste -sd, - \
 	  | sed 's/^/{"tag": "local build", "files": [/; s/$$/]}/' > index.json
 	@echo "$(WEB_FW): `ls $(WEB_FW)/*.zip | wc -l | tr -d ' '` zips"

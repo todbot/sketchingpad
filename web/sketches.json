@@ -29,6 +29,18 @@
   {"name": "hwtest_leds",
     "about": "Chases one pixel around the 20 LEDs"},
 
+  {"name": "circuitpython-10.3.1",
+    "about": "CircuitPython itself, needed by the programs below"},
+
+  {"name": "cp-swarmsynth",
+    "about": "Swarmatron-style drone synth, audio out the jack"},
+
+  {"name": "cp-sketchingpad_midi_simple",
+    "about": "USB + BLE MIDI controller"},
+
+  {"name": "cp-ble_keyboard_lowpower",
+    "about": "BLE HID keyboard, two power tiers"},
+
   {"name": "hwtest_ts20", "older": true,
    "about": "TS20 only: an LED for each touched pad, with a fading trail"},
   {"name": "hwtest_lowpower_ts20", "older": true,

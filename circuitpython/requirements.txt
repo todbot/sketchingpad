@@ -1,7 +1,9 @@
 neopixel
-circuitpython-ts20
-circuitpython-tmidi
+ts20
+tmidi
 adafruit-circuitpython-mpr121
 adafruit-circuitpython-ble
 adafruit-circuitpython-ble-midi
 adafruit-circuitpython-hid
+# github.com/todbot/CircuitPython_SynthTools -- swarmsynth's synth engine
+synthtools

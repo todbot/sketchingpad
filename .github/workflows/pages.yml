@@ -1,5 +1,5 @@
-# On a published release: builds every sketch's DFU zip and attaches it to
-# the release, then publishes web/ (the browser flasher) to GitHub Pages
+# On a published release: builds every sketch's DFU zip, and one of
+# CircuitPython, and attaches them to the release, then publishes web/ (the browser flasher) to GitHub Pages
 # with those zips copied in.  Release assets send no CORS headers, so the
 # page can only fetch zips served from its own origin.
 #
@@ -43,17 +43,19 @@ jobs:
                                   "Adafruit TinyUSB Library@3.7.7" \
                                   "MIDI Library@5.0.2"
 
-      # Makes the DFU zip; not assumed to come with the core on Linux.
-      - run: pip3 install adafruit-nrfutil
+      # Makes the DFU zips; not assumed to come with the core on Linux.
+      # circup fetches the CircuitPython programs' libraries.
+      - run: pip3 install adafruit-nrfutil circup
 
       - run: make -C arduino release
+      - run: make -C circuitpython release
 
       - name: Attach zips to the release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release upload "${{ github.event.release.tag_name }}" \
-            arduino/release/*.zip --clobber
+            arduino/release/*.zip circuitpython/release/*.zip --clobber
 
   deploy:
     needs: build

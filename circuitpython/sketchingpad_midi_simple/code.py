@@ -16,9 +16,9 @@
 # arduino/shared/touch.h: this file never sees a channel or an electrode.
 #
 # Libraries: tmidi, adafruit_ble, adafruit_ble_midi, neopixel, plus ts20
-# and adafruit_mpr121 by way of touch.py.  Copy touch.py and boot.py to
-# the CIRCUITPY root alongside this file -- without boot.py usb_midi.ports
-# is empty, and the banner says so.
+# and adafruit_mpr121 by way of touch.py.  Copy touch.py, led_rail.py and
+# boot.py to the CIRCUITPY root alongside this file -- without boot.py
+# usb_midi.ports is empty, and the banner says so.
 #
 # Everything here is in LED-index space: bit n is LED n, which is TP(n+1)
 # on the silkscreen.
@@ -29,6 +29,7 @@ import adafruit_ble_midi
 import board
 import busio
 import digitalio
+import led_rail
 import microcontroller
 import neopixel
 import touch as touch
@@ -112,8 +113,8 @@ ID_CODE = "".join(ID_LETTERS[d] for d in ID_DIGITS)
 # The rail hangs off a P-FET whose gate is pulled up to its source, so it
 # is off until D7 is driven low.  Without this the LEDs never light.
 led_power = digitalio.DigitalInOut(PIN_LED_POWER)
-led_power.switch_to_output(value=False)
-time.sleep(0.002)  # let ~2 uF of rail decoupling settle before clocking data
+led_power.switch_to_output(value=True)
+led_rail.on(led_power)
 
 leds = neopixel.NeoPixel(
     PIN_LED_DATA, NUM_LEDS, brightness=LED_BRIGHTNESS, auto_write=False

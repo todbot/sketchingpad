@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2026 Tod Kurt
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
-# copies_test.py -- touch.py is copied per sketch, like the Arduino headers
+# copies_test.py -- touch.py and led_rail.py are copied per sketch, like
+# the Arduino headers
 #
 # Each CIRCUITPY root gets one flat pile of files, so a sketch that imports
 # touch.py needs its own copy next to code.py. `make -C arduino check` does
@@ -20,53 +21,57 @@ CIRCUITPYTHON = os.path.abspath(os.path.join(HERE, os.pardir))
 def copies_of(filename):
     found = []
     for root, dirs, files in os.walk(CIRCUITPYTHON):
-        dirs[:] = [d for d in dirs if d not in ("tests", "__pycache__")]
+        dirs[:] = [d for d in dirs if d not in ("tests", "__pycache__", "release")]
         if filename in files:
             found.append(os.path.join(root, filename))
     return sorted(found)
 
 
-class TouchCopies(unittest.TestCase):
-    def setUp(self):
-        self.copies = copies_of("touch.py")
+SHARED = ("touch.py", "led_rail.py")
 
+
+class SharedCopies(unittest.TestCase):
     def test_there_is_more_than_one_to_compare(self):
         # If this ever drops to one the suite below is vacuous, so say so
         # rather than passing silently.
-        self.assertGreaterEqual(len(self.copies), 2, "only one touch.py: %s" % self.copies)
+        for name in SHARED:
+            copies = copies_of(name)
+            self.assertGreaterEqual(len(copies), 2, "only one %s: %s" % (name, copies))
 
     def test_every_copy_is_identical(self):
-        digests = {}
-        for path in self.copies:
-            with open(path, "rb") as fh:
-                digests.setdefault(hashlib.sha256(fh.read()).hexdigest(), []).append(
-                    os.path.relpath(path, CIRCUITPYTHON)
-                )
-        self.assertEqual(
-            len(digests), 1,
-            "touch.py copies have drifted:\n" + "\n".join(
-                "  %s  %s" % (d[:12], ", ".join(paths)) for d, paths in digests.items()))
+        for name in SHARED:
+            digests = {}
+            for path in copies_of(name):
+                with open(path, "rb") as fh:
+                    digests.setdefault(hashlib.sha256(fh.read()).hexdigest(), []).append(
+                        os.path.relpath(path, CIRCUITPYTHON)
+                    )
+            self.assertEqual(
+                len(digests), 1,
+                "%s copies have drifted:\n" % name + "\n".join(
+                    "  %s  %s" % (d[:12], ", ".join(paths)) for d, paths in digests.items()))
 
 
 class SketchesUsingTouch(unittest.TestCase):
-    """A sketch that imports touch must have it sitting next to code.py."""
+    """A sketch that imports a shared module must have it next to code.py."""
 
     def test_importers_have_a_local_copy(self):
         for root, dirs, files in os.walk(CIRCUITPYTHON):
-            dirs[:] = [d for d in dirs if d not in ("tests", "__pycache__")]
+            dirs[:] = [d for d in dirs if d not in ("tests", "__pycache__", "release")]
             if "code.py" not in files:
                 continue
             source = open(os.path.join(root, "code.py")).read()
-            if "import touch" not in source:
-                continue
-            self.assertIn("touch.py", files,
-                          "%s imports touch but has no copy" % os.path.relpath(root, CIRCUITPYTHON))
+            for name in SHARED:
+                if "import " + name[:-3] not in source:
+                    continue
+                self.assertIn(name, files, "%s imports %s but has no copy" % (
+                    os.path.relpath(root, CIRCUITPYTHON), name[:-3]))
 
     def test_no_sketch_still_drives_a_sensor_directly(self):
         # The point of touch.py is that no sketch reaches past it. A stray
         # `import ts20` would also quietly reintroduce a per-board pad table.
         for root, dirs, files in os.walk(CIRCUITPYTHON):
-            dirs[:] = [d for d in dirs if d not in ("tests", "__pycache__", "hwtest", "hwtest-orig")]
+            dirs[:] = [d for d in dirs if d not in ("tests", "__pycache__", "release", "hwtest", "hwtest-orig")]
             if "code.py" not in files:
                 continue
             source = open(os.path.join(root, "code.py")).read()

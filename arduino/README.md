@@ -198,12 +198,14 @@ does, no double-tap reset needed.
 The sketchingpad flasher page in `web/index.html` is built on
 [nrfutil-web](https://github.com/takkaO/nrfutil-web). Publishing a
 github release runs `.github/workflows/pages.yml`. This builds every
-sketch at the release's tag, attaches the zips to the release (replacing
+sketch at the release's tag, plus CircuitPython as a DFU zip (see
+`circuitpython/README.md`), attaches the zips to the release (replacing
 any of the same name), and copies them onto the site (due to CORS).
 Running the workflow by hand redeploys the latest release without
 building.
 
-To try it locally: `make release web` in `arduino/`, then
+To try it locally: `make -C ../circuitpython release` for the
+CircuitPython zip if wanted, `make release web` in `arduino/`, then
 `python3 -m http.server -d ../web` and open `http://localhost:8000`.
 
 
