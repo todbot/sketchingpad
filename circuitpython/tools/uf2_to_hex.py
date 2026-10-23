@@ -8,8 +8,8 @@
 #
 # circuitpython.org ships the XIAO only as UF2, and getting to the UF2
 # drive takes the reset button.  As hex it packages into a DFU zip that
-# goes over serial like the Arduino sketches.  Needs intelhex, which
-# adafruit-nrfutil already pulls in.
+# goes over serial like the Arduino sketches.  Needs intelhex
+# (pip3 install intelhex).
 
 import struct
 import sys

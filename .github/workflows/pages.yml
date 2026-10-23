@@ -44,8 +44,9 @@ jobs:
                                   "MIDI Library@5.0.2"
 
       # Makes the DFU zips; not assumed to come with the core on Linux.
-      # circup fetches the CircuitPython programs' libraries.
-      - run: pip3 install adafruit-nrfutil circup
+      # circup fetches the CircuitPython programs' libraries; intelhex is
+      # for uf2_to_hex.py.
+      - run: pip3 install adafruit-nrfutil circup intelhex
 
       - run: make -C arduino release
       - run: make -C circuitpython release
