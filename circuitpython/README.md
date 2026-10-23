@@ -13,7 +13,9 @@ startup and finds the TS20 or the two MPR121s.
 * `swarmsynth/` -- Swarmatron-style drone synth, audio out the jack.
   Ported from synthiota's swarmsynth on synthtools' `SwarmSynth`:
   bottom row is 8 scale degrees, middle row transposes, TP17/TP18 narrow
-  and widen the swarm, TP19/TP20 shift octave, the button latches.
+  and widen the swarm, TP19/TP20 shift octave. Notes latch: tap the
+  sounding pad to stop it; the button toggles latch. LEDs fade out after
+  the last touch, since lit LEDs are audible (`LED_FADE` turns that off).
   Plays USB MIDI notes in and sends them out, CC 1 spread, CC 74 cutoff.
   Needs its `boot.py` for MIDI, like `sketchingpad_midi_simple`
 

@@ -15,8 +15,9 @@
 #   TP1  TP2  TP3  TP4   TP5  TP6  TP7  TP8     transpose -24 -12 -7 0 +7 ...
 #   TP9 TP10 TP11 TP12  TP13 TP14 TP15 TP16     the 8 scale degrees
 #
-# The button (SW1) toggles latch: the drone keeps sounding after you let
-# go, so a hand is free for the spread pads.
+# Latch is on at start: a note keeps sounding after you let go, so a hand
+# is free for the spread pads, and tapping the sounding pad stops it.  The
+# button (SW1) toggles latch.
 #
 # Note budget: SwarmSynth is mono, so a swarm costs SWARM_COUNT Notes,
 # doubling while a steal overlaps the releasing swarm with the new one,
@@ -54,6 +55,12 @@ PIN_BUTTON = board.D10  # SW1 to GND, no external pull-up
 
 SAMPLE_RATE = 22050
 LED_BRIGHTNESS = 0.15
+# Lit LEDs put their PWM on the 3.3 V the audio swings to, so they are
+# audible.  Fading them out after the last touch leaves a drone in quiet.
+# False keeps the indicators lit.
+LED_FADE = True
+LED_FADE_AFTER = 2.0  # seconds after the last touch
+LED_FADE_TIME = 1.0
 VELOCITY = 110  # touch pads have no velocity
 
 # The knobs synthiota had.  WAVE is one of SAW SQU TRI SIN ASAW ATRI ASQU
@@ -162,7 +169,8 @@ trans_i = TRANSPOSE.index(0)
 held = []  # degree pads down, in press order; last one wins (mono)
 last_pad = None  # degree pad the drone is sounding, None if MIDI drove it
 sounding = None  # midi note the synth is actually playing, None if silent
-latch = False
+latch = True
+last_touch = time.monotonic()  # for LED_FADE
 
 
 def play(pad):
@@ -205,8 +213,11 @@ def pads_changed(touches, changed):
         if PADS_DEGREE <= led < PADS_DEGREE + 8:
             pad = led - PADS_DEGREE
             if down:
+                if latch and pad == last_pad and sounding is not None:
+                    silence()
+                else:
+                    play(pad)
                 held.append(pad)
-                play(pad)
                 continue
             # `held` tracks what is physically down even while latched, so
             # the LEDs stay honest; latch only suppresses the sound change.
@@ -269,6 +280,14 @@ def dim(color, frac):
     return tuple(int(((color >> s) & 0xFF) * frac) for s in (16, 8, 0))
 
 
+def fade_level(now):
+    if not LED_FADE:
+        return 1.0
+    t = (now - last_touch - LED_FADE_AFTER) / LED_FADE_TIME
+    # Coarse steps, since each change costs a show().
+    return round(min(max(1.0 - t, 0.0), 1.0) * 20) / 20
+
+
 def colors(touches):
     out = [0] * touch.NUM_LEDS
     for pad in range(8):
@@ -307,6 +326,8 @@ while True:
     last_t = now
 
     touches = touch.read()
+    if touches:
+        last_touch = now
     if touches != last_touches:
         pads_changed(touches, touches ^ last_touches)
         last_touches = touches
@@ -314,6 +335,7 @@ while True:
 
     event = button.events.get()
     if event and event.pressed:
+        last_touch = now
         latch = not latch
         print("latch", "on" if latch else "off")
         if not latch and not held:  # else a latched drone rings forever
@@ -322,9 +344,10 @@ while True:
     check_midi()
 
     # Only on a change: every show() is a stall the audio buffer must cover.
-    c = colors(touches)
+    c = (colors(touches), fade_level(now))
     if c != last_colors:
-        for i, v in enumerate(c):
+        for i, v in enumerate(c[0]):
             leds[i] = v
+        leds.brightness = LED_BRIGHTNESS * c[1]
         leds.show()
         last_colors = c
