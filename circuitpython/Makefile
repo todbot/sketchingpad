@@ -39,7 +39,7 @@ release:
 	@echo "$(RELEASE)/$(NAME).zip"
 	@for p in $(PROGRAMS); do \
 	  d=$(BUILD)/$$p; rm -rf $$d; mkdir -p $$d; \
-	  cp -R $$p/ $$d/; rm -rf $$d/__pycache__; \
+	  cp -R $$p/. $$d/; rm -rf $$d/__pycache__; \
 	  circup --path $$d --board-id $(CP_BOARD) --cpy-version $(CP_VERSION) \
 	    $(BUNDLES) install --auto > $(BUILD)/$$p.log 2>&1 || \
 	    { cat $(BUILD)/$$p.log; exit 1; }; \
