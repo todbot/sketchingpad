@@ -1,0 +1,318 @@
+// SPDX-FileCopyrightText: 2026 Tod Kurt
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
+// sketchingpad_gamepad.ino -- sketchingpad as a USB + BLE HID gamepad
+//
+// sketchingpad_midi_simple's two transports with a gamepad instead of
+// MIDI.  Both run at once and neither is required: unplugged it is a BLE
+// gamepad, with nothing paired it is a USB gamepad.  A host that has both
+// sees two controllers.
+//
+// Poll the sensor, send on a change, light the LEDs.  No interrupts, no
+// power tiers, no sleep.  Runs on both boards -- touch.h probes I2C at
+// startup, TS20 at 0x6A or MPR121s at 0x5A and 0x5B.
+//
+// The left 4x2 block is a D-pad driving the hat; the other 14 pads are
+// buttons 1-14.  The six axes are always 0.
+//
+// A gamepad report is the whole state, not an event, so there is nothing
+// to get stuck.  Each transport keeps the last report it accepted and is
+// sent the current one whenever they differ: a refused send retries next
+// loop, and a transport coming back is caught up the same way.
+//
+// Everything here is in LED-index space: bit n of touchRead() is LED n,
+// which is TP(n+1) on the silkscreen.  There is no led_to_pad table in
+// this file; both tables live in touch_map.h, one per board rev.
+//
+// Board: Seeeduino:nrf52:xiaonRF52840
+
+#include <Adafruit_NeoPixel.h>
+#include <Wire.h>
+#include <Adafruit_TinyUSB.h>
+#include <bluefruit.h>
+
+// sketchingpad1 / sketchingpad1_mpr -> XIAO nRF52840:
+//   TOUCH_INT = D3 / A3  (open collector, R1 pulls up; both /IRQ on _mpr)
+//   SDA       = D4       (Wire default)
+//   SCL       = D5       (Wire default)
+//   LED_DAT   = D6 / TX
+//   LED_POWER = D7 / RX  (P-FET gate: LOW = rail on)
+#define PIN_LED_DATA  (6)
+#define PIN_LED_POWER (7)
+
+#include "device_id_code.h"
+#include "touch.h"
+
+const int NUM_LEDS = TOUCH_NUM_LEDS;
+const int LED_BRIGHTNESS = 40;
+
+const uint32_t HAT_COLOR = 0x00ffff;
+const uint32_t BUTTON_COLOR = 0xff00ff;
+
+// Indexed by LED, which is TP(n+1), so the table reads in silkscreen
+// order.  0 is a D-pad pad, anything else is the button number:
+//
+//            TP17 TP18 TP19 TP20             b11 b12 b13 b14
+//   TP1  TP2  TP3  TP4   TP5  TP6  TP7  TP8    b1   ^   ^  b2   b3 b4 b5 b6
+//   TP9 TP10 TP11 TP12  TP13 TP14 TP15 TP16    <    v   v   >   b7 b8 b9 b10
+const uint8_t led_to_button[TOUCH_NUM_LEDS] = {
+    1,  0,  0,  2,  // TP1-4,   mid left
+    3,  4,  5,  6,  // TP5-8,   mid right
+    0,  0,  0,  0,  // TP9-12,  low left
+    7,  8,  9,  10, // TP13-16, low right
+    11, 12, 13, 14, // TP17-20, top row
+};
+
+// The D-pad, two pads each for up and down so the arrow cluster fills
+// the block.
+const uint8_t PAD_UP_A = 1;    // TP2
+const uint8_t PAD_UP_B = 2;    // TP3
+const uint8_t PAD_LEFT = 8;    // TP9
+const uint8_t PAD_DOWN_A = 9;  // TP10
+const uint8_t PAD_DOWN_B = 10; // TP11
+const uint8_t PAD_RIGHT = 11;  // TP12
+
+// Which LEDs show the device ID code, left to right: the bottom row's left
+// five, TP9-13.  Change this line to put it somewhere else.
+const uint8_t ID_LEDS[DEVICE_ID_CODE_LEN] = {8, 9, 10, 11, 12};
+
+// No report ID: BLEHidGamepad's ID 1 rides in its characteristic's
+// report reference, not in the payload, so one struct serves both.
+uint8_t const desc_hid_report[] = {TUD_HID_REPORT_DESC_GAMEPAD()};
+
+Adafruit_NeoPixel leds(NUM_LEDS, PIN_LED_DATA, NEO_GRB + NEO_KHZ800);
+// Configured in setup(), not here: on the Seeed core a constructor's
+// stores into a TinyUSB object can be lost before setup() runs, and
+// begin() then fails silently, leaving a CDC-only device.
+Adafruit_USBD_HID usb_hid;
+BLEDis bledis;
+BLEHidGamepad blegamepad;
+
+uint32_t last_touches = 0;
+
+// What each transport last accepted; synced false means send regardless.
+hid_gamepad_report_t usb_sent;
+hid_gamepad_report_t ble_sent;
+bool usb_synced = false;
+bool ble_synced = false;
+bool was_usb_up = false;
+bool was_ble_up = false;
+
+static inline bool padOn(uint32_t touches, uint8_t led) {
+  return (touches >> led) & 1;
+}
+
+/// Opposite directions held together cancel rather than one of them
+/// winning on read order.
+uint8_t hatFor(uint32_t touches) {
+  bool up = padOn(touches, PAD_UP_A) || padOn(touches, PAD_UP_B);
+  bool down = padOn(touches, PAD_DOWN_A) || padOn(touches, PAD_DOWN_B);
+  bool left = padOn(touches, PAD_LEFT);
+  bool right = padOn(touches, PAD_RIGHT);
+  int dy = (down ? 1 : 0) - (up ? 1 : 0);
+  int dx = (right ? 1 : 0) - (left ? 1 : 0);
+  static const uint8_t hats[3][3] = {
+      {GAMEPAD_HAT_UP_LEFT, GAMEPAD_HAT_UP, GAMEPAD_HAT_UP_RIGHT},
+      {GAMEPAD_HAT_LEFT, GAMEPAD_HAT_CENTERED, GAMEPAD_HAT_RIGHT},
+      {GAMEPAD_HAT_DOWN_LEFT, GAMEPAD_HAT_DOWN, GAMEPAD_HAT_DOWN_RIGHT},
+  };
+  return hats[dy + 1][dx + 1];
+}
+
+uint32_t buttonsFor(uint32_t touches) {
+  uint32_t mask = 0;
+  for (uint8_t led = 0; led < NUM_LEDS; led++) {
+    if (led_to_button[led] && padOn(touches, led)) {
+      mask |= 1UL << (led_to_button[led] - 1);
+    }
+  }
+  return mask;
+}
+
+hid_gamepad_report_t buildReport(uint32_t touches) {
+  hid_gamepad_report_t rep = {};
+  rep.hat = hatFor(touches);
+  rep.buttons = buttonsFor(touches);
+  return rep;
+}
+
+bool needsSend(bool synced, const hid_gamepad_report_t &sent,
+               const hid_gamepad_report_t &rep) {
+  return !synced || memcmp(&sent, &rep, sizeof(rep)) != 0;
+}
+
+uint32_t colorFor(uint8_t led) {
+  return led_to_button[led] ? BUTTON_COLOR : HAT_COLOR;
+}
+
+/// What each pad is, for the diagnostic prints.
+const char *padName(uint8_t led) {
+  static char buf[16];
+  if (led_to_button[led]) {
+    snprintf(buf, sizeof(buf), "b%d", led_to_button[led]);
+  } else if (led == PAD_UP_A || led == PAD_UP_B) {
+    snprintf(buf, sizeof(buf), "hat up");
+  } else if (led == PAD_DOWN_A || led == PAD_DOWN_B) {
+    snprintf(buf, sizeof(buf), "hat down");
+  } else if (led == PAD_LEFT) {
+    snprintf(buf, sizeof(buf), "hat left");
+  } else {
+    snprintf(buf, sizeof(buf), "hat right");
+  }
+  return buf;
+}
+
+// Light the device's ID code on ID_LEDS.  Called at the end of setup(); it
+// stays up until the first touch, since loop() only redraws on a change.
+void showDeviceIdCode() {
+  uint32_t colors[DEVICE_ID_CODE_LEN];
+  deviceIdColors(colors);
+  leds.clear();
+  for (uint8_t i = 0; i < DEVICE_ID_CODE_LEN; i++) {
+    leds.setPixelColor(ID_LEDS[i], colors[i]);
+  }
+  leds.show();
+}
+
+void setup() {
+  usb_hid.setReportDescriptor(desc_hid_report, sizeof(desc_hid_report));
+  usb_hid.setPollInterval(2);
+  usb_hid.setBootProtocol(HID_ITF_PROTOCOL_NONE);
+  usb_hid.enableOutEndpoint(false);
+  usb_hid.setStringDescriptor("sketchingpad");
+  bool usb_hid_ok = usb_hid.begin();
+
+  // Detach/attach to let the host re-enumerate with the HID interface.
+  bool usb_was_mounted = TinyUSBDevice.mounted();
+  if (usb_was_mounted) {
+    TinyUSBDevice.detach();
+    delay(10);
+    TinyUSBDevice.attach();
+  }
+
+  Serial.begin(115200);
+  while (!Serial && millis() < 3000) { delay(10); } // bounded: may be on battery
+
+  // Enable the power rail to the Neopixels
+  pinMode(PIN_LED_POWER, OUTPUT);
+  digitalWrite(PIN_LED_POWER, LOW);
+  delay(2); // let ~2 uF of rail decoupling settle before clocking data in
+
+  leds.begin();
+  leds.setBrightness(LED_BRIGHTNESS);
+  leds.clear();
+  leds.show();
+
+  // Does Wire.begin(), the TS20's 100 ms power-up wait, and per-sensor config
+  if (!touchBegin()) {
+    Serial.println("No touch sensor found, check wiring!");
+    while (1) { delay(100); }
+  }
+
+  Bluefruit.begin(1, 0); // one peripheral, no central
+
+  // The advertised name carries this board's ID code, e.g.
+  // "sketchingpad-RMGGB", matching the five LEDs lit at the end of setup().
+  // This fills the advertising packet exactly: 31 = flags 3 + appearance 4
+  // + HID UUID 4 + name (2 + 18), so no addTxPower() here.
+  static char adv_name[32];
+  deviceIdName(adv_name, sizeof(adv_name), "sketchingpad");
+  Bluefruit.setName(adv_name);
+
+  bledis.setManufacturer("todbot");
+  bledis.setModel("sketchingpad");
+  bledis.begin();
+
+  blegamepad.begin();
+
+  Bluefruit.Advertising.addFlags(BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE);
+  Bluefruit.Advertising.addAppearance(BLE_APPEARANCE_HID_GAMEPAD);
+  Bluefruit.Advertising.addService(blegamepad);
+  Bluefruit.Advertising.addName();
+  Bluefruit.Advertising.restartOnDisconnect(true);
+  Bluefruit.Advertising.setInterval(32, 244);
+  Bluefruit.Advertising.setFastTimeout(30);
+  Bluefruit.Advertising.start(0); // 0 = advertise forever
+
+  showDeviceIdCode();
+
+  // Seed from a real read so we don't wipe the ID code on startup.
+  last_touches = touchRead();
+
+  Serial.printf("sketchingpad_gamepad: sensor %s, pair with \"%s\"\n",
+                touchName(), adv_name);
+  Serial.printf("usb hid begin %s, %s, mounted now %d\n",
+                usb_hid_ok ? "ok" : "FAILED",
+                usb_was_mounted ? "mounted before setup, bounced"
+                                : "not mounted at setup",
+                TinyUSBDevice.mounted());
+  Serial.printf("id code on LEDs %d-%d, first read %05lx\n", ID_LEDS[0],
+                ID_LEDS[DEVICE_ID_CODE_LEN - 1], (unsigned long)last_touches);
+  touchReport();
+}
+
+void loop() {
+  uint32_t touches = touchRead();
+  hid_gamepad_report_t rep = buildReport(touches);
+
+  // Up is mounted()/connected(); ready() only says the endpoint is free
+  // this instant, so a busy one is retried rather than counted as gone.
+  bool usb_up = TinyUSBDevice.mounted();
+  bool ble_up = Bluefruit.connected();
+  if (usb_up != was_usb_up) {
+    Serial.println(usb_up ? "usb mounted" : "usb unmounted");
+  }
+  if (ble_up != was_ble_up) {
+    Serial.println(ble_up ? "ble connected" : "ble gone");
+  }
+  was_usb_up = usb_up;
+  was_ble_up = ble_up;
+
+  if (!usb_up) {
+    usb_synced = false;
+  } else if (usb_hid.ready() && needsSend(usb_synced, usb_sent, rep)) {
+    if (usb_hid.sendReport(0, &rep, sizeof(rep))) {
+      if (!usb_synced) { Serial.println("usb hid: report accepted"); }
+      usb_sent = rep;
+      usb_synced = true;
+    }
+  }
+
+  // report() is refused until the host has paired and subscribed, so a
+  // fresh connection just keeps retrying until it lands.
+  if (!ble_up) {
+    ble_synced = false;
+  } else if (needsSend(ble_synced, ble_sent, rep)) {
+    if (blegamepad.report(&rep)) {
+      if (!ble_synced) { Serial.println("ble hid: report accepted"); }
+      ble_sent = rep;
+      ble_synced = true;
+    }
+  }
+
+  if (touches != last_touches) {
+    uint32_t changed = touches ^ last_touches;
+
+    // Sync state lags this report by a loop; "pending" that never clears
+    // is a transport that is up but not taking reports.
+    Serial.printf("touches %05lx -> hat %d buttons %04lx [usb %s, ble %s]\n",
+                  (unsigned long)touches, rep.hat, (unsigned long)rep.buttons,
+                  usb_up ? (usb_synced ? "ok" : "pending") : "down",
+                  ble_up ? (ble_synced ? "ok" : "pending") : "down");
+    for (uint8_t led = 0; led < NUM_LEDS; led++) {
+      if (!padOn(changed, led)) { continue; }
+      Serial.printf("  led %2d (TP%2d) <- %-9s %s %s\n", led, led + 1,
+                    touchSource(led), padOn(touches, led) ? "down" : "up  ",
+                    padName(led));
+    }
+
+    for (int i = 0; i < NUM_LEDS; i++) {
+      leds.setPixelColor(i, padOn(touches, i) ? colorFor(i) : 0);
+    }
+    leds.show();
+
+    last_touches = touches;
+  }
+
+  delay(10);
+}

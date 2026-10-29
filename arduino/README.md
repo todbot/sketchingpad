@@ -36,6 +36,7 @@ See `docs/hardware-notes.md` for detailed info about both chips.
     * [usb_midi.setCables(1) is not optional](#usb_midisetcables1-is-not-optional)
     * [Seeed Arduino core has outdated USB libraries](#seeed-arduino-core-has-outdated-usb-libraries)
     * [Re-enumerating to get updated USB descriptors](#re-enumerating-to-get-updated-usb-descriptors)
+  * [sketchingpad_gamepad: BLE/USB gamepad](#sketchingpad_gamepad-bleusb-gamepad)
 * [Shared headers](#shared-headers)
 * [Host tests](#host-tests)
 <!--te-->
@@ -55,6 +56,7 @@ See `docs/hardware-notes.md` for detailed info about both chips.
 | `ble_keyboard`                    | BLE HID keyboard, with power tiers  |
 | `ble_midi_simple`                 | BLE MIDI controller, no power tiers |
 | `sketchingpad_midi_simple`        | USB + BLE MIDI                      |
+| `sketchingpad_gamepad`            | USB + BLE HID gamepad               |
 
 Sensor-specific sketches live in `ts20/` and `mpr/`. 
 They are older and shouldn't be used.
@@ -143,6 +145,7 @@ the libraries above from the Library Manager.
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/hwtest_leds
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/hwtest_touch
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/sketchingpad_midi_simple
+arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/sketchingpad_gamepad
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_keyboard_simple
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/ble_broadcast_anim
 arduino-cli compile -b Seeeduino:nrf52:xiaonRF52840 arduino/sketchingpad_party
@@ -676,6 +679,49 @@ if (TinyUSBDevice.mounted()) {
   TinyUSBDevice.attach();
 }
 ```
+
+### `sketchingpad_gamepad`: BLE/USB gamepad
+
+A HID gamepad over USB and BLE at once, built the same way as
+`sketchingpad_midi_simple`: neither transport is required, and every
+report goes to whichever ones are up. A host that has both sees two
+controllers.
+
+```
+            TP17 TP18 TP19 TP20             b11 b12 b13 b14
+  TP1  TP2  TP3  TP4   TP5  TP6  TP7  TP8    b1   ^   ^  b2   b3 b4 b5 b6
+  TP9 TP10 TP11 TP12  TP13 TP14 TP15 TP16    <    v   v   >   b7 b8 b9 b10
+```
+
+The left block is a D-pad driving the hat, with two pads each for up
+and down. Opposite directions cancel, and adjacent ones give the
+diagonals. The other 14 pads are buttons 1-14, set in `led_to_button`.
+The six axes are always 0.
+
+Both transports send TinyUSB's `hid_gamepad_report_t` from
+`TUD_HID_REPORT_DESC_GAMEPAD`, which is identical in the core's bundled
+TinyUSB and in 3.7.7. USB uses `Adafruit_USBD_HID` and BLE uses the
+core's `BLEHidGamepad`.
+
+A gamepad report is the whole state, not an event, so there are no
+stuck notes and no resync messages. Each transport keeps a copy of the
+last report it accepted, and it is sent the current report whenever the
+two differ. So a send refused for a busy endpoint, or for a BLE host
+that has not subscribed yet, retries on the next loop. A transport that
+comes back gets caught up the same way.
+
+`usb_hid` is default-constructed, and every field is set in `setup()`
+before `begin()`. That is the same defence as
+[`setCables(1)`](#usb_midisetcables1-is-not-optional): a garbage
+constructor value makes `begin()` fail silently. The banner prints
+whether `begin()` succeeded.
+
+BLE pairs from the OS Bluetooth settings, like the keyboard. To check
+the hat and each button, use a browser Gamepad API tester such as
+gamepadtester.com, or `joy.cpl` on Windows.
+
+Not yet run on hardware, on either board rev. It compiles clean under
+`--warnings all`.
 
 ## Shared headers
 

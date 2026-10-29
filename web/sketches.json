@@ -5,6 +5,9 @@
   {"name": "sketchingpad_midi_simple",
     "about": "USB + BLE MIDI controller"},
 
+  {"name": "sketchingpad_gamepad",
+    "about": "USB + BLE HID gamepad, D-pad + 14 buttons"},
+
   {"name": "hwtest_touch",
     "about": "Pad to LED, fading, either sensor"},
 

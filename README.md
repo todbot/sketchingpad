@@ -30,6 +30,7 @@ the power tiers, etc. Examples of what's available:
 
 * `sketchingpad_party`    -- record an animation, broadcast it, with power tiers
 * `sketchingpad_midi_simple` -- USB + BLE MIDI controller
+* `sketchingpad_gamepad`  -- USB + BLE HID gamepad, D-pad + 14 buttons
 * `ble_keyboard`          -- BLE HID keyboard, with power tiers
 * `ble_keyboard_simple`   -- BLE HID keyboard, no power mgmt
 * `hwtest_leds`           -- chases one pixel around the 20 LEDs
