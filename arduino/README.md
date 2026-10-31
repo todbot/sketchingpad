@@ -710,18 +710,26 @@ two differ. So a send refused for a busy endpoint, or for a BLE host
 that has not subscribed yet, retries on the next loop. A transport that
 comes back gets caught up the same way.
 
-`usb_hid` is default-constructed, and every field is set in `setup()`
-before `begin()`. That is the same defence as
-[`setCables(1)`](#usb_midisetcables1-is-not-optional): a garbage
-constructor value makes `begin()` fail silently. The banner prints
-whether `begin()` succeeded.
+**Do not call `usb_hid.setStringDescriptor()`.** The sketch's own
+compilation unit gets the core's bundled 1.7.0 `Adafruit_USBD_Interface.h`
+(same include guard as 3.7.7's, and `Arduino.h` reaches it first). There
+`setStringDescriptor()` is inline and stores a 4-byte `const char *` at
+offset 4. In 3.7.7, which `Adafruit_USBD_HID.cpp` is built against,
+offset 4 is `uint8_t _strid` and offset 5 is `_instance`. The pointer
+lands on `_instance`, `isValid()` is then true, and `begin()` returns
+true having added nothing: the device enumerates CDC-only. Inline
+accessors such as `isValid()` read the wrong offsets for the same
+reason. The banner prints `Adafruit_USBD_HID::getInstanceCount()`, a
+static, which is 1 only if the interface really was added.
 
 BLE pairs from the OS Bluetooth settings, like the keyboard. To check
 the hat and each button, use a browser Gamepad API tester such as
 gamepadtester.com, or `joy.cpl` on Windows.
 
-Not yet run on hardware, on either board rev. It compiles clean under
-`--warnings all`.
+Run on `sketchingpad1_mpr`, 2026-10-30: USB enumerates as a HID gamepad
+alongside CDC, and the host takes reports. Not yet checked pad by pad on
+a tester, not yet run over BLE, and not run on a TS20 board. It compiles
+clean under `--warnings all`.
 
 ## Shared headers
 

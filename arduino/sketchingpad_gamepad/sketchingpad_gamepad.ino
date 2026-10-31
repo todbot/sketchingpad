@@ -81,10 +81,12 @@ const uint8_t ID_LEDS[DEVICE_ID_CODE_LEN] = {8, 9, 10, 11, 12};
 uint8_t const desc_hid_report[] = {TUD_HID_REPORT_DESC_GAMEPAD()};
 
 Adafruit_NeoPixel leds(NUM_LEDS, PIN_LED_DATA, NEO_GRB + NEO_KHZ800);
-// Configured in setup(), not here: on the Seeed core a constructor's
-// stores into a TinyUSB object can be lost before setup() runs, and
-// begin() then fails silently, leaving a CDC-only device.
-Adafruit_USBD_HID usb_hid;
+// Never call usb_hid.setStringDescriptor() (or isValid()): this file
+// compiles against the core's TinyUSB 1.7.0 Adafruit_USBD_Interface.h,
+// whose inline version writes a pointer over 3.7.7's _instance, and
+// begin() then returns true without adding the interface.
+Adafruit_USBD_HID usb_hid(desc_hid_report, sizeof(desc_hid_report),
+                          HID_ITF_PROTOCOL_NONE, 2, false);
 BLEDis bledis;
 BLEHidGamepad blegamepad;
 
@@ -175,11 +177,6 @@ void showDeviceIdCode() {
 }
 
 void setup() {
-  usb_hid.setReportDescriptor(desc_hid_report, sizeof(desc_hid_report));
-  usb_hid.setPollInterval(2);
-  usb_hid.setBootProtocol(HID_ITF_PROTOCOL_NONE);
-  usb_hid.enableOutEndpoint(false);
-  usb_hid.setStringDescriptor("sketchingpad");
   bool usb_hid_ok = usb_hid.begin();
 
   // Detach/attach to let the host re-enumerate with the HID interface.
@@ -241,8 +238,11 @@ void setup() {
 
   Serial.printf("sketchingpad_gamepad: sensor %s, pair with \"%s\"\n",
                 touchName(), adv_name);
-  Serial.printf("usb hid begin %s, %s, mounted now %d\n",
+  // begin() can return true having added nothing; the instance count is a
+  // static, so it is the one figure the header mismatch cannot fake.
+  Serial.printf("usb hid begin %s, instances %d, %s, mounted now %d\n",
                 usb_hid_ok ? "ok" : "FAILED",
+                Adafruit_USBD_HID::getInstanceCount(),
                 usb_was_mounted ? "mounted before setup, bounced"
                                 : "not mounted at setup",
                 TinyUSBDevice.mounted());
