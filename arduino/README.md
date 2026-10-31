@@ -688,15 +688,25 @@ report goes to whichever ones are up. A host that has both sees two
 controllers.
 
 ```
-            TP17 TP18 TP19 TP20             b11 b12 b13 b14
-  TP1  TP2  TP3  TP4   TP5  TP6  TP7  TP8    b1   ^   ^  b2   b3 b4 b5 b6
-  TP9 TP10 TP11 TP12  TP13 TP14 TP15 TP16    <    v   v   >   b7 b8 b9 b10
+        TP17 TP18        TP19 TP20               LB  select  start  RB
+  TP1  TP2  TP3  TP4   TP5  TP6  TP7  TP8      L<  L^  D<  D^   R<  R^  X  Y
+  TP9 TP10 TP11 TP12  TP13 TP14 TP15 TP16      Lv  L>  Dv  D>   Rv  R>  A  B
 ```
 
-The left block is a D-pad driving the hat, with two pads each for up
-and down. Opposite directions cancel, and adjacent ones give the
-diagonals. The other 14 pads are buttons 1-14, set in `led_to_button`.
-The six axes are always 0.
+L is the left stick (X/Y), D the D-pad (the hat) and R the right stick
+(Z/Rz). Each cluster is left/up over down/right. The sticks are digital:
+an axis is centered or at full deflection, +-127. Opposite pads cancel,
+and adjacent ones give the diagonals.
+
+Buttons are numbered in the browser / XInput order: A B X Y LB RB are
+buttons 1-6, select 9 and start 10 (a browser tester shows 0-5, 8, 9).
+The D-pad goes out twice, as the hat and as buttons 13-16 (up, down,
+left, right). Browsers ignore the hat on a generic HID gamepad, and
+hosts that read the hat may also show those four extra buttons.
+TinyUSB's `GAMEPAD_BUTTON_*` names are not used. They follow Linux, which
+puts C and Z gaps between B, X and Y. A host reading the plain order then
+sees X as Y and Y as LB, which is what the first test showed. Linux
+`hid-generic` uses the gapped order, so there X and Y will read as C/X.
 
 Both transports send TinyUSB's `hid_gamepad_report_t` from
 `TUD_HID_REPORT_DESC_GAMEPAD`, which is identical in the core's bundled
@@ -727,9 +737,9 @@ the hat and each button, use a browser Gamepad API tester such as
 gamepadtester.com, or `joy.cpl` on Windows.
 
 Run on `sketchingpad1_mpr`, 2026-10-30: USB enumerates as a HID gamepad
-alongside CDC, and the host takes reports. Not yet checked pad by pad on
-a tester, not yet run over BLE, and not run on a TS20 board. It compiles
-clean under `--warnings all`.
+alongside CDC, and all 20 pads were checked on a gamepad tester over USB.
+Not yet run over BLE, and not run on a TS20 board. It compiles clean
+under `--warnings all`.
 
 ## Shared headers
 

@@ -12,8 +12,9 @@
 // power tiers, no sleep.  Runs on both boards -- touch.h probes I2C at
 // startup, TS20 at 0x6A or MPR121s at 0x5A and 0x5B.
 //
-// The left 4x2 block is a D-pad driving the hat; the other 14 pads are
-// buttons 1-14.  The six axes are always 0.
+// Three 2x2 direction clusters, left stick, D-pad and right stick, then
+// the face buttons, with shoulders and select/start on the top row.  The
+// sticks are digital: each axis is centered or at full deflection.
 //
 // A gamepad report is the whole state, not an event, so there is nothing
 // to get stuck.  Each transport keeps the last report it accepted and is
@@ -46,31 +47,61 @@
 const int NUM_LEDS = TOUCH_NUM_LEDS;
 const int LED_BRIGHTNESS = 40;
 
-const uint32_t HAT_COLOR = 0x00ffff;
+const uint32_t STICK_COLOR = 0x00ff40;
+const uint32_t DPAD_COLOR = 0x00ffff;
 const uint32_t BUTTON_COLOR = 0xff00ff;
 
-// Indexed by LED, which is TP(n+1), so the table reads in silkscreen
-// order.  0 is a D-pad pad, anything else is the button number:
+const int8_t AXIS_MAX = 127;
+
+// The board, as the gamepad sees it.  L = left stick, D = D-pad,
+// R = right stick:
 //
-//            TP17 TP18 TP19 TP20             b11 b12 b13 b14
-//   TP1  TP2  TP3  TP4   TP5  TP6  TP7  TP8    b1   ^   ^  b2   b3 b4 b5 b6
-//   TP9 TP10 TP11 TP12  TP13 TP14 TP15 TP16    <    v   v   >   b7 b8 b9 b10
-const uint8_t led_to_button[TOUCH_NUM_LEDS] = {
-    1,  0,  0,  2,  // TP1-4,   mid left
-    3,  4,  5,  6,  // TP5-8,   mid right
-    0,  0,  0,  0,  // TP9-12,  low left
-    7,  8,  9,  10, // TP13-16, low right
-    11, 12, 13, 14, // TP17-20, top row
+//          TP17 TP18        TP19 TP20             LB  select  start  RB
+//   TP1  TP2  TP3  TP4   TP5  TP6  TP7  TP8    L<  L^  D<  D^   R<  R^  X  Y
+//   TP9 TP10 TP11 TP12  TP13 TP14 TP15 TP16    Lv  L>  Dv  D>   Rv  R>  A  B
+//
+// Each cluster is LEDs {left, up, down, right}, indexed by LED, which is
+// TP(n+1), so these read straight off the silkscreen.
+const uint8_t LSTICK_PADS[4] = {0, 1, 8, 9};   // TP1 TP2 TP9 TP10
+const uint8_t DPAD_PADS[4] = {2, 3, 10, 11};   // TP3 TP4 TP11 TP12
+const uint8_t RSTICK_PADS[4] = {4, 5, 12, 13}; // TP5 TP6 TP13 TP14
+
+// The browser / XInput order, not TinyUSB's GAMEPAD_BUTTON_* names: those
+// follow Linux, whose C and Z gaps make X read as Y and Y as LB.
+enum : uint32_t {
+  BTN_A = 1UL << 0,
+  BTN_B = 1UL << 1,
+  BTN_X = 1UL << 2,
+  BTN_Y = 1UL << 3,
+  BTN_LB = 1UL << 4,
+  BTN_RB = 1UL << 5,
+  BTN_SELECT = 1UL << 8,
+  BTN_START = 1UL << 9,
+  BTN_DPAD_UP = 1UL << 12,
+  BTN_DPAD_DOWN = 1UL << 13,
+  BTN_DPAD_LEFT = 1UL << 14,
+  BTN_DPAD_RIGHT = 1UL << 15,
 };
 
-// The D-pad, two pads each for up and down so the arrow cluster fills
-// the block.
-const uint8_t PAD_UP_A = 1;    // TP2
-const uint8_t PAD_UP_B = 2;    // TP3
-const uint8_t PAD_LEFT = 8;    // TP9
-const uint8_t PAD_DOWN_A = 9;  // TP10
-const uint8_t PAD_DOWN_B = 10; // TP11
-const uint8_t PAD_RIGHT = 11;  // TP12
+// Button mask per LED; 0 is a stick pad.  The D-pad is sent both as these
+// buttons and as the hat: browsers ignore the hat on a generic HID
+// gamepad, and other hosts read only the hat.
+const uint32_t led_to_button[TOUCH_NUM_LEDS] = {
+    0,      0,          BTN_DPAD_LEFT, BTN_DPAD_UP,    // TP1-4
+    0,      0,          BTN_X,         BTN_Y,          // TP5-8
+    0,      0,          BTN_DPAD_DOWN, BTN_DPAD_RIGHT, // TP9-12
+    0,      0,          BTN_A,         BTN_B,          // TP13-16
+    BTN_LB, BTN_SELECT, BTN_START,     BTN_RB,         // TP17-20
+};
+
+// For the diagnostic prints.
+const char *const led_name[TOUCH_NUM_LEDS] = {
+    "lstick left", "lstick up",    "dpad left",   "dpad up",
+    "rstick left", "rstick up",    "X",           "Y",
+    "lstick down", "lstick right", "dpad down",   "dpad right",
+    "rstick down", "rstick right", "A",           "B",
+    "LB",          "select",       "start",       "RB",
+};
 
 // Which LEDs show the device ID code, left to right: the bottom row's left
 // five, TP9-13.  Change this line to put it somewhere else.
@@ -104,15 +135,16 @@ static inline bool padOn(uint32_t touches, uint8_t led) {
   return (touches >> led) & 1;
 }
 
-/// Opposite directions held together cancel rather than one of them
-/// winning on read order.
+/// -1, 0 or +1 on each axis, y down as HID has it.  Opposite pads held
+/// together cancel rather than one of them winning on read order.
+void clusterDir(uint32_t touches, const uint8_t pads[4], int &dx, int &dy) {
+  dx = padOn(touches, pads[3]) - padOn(touches, pads[0]);
+  dy = padOn(touches, pads[2]) - padOn(touches, pads[1]);
+}
+
 uint8_t hatFor(uint32_t touches) {
-  bool up = padOn(touches, PAD_UP_A) || padOn(touches, PAD_UP_B);
-  bool down = padOn(touches, PAD_DOWN_A) || padOn(touches, PAD_DOWN_B);
-  bool left = padOn(touches, PAD_LEFT);
-  bool right = padOn(touches, PAD_RIGHT);
-  int dy = (down ? 1 : 0) - (up ? 1 : 0);
-  int dx = (right ? 1 : 0) - (left ? 1 : 0);
+  int dx, dy;
+  clusterDir(touches, DPAD_PADS, dx, dy);
   static const uint8_t hats[3][3] = {
       {GAMEPAD_HAT_UP_LEFT, GAMEPAD_HAT_UP, GAMEPAD_HAT_UP_RIGHT},
       {GAMEPAD_HAT_LEFT, GAMEPAD_HAT_CENTERED, GAMEPAD_HAT_RIGHT},
@@ -124,18 +156,31 @@ uint8_t hatFor(uint32_t touches) {
 uint32_t buttonsFor(uint32_t touches) {
   uint32_t mask = 0;
   for (uint8_t led = 0; led < NUM_LEDS; led++) {
-    if (led_to_button[led] && padOn(touches, led)) {
-      mask |= 1UL << (led_to_button[led] - 1);
-    }
+    if (padOn(touches, led)) { mask |= led_to_button[led]; }
   }
   return mask;
 }
 
+/// Right stick on Z/Rz, as TUD_HID_REPORT_DESC_GAMEPAD labels them.
 hid_gamepad_report_t buildReport(uint32_t touches) {
   hid_gamepad_report_t rep = {};
+  int dx, dy;
+  clusterDir(touches, LSTICK_PADS, dx, dy);
+  rep.x = dx * AXIS_MAX;
+  rep.y = dy * AXIS_MAX;
+  clusterDir(touches, RSTICK_PADS, dx, dy);
+  rep.z = dx * AXIS_MAX;
+  rep.rz = dy * AXIS_MAX;
   rep.hat = hatFor(touches);
   rep.buttons = buttonsFor(touches);
   return rep;
+}
+
+static inline bool inCluster(const uint8_t pads[4], uint8_t led) {
+  for (uint8_t i = 0; i < 4; i++) {
+    if (pads[i] == led) { return true; }
+  }
+  return false;
 }
 
 bool needsSend(bool synced, const hid_gamepad_report_t &sent,
@@ -144,24 +189,8 @@ bool needsSend(bool synced, const hid_gamepad_report_t &sent,
 }
 
 uint32_t colorFor(uint8_t led) {
-  return led_to_button[led] ? BUTTON_COLOR : HAT_COLOR;
-}
-
-/// What each pad is, for the diagnostic prints.
-const char *padName(uint8_t led) {
-  static char buf[16];
-  if (led_to_button[led]) {
-    snprintf(buf, sizeof(buf), "b%d", led_to_button[led]);
-  } else if (led == PAD_UP_A || led == PAD_UP_B) {
-    snprintf(buf, sizeof(buf), "hat up");
-  } else if (led == PAD_DOWN_A || led == PAD_DOWN_B) {
-    snprintf(buf, sizeof(buf), "hat down");
-  } else if (led == PAD_LEFT) {
-    snprintf(buf, sizeof(buf), "hat left");
-  } else {
-    snprintf(buf, sizeof(buf), "hat right");
-  }
-  return buf;
+  if (inCluster(DPAD_PADS, led)) { return DPAD_COLOR; }
+  return led_to_button[led] ? BUTTON_COLOR : STICK_COLOR;
 }
 
 // Light the device's ID code on ID_LEDS.  Called at the end of setup(); it
@@ -295,15 +324,17 @@ void loop() {
 
     // Sync state lags this report by a loop; "pending" that never clears
     // is a transport that is up but not taking reports.
-    Serial.printf("touches %05lx -> hat %d buttons %04lx [usb %s, ble %s]\n",
-                  (unsigned long)touches, rep.hat, (unsigned long)rep.buttons,
+    Serial.printf("touches %05lx -> L %d,%d R %d,%d hat %d buttons %04lx"
+                  " [usb %s, ble %s]\n",
+                  (unsigned long)touches, rep.x, rep.y, rep.z, rep.rz, rep.hat,
+                  (unsigned long)rep.buttons,
                   usb_up ? (usb_synced ? "ok" : "pending") : "down",
                   ble_up ? (ble_synced ? "ok" : "pending") : "down");
     for (uint8_t led = 0; led < NUM_LEDS; led++) {
       if (!padOn(changed, led)) { continue; }
       Serial.printf("  led %2d (TP%2d) <- %-9s %s %s\n", led, led + 1,
                     touchSource(led), padOn(touches, led) ? "down" : "up  ",
-                    padName(led));
+                    led_name[led]);
     }
 
     for (int i = 0; i < NUM_LEDS; i++) {
